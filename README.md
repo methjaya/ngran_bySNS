@@ -1,8 +1,3 @@
-
-
-# ngran_bySNS
-A Project by SNS Developers
-
 # GroupProject-SNS
 
 <div align="center">
