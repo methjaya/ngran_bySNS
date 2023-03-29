@@ -6,15 +6,15 @@ import 'package:ngram/widgets/app_large_text.dart';
 import 'package:ngram/widgets/app_text.dart';
 import 'package:ngram/widgets/responsive_button.dart';
 
-class DetailPage extends StatefulWidget {
-  const DetailPage({Key? key}) : super(key: key);
+class DetailPage2 extends StatefulWidget {
+  const DetailPage2({Key? key}) : super(key: key);
 
   @override
-  State<DetailPage> createState() => _DetailPageState();
+  State<DetailPage2> createState() => _DetailPageState2();
   
 }
 
-class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin{
+class _DetailPageState2 extends State<DetailPage2> with TickerProviderStateMixin{
    
    var images = {
     "faculty.png":"Faculty",
@@ -49,7 +49,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin{
                   height: 350,
                   decoration: BoxDecoration(
                     image:DecorationImage(
-                      image: AssetImage("img/cover1.png"),
+                      image: AssetImage("img/cover2.png"),
                       fit: BoxFit.cover,
 
                     )
@@ -63,9 +63,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin{
               
               child: Row(    
               children: [
-                IconButton(onPressed: (){
-                  
-                }, icon: Icon(Icons.arrow_back_ios_new),
+                IconButton(onPressed: (){}, icon: Icon(Icons.arrow_back_ios_new),
                 color: Color.fromRGBO(73, 141, 56, 1),
               )
               ],
@@ -89,8 +87,8 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      AppLargeText(text: "SNS Hackathon",color:Colors.black.withOpacity(0.8)),
-                      AppLargeText(text: "\01st June",color:AppColors.starColor,size: 20,)
+                      AppLargeText(text: "Green Buz'23",color:Colors.black.withOpacity(0.8)),
+                      AppLargeText(text: "\05th June",color:AppColors.starColor,size: 20,)
                     ],
                     )
                 ,
@@ -99,7 +97,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin{
                   children: [
                     Icon(Icons.location_on,color: Color.fromRGBO(73, 141, 56, 1),),
                     SizedBox(width: 15,),
-                    AppText(text: "C2004,Faculty of Computing",color: Color.fromRGBO(73, 141, 56, 0.8),),
+                    AppText(text: "C2006,Faculty of Business",color: Color.fromRGBO(73, 141, 56, 0.8),),
                     SizedBox(height: 20,),
                     SizedBox(height: 20,),
                     //AppLargeText(text: "Description",color:Colors.black.withOpacity(0.8),size:20,),
@@ -119,7 +117,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin{
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children:[
                   
-                  AppText(text: "This Hackathon was named after the 3 Great \nComputer Geniuses Sahansa, Nethun & \nSujeewa (SNS).",color: AppColors.mainTextColor,),
+                  AppText(text: "Renewing the Touch of Business ",color: AppColors.mainTextColor,),
                   
                 SizedBox(height: 10,),
                 ]),

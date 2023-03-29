@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ngram/pages/detail_page.dart';
 import 'package:ngram/pages/nav_pages/main_page.dart';
 import 'package:ngram/pages/nav_pages/main_page.dart';
+//import 'package:ngram/pages/try.dart';
 //import 'package:ngram/pages/welcome_page.dart';
 
 void main() {
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget {
         fontFamily: 'San-francisco',
 
       ),
-      //home : MainPage()
+      
+      home : MainPage()
       //home: DetailPage()
     );
   }

@@ -5,6 +5,9 @@ import 'package:ngram/misc/colors.dart';
 import 'package:ngram/widgets/app_large_text.dart';
 import 'package:ngram/widgets/app_text.dart';
 
+import 'detail_page.dart';
+import 'detail_page2.dart';
+//lib
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -25,6 +28,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   var images2 = {
     "1_1.png",
     "2_1.png",
+    "1_1.png",
     //"welcome-two.png",
   };
   @override
@@ -51,7 +55,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                     color: Color.fromRGBO(76, 175, 80, 1).withOpacity(0.5),
                   ),
                 ),
-                Icon(Icons.account_box,size:40,color:Color.fromRGBO(76, 175, 80, 1).withOpacity(0.7)),
+                Icon(Icons.account_circle_rounded,size:40,color:Color.fromRGBO(76, 175, 80, 1).withOpacity(0.7)),
                 
                 Expanded(child:Container()),
                 
@@ -84,7 +88,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                   ],
                 )
               ),
-              //Categories end
+              //Categories ends
               SizedBox(height: 15,),
 
               //categories icons
@@ -102,30 +106,39 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                         child:Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Container(
-                              //margin: const EdgeInsets.only(right: 50),
-                              width: 60,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.white,
-                                image:DecorationImage(
-                                  image:AssetImage(
-                                    "img/"+images.keys.elementAt(index) //methana uda index eken ganne
+                          InkWell(
+                            child: Container(
+                                //margin: const EdgeInsets.only(right: 50),
+                                width: 60,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.white,
+                                  image:DecorationImage(
+                                    image:AssetImage(
+                                      "img/"+images.keys.elementAt(index) //methana uda index eken ganne
+                                  ),
+                                    fit:BoxFit.scaleDown,
+                                  )
                                 ),
-                                  fit:BoxFit.scaleDown,
-                                )
                               ),
-                            ),
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPage()));
+                              },
+                          ),
                            
                             SizedBox(height:5,),
-                            Container(
-                              child: AppText(
-                                
-                                text:images.values.elementAt(index),
-                                color: AppColors.mainTextColor,
+                            InkWell(
+                              child: Container(
+                                child: AppText(
+                                  
+                                  text:images.values.elementAt(index),
+                                  color: AppColors.mainTextColor,
+                                ),
                               ),
-                            )
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPage2()));
+                    })
                         ],
                       ),
                     );
@@ -133,7 +146,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                )
              ),
 
-
+                 SizedBox(height: 10,),
 
                 //tabbar
                 Container(
@@ -156,42 +169,69 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                       ]),
                   ),
                 ),
-                //
-                Container(
-                  padding: const EdgeInsets.only(left: 20),
-                  height: 300,
-                  width: double.maxFinite,
-                  child: TabBarView(
-                    controller: _tabController,
-                    children: [
-                      ListView.builder(
-                        itemCount: 2,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (BuildContext context,int index){
-                          return 
-                            Container(
-                              margin: const EdgeInsets.only(right: 15,top: 10),
-                              width: 200,
-                              height: 300,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.white,
-                                image:DecorationImage(
-                                  image:AssetImage(
-                                   "img/"+images2.elementAt(index)
-                                   
-                                ),
-                                fit:BoxFit.cover,
-                                )
-                              ),
-                            );
-                        },
-                        
-                      ),
-                      Text("QR eka NEthun Methanata link karamu"),
-                     
-                    ]),
+                 SizedBox(height: 30,),
+                //events bar
+                InkWell(
+                  child: Container(
+                      padding: const EdgeInsets.only(left: 20),
+                      height: 300,
+                      width: double.maxFinite,
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: [
+                          ListView.builder(
+                            itemCount: 2,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (BuildContext context,int index){
+                              return 
+                                Container(
+                                  
+                                  margin: const EdgeInsets.only(right: 15,top: 10),
+                                  width: 200,
+                                  height: 300,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.white,
+                                    image:DecorationImage(
+                                      image:AssetImage(
+                                       "img/"+images2.elementAt(index)
+                                      //  "img/1_1.png"
+                                      //  "img/2_1.png"
+                                    ),
+                                    fit:BoxFit.cover,
+                                    )
+                                  ),
+                                );
+                                Container(
+                                  
+                                  margin: const EdgeInsets.only(right: 15,top: 10),
+                                  width: 200,
+                                  height: 300,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.white,
+                                    image:DecorationImage(
+                                      image:AssetImage(
+                                      "img/"+images2.elementAt(index)
+                                      //  "img/1_1.png"
+                                      //  "img/2_1.png"
+                                    ),
+                                    fit:BoxFit.cover,
+                                    )
+                                  ),
+                                );
+                            },
+                            
+                          ),
+                          Text("QR eka NEthun Methanata link karamu"),
+                         
+                        ]),
+                    ),
+                    onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPage()));
+                              },
                 ),
+                
                 //SizedBox(height: 30,),
                       
           ],
