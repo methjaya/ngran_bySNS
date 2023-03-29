@@ -1,6 +1,6 @@
 {
-    "name": "ngram",
-    "short_name": "ngram",
+    "name": "flutter_firebase_test",
+    "short_name": "flutter_firebase_test",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

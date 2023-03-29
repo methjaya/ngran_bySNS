@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:ngram/misc/colors.dart';
-import 'package:ngram/widgets/app_large_text.dart';
-import 'package:ngram/widgets/app_text.dart';
+import 'package:flutter_firebase_test/misc/colors.dart';
+import 'package:flutter_firebase_test/widgets/app_large_text.dart';
+import 'package:flutter_firebase_test/widgets/app_text.dart';
+import 'package:flutter_firebase_test/widgets/responsive_button.dart';
 
 import 'detail_page.dart';
 import 'detail_page2.dart';
@@ -17,6 +20,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
+    var uname = "user";
+  var userID;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+  Future<String> userName() async {
+    try {
+      final userID = auth.currentUser!.uid;
+      // print(userID);
+      var uname1 = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(auth.currentUser!.uid)
+          .get();
+      // print(uname1['firstName']);
+      uname = uname1['firstName'].toString();
+      print(uname1['firstName'].toString());
+      return "null";
+    } catch (e) {
+      print(e.toString());
+      return "null";
+    }
+  }
   //map ekak use krnw: to get different images
   var images = {
     "faculty.png":"Faculty",
@@ -46,7 +70,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
               children: [
                 Container(
                   
-                  margin: const EdgeInsets.only(right:270),
+                  margin: const EdgeInsets.only(right:220),
                   width: 50,
                   height:30,
 
@@ -55,8 +79,36 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                     color: Color.fromRGBO(76, 175, 80, 1).withOpacity(0.5),
                   ),
                 ),
-                Icon(Icons.account_circle_rounded,size:40,color:Color.fromRGBO(76, 175, 80, 1).withOpacity(0.7)),
-                
+                // Icon(Icons.account_circle_rounded,size:40,color:Color.fromRGBO(76, 175, 80, 1).withOpacity(0.7)),
+                DropdownButton(
+                  underline: SizedBox(),
+                  items: [
+                    DropdownMenuItem(
+                      value: 'logout',
+                      child: Container(
+                        child: Row(
+                          children: <Widget>[
+                            Icon(Icons.exit_to_app),
+                            SizedBox(
+                              width: 8,
+                              height: 10,
+                            ),
+                            Text("Logout")
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                  onChanged: (itemIdentifier) {
+                    if (itemIdentifier == 'logout') {
+                      FirebaseAuth.instance.signOut();
+                    }
+                  },
+                  icon: Icon(
+                    Icons.more_vert,
+                    color: Color.fromARGB(255, 22, 165, 65),
+                  ),
+                ),
                 Expanded(child:Container()),
                 
               ]),
@@ -71,7 +123,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                 //Greeting Text
                 Container(
                   margin:const EdgeInsets.only(left:20),
-                  child: AppLargeText(text: "Welcome Sahansa,"),
+                  child: AppLargeText(text: "Welcome $uname,"),
                 ),
                 
                 ],),

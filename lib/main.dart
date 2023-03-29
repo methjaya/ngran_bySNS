@@ -1,31 +1,39 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:ngram/pages/detail_page.dart';
-import 'package:ngram/pages/nav_pages/main_page.dart';
-import 'package:ngram/pages/nav_pages/main_page.dart';
-//import 'package:ngram/pages/try.dart';
-//import 'package:ngram/pages/welcome_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_firebase_test/pages/home_page.dart';
 
-void main() {
+import 'package:flutter_firebase_test/screens/authscreen.dart';
+import 'package:flutter_firebase_test/screens/home.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter App for NGRAM',
+      title: 'Flutter Demo',
       theme: ThemeData(
-
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
         fontFamily: 'San-francisco',
-
       ),
-      
-      home : MainPage()
-      //home: DetailPage()
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (ctx, userSnapshot) {
+          if (userSnapshot.hasData) {
+            return HomePage();
+          } else {
+            return AuthScreen();
+          }
+        },
+      ),
     );
   }
 }

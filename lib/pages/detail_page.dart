@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:ngram/misc/colors.dart';
-import 'package:ngram/widgets/app_large_text.dart';
-import 'package:ngram/widgets/app_text.dart';
-import 'package:ngram/widgets/responsive_button.dart';
+import 'package:flutter_firebase_test/misc/colors.dart';
+import 'package:flutter_firebase_test/widgets/app_large_text.dart';
+import 'package:flutter_firebase_test/widgets/app_text.dart';
+import 'package:flutter_firebase_test/widgets/responsive_button.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage({Key? key}) : super(key: key);
