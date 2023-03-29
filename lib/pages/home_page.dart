@@ -1,12 +1,12 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_firebase_test/misc/colors.dart';
 import 'package:flutter_firebase_test/widgets/app_large_text.dart';
 import 'package:flutter_firebase_test/widgets/app_text.dart';
-import 'package:flutter_firebase_test/widgets/responsive_button.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import 'detail_page.dart';
 import 'detail_page2.dart';
@@ -21,8 +21,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
     var uname = "user";
-  var userID;
-  final FirebaseAuth auth = FirebaseAuth.instance;
+    var userID;
+    final FirebaseAuth auth = FirebaseAuth.instance;
 
   Future<String> userName() async {
     try {
@@ -52,7 +52,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   var images2 = {
     "1_1.png",
     "2_1.png",
-    "1_1.png",
     //"welcome-two.png",
   };
   @override
@@ -198,7 +197,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                )
              ),
 
-                 SizedBox(height: 10,),
+                 const SizedBox(height: 10,),
 
                 //tabbar
                 Container(
@@ -275,12 +274,33 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                             },
                             
                           ),
-                          Text("QR eka NEthun Methanata link karamu"),
+
+                          // This contains the QR Code Scanner
+                          Center(
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width *
+                                  0.8, // 80% of the screen width
+                              height: MediaQuery.of(context).size.height *
+                                  0.6, // 60% of the screen height
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.width *
+                                        0.6, // 60% of the screen width
+                                    width: MediaQuery.of(context).size.width *
+                                        0.6, // 60% of the screen width
+                                    child: const QRViewExample(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                          
                         ]),
                     ),
                     onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPage()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailPage()));
                               },
                 ),
                 
@@ -324,4 +344,117 @@ class _CirclePainter extends BoxPainter{
       }
     
     //TODO: implement createBoxPainter
+}
+
+// QR Code
+class QRViewExample extends StatefulWidget {
+  const QRViewExample({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _QRViewExampleState();
+}
+
+class _QRViewExampleState extends State<QRViewExample> {
+  Barcode? result;
+  QRViewController? controller;
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+
+  // In order to get hot reload to work we need to pause the camera if the platform
+  // is android, or resume the camera if the platform is iOS.
+  @override
+  void reassemble() {
+    super.reassemble();
+    if (Platform.isAndroid) {
+      controller!.pauseCamera();
+    }
+    controller!.resumeCamera();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            flex: 4,
+            child: _buildQrView(context),
+          ),
+          Expanded(
+            flex: 1,
+            child: FittedBox(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  result != null
+                      ? const Text(
+                          'Attendance : Marked',
+                          style: TextStyle(
+                            color: Colors.green,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                        
+                      : const Text(
+                          'Attendance : Un-Marked',
+                          style: TextStyle(
+                            color: Colors.green,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildQrView(BuildContext context) {
+    // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
+    var scanArea = (MediaQuery.of(context).size.width < 400 ||
+            MediaQuery.of(context).size.height < 400)
+        ? 150.0
+        : 300.0;
+    // To ensure the Scanner view is properly sizes after rotation
+    // we need to listen for Flutter SizeChanged notification and update controller
+    return QRView(
+      key: qrKey,
+      onQRViewCreated: _onQRViewCreated,
+      overlay: QrScannerOverlayShape(
+          borderColor: Colors.green,
+          borderRadius: 10,
+          borderLength: 30,
+          borderWidth: 10,
+          cutOutSize: scanArea),
+      onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+    );
+  }
+
+  void _onQRViewCreated(QRViewController controller) {
+    setState(() {
+      this.controller = controller;
+    });
+    controller.scannedDataStream.listen((scanData) {
+      setState(() {
+        result = scanData;
+      });
+    });
+  }
+
+  void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
+    if (!p) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('no Permission')),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
 }
