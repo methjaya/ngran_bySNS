@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
               children: [
                 Container(
                   
-                  margin: const EdgeInsets.only(right:220),
+                  margin: const EdgeInsets.only(right:200),
                   width: 50,
                   height:30,
 
