@@ -75,26 +75,24 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
 
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
-                    color: Color.fromRGBO(76, 175, 80, 1).withOpacity(0.5),
+                    color: const Color.fromRGBO(76, 175, 80, 1).withOpacity(0.5),
                   ),
                 ),
                 // Icon(Icons.account_circle_rounded,size:40,color:Color.fromRGBO(76, 175, 80, 1).withOpacity(0.7)),
                 DropdownButton(
-                  underline: SizedBox(),
+                  underline: const SizedBox(),
                   items: [
                     DropdownMenuItem(
                       value: 'logout',
-                      child: Container(
-                        child: Row(
-                          children: <Widget>[
-                            Icon(Icons.exit_to_app),
-                            SizedBox(
-                              width: 8,
-                              height: 10,
-                            ),
-                            Text("Logout")
-                          ],
-                        ),
+                      child: Row(
+                        children: const <Widget>[
+                          Icon(Icons.exit_to_app),
+                          SizedBox(
+                            width: 8,
+                            height: 10,
+                          ),
+                          Text("Logout")
+                        ],
                       ),
                     ),
                   ],
@@ -103,7 +101,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                       FirebaseAuth.instance.signOut();
                     }
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.more_vert,
                     color: Color.fromARGB(255, 22, 165, 65),
                   ),
@@ -118,7 +116,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
           Row(
                 children: [
                   //blank Space
-                SizedBox(height: 50,),
+                const SizedBox(height: 50,),
                 //Greeting Text
                 Container(
                   margin:const EdgeInsets.only(left:20),
@@ -126,7 +124,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                 ),
                 
                 ],),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 //Categories begin
                 Container(
                   margin: const EdgeInsets.only(left: 20,right: 20),
@@ -140,7 +138,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                 )
               ),
               //Categories ends
-              SizedBox(height: 15,),
+              const SizedBox(height: 15,),
 
               //categories icons
               Container(
@@ -167,18 +165,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                                   color: Colors.white,
                                   image:DecorationImage(
                                     image:AssetImage(
-                                      "img/"+images.keys.elementAt(index) //methana uda index eken ganne
+                                      "img/${images.keys.elementAt(index)}" //methana uda index eken ganne
                                   ),
                                     fit:BoxFit.scaleDown,
                                   )
                                 ),
                               ),
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPage()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailPage()));
                               },
                           ),
                            
-                            SizedBox(height:5,),
+                            const SizedBox(height:5,),
                             InkWell(
                               child: Container(
                                 child: AppText(
@@ -188,7 +186,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                                 ),
                               ),
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPage2()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailPage2()));
                     })
                         ],
                       ),
@@ -202,110 +200,106 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                 //tabbar
                 Container(
                   child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: TabBar(
-                      labelPadding: const EdgeInsets.only(left:20, right:50),
-                      controller: _tabController,
-                      labelColor: Colors.black,
-                      unselectedLabelColor: Colors.grey,
-                      isScrollable: true,
-                      indicatorSize: TabBarIndicatorSize.label,
-                      indicator: CircleTabIndicator(color: AppColors.mainColor,radius: 4),
-                  
-                      tabs: [
-                        Tab(text:"Upcoming Events"),
-                        //Tab(text:" "),
-                        
-                        Tab(text:"QR Code Scanner"),
-                      ]),
+                    alignment: Alignment.center,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width - 32, // Subtracting the horizontal padding
+                      ),
+                      child: TabBar(
+                        controller: _tabController,
+                        labelColor: Colors.black,
+                        unselectedLabelColor: Colors.grey,
+                        isScrollable: true,
+                        indicatorSize: TabBarIndicatorSize.label,
+                        indicator: CircleTabIndicator(color: AppColors.mainColor, radius: 4),
+                        tabs: const [
+                          Tab(
+                            text: "Upcoming Events",
+                            //icon: Icon(Icons.event),
+                          ),
+                          Tab(
+                            text: "QR Code Scanner",
+                            //icon: Icon(Icons.qr_code_scanner),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-                 SizedBox(height: 30,),
+                 const SizedBox(height: 30,),
                 //events bar
-                InkWell(
-                  child: Container(
-                      padding: const EdgeInsets.only(left: 20),
-                      height: 300,
-                      width: double.maxFinite,
-                      child: TabBarView(
-                        controller: _tabController,
-                        children: [
-                          ListView.builder(
-                            itemCount: 2,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (BuildContext context,int index){
-                              return 
-                                Container(
-                                  
-                                  margin: const EdgeInsets.only(right: 15,top: 10),
-                                  width: 200,
-                                  height: 300,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.white,
-                                    image:DecorationImage(
-                                      image:AssetImage(
-                                       "img/"+images2.elementAt(index)
-                                      //  "img/1_1.png"
-                                      //  "img/2_1.png"
-                                    ),
-                                    fit:BoxFit.cover,
-                                    )
-                                  ),
-                                );
-                                Container(
-                                  
-                                  margin: const EdgeInsets.only(right: 15,top: 10),
-                                  width: 200,
-                                  height: 300,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.white,
-                                    image:DecorationImage(
-                                      image:AssetImage(
-                                      "img/"+images2.elementAt(index)
-                                      //  "img/1_1.png"
-                                      //  "img/2_1.png"
-                                    ),
-                                    fit:BoxFit.cover,
-                                    )
-                                  ),
-                                );
-                            },
-                            
-                          ),
+                Container(
+                  padding: const EdgeInsets.only(left: 20),
+                  height: 300,
+                  width: double.maxFinite,
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
 
-                          // This contains the QR Code Scanner
-                          Center(
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width *
-                                  0.8, // 80% of the screen width
-                              height: MediaQuery.of(context).size.height *
-                                  0.6, // 60% of the screen height
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    height: MediaQuery.of(context).size.width *
-                                        0.6, // 60% of the screen width
-                                    width: MediaQuery.of(context).size.width *
-                                        0.6, // 60% of the screen width
-                                    child: const QRViewExample(),
+                      ListView.builder(
+                        itemCount: 2,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index) {
+                          return InkWell(
+                            onTap: () {
+                              if (index == 0) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const DetailPage(),
                                   ),
-                                ],
+                                );
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const DetailPage2(),
+                                  ),
+                                );
+                              }
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(right: 15, top: 10),
+                              width: 200,
+                              height: 300,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.white,
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    "img/${images2.elementAt(index)}",
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      
+                      InkWell(
+                        onTap: () {
+                          // navigate to another page here
+                        },
+                        child: Center(
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            height: MediaQuery.of(context).size.height * 0.6,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.6,
+                                height: MediaQuery.of(context).size.width * 0.6,
+                                child: const QRViewExample(),
                               ),
                             ),
                           ),
-                         
-                        ]),
-                    ),
-                    onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailPage()));
-                              },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                
                 //SizedBox(height: 30,),
-                      
           ],
         )
     );
@@ -394,7 +388,6 @@ class _QRViewExampleState extends State<QRViewExample> {
                             fontWeight: FontWeight.bold,
                           ),
                         )
-                        
                       : const Text(
                           'Attendance : Un-Marked',
                           style: TextStyle(
@@ -424,11 +417,12 @@ class _QRViewExampleState extends State<QRViewExample> {
       key: qrKey,
       onQRViewCreated: _onQRViewCreated,
       overlay: QrScannerOverlayShape(
-          borderColor: Colors.green,
-          borderRadius: 10,
-          borderLength: 30,
-          borderWidth: 10,
-          cutOutSize: scanArea),
+        borderColor: Colors.green,
+        borderRadius: 10,
+        borderLength: 30,
+        borderWidth: 10,
+        cutOutSize: scanArea,
+      ),
       onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
     );
   }
