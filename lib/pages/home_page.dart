@@ -197,7 +197,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                )
              ),
 
-                 SizedBox(height: 10,),
+                 const SizedBox(height: 10,),
 
                 //tabbar
                 Container(
@@ -274,30 +274,33 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                             },
                             
                           ),
+
                           // This contains the QR Code Scanner
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width *
-                                0.8, // 80% of the screen width
-                            height: MediaQuery.of(context).size.height *
-                                0.6, // 60% of the screen height
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.width *
-                                      0.6, // 60% of the screen width
-                                  width: MediaQuery.of(context).size.width *
-                                      0.6, // 60% of the screen width
-                                  child: const QRViewExample(),
-                                ),
-                              ],
+                          Center(
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width *
+                                  0.8, // 80% of the screen width
+                              height: MediaQuery.of(context).size.height *
+                                  0.6, // 60% of the screen height
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.width *
+                                        0.6, // 60% of the screen width
+                                    width: MediaQuery.of(context).size.width *
+                                        0.6, // 60% of the screen width
+                                    child: const QRViewExample(),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                          
                         ]),
                     ),
                     onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPage()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailPage()));
                               },
                 ),
                 
