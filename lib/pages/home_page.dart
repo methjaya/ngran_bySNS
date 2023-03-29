@@ -24,23 +24,28 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
     var userID;
     final FirebaseAuth auth = FirebaseAuth.instance;
 
-  Future<String> userName() async {
-    try {
-      final userID = auth.currentUser!.uid;
-      // print(userID);
-      var uname1 = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(auth.currentUser!.uid)
-          .get();
-      // print(uname1['firstName']);
-      uname = uname1['firstName'].toString();
-      print(uname1['firstName'].toString());
-      return "null";
-    } catch (e) {
-      print(e.toString());
-      return "null";
+    @override
+    void initState() {
+      super.initState();
+      userName(); // Call the method to fetch the user name on initialization
     }
-  }
+
+    Future<String> userName() async {
+      try {
+        final userID = auth.currentUser!.uid;
+        var uname1 = await FirebaseFirestore.instance
+            .collection("users")
+            .doc(userID)
+            .get();
+        setState(() { // Use setState to update the value of uname
+          uname = uname1['firstName'].toString();
+        });
+        return "null";
+      } catch (e) {
+        return "null";
+      }
+    }
+
   //map ekak use krnw: to get different images
   var images = {
     "faculty.png":"Faculty",
@@ -143,57 +148,70 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
               //categories icons
               Container(
                 height: 100,
-                width:double.maxFinite,
-                margin: const EdgeInsets.only(left:20),
-                child: ListView.builder(
-
-                    itemCount: 4,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder:(_,index){
-                      return Container(
-                        margin:const EdgeInsets.only(right: 35) ,
-                        child:Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                margin: const EdgeInsets.only(left: 20),
+                child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    double spacing = constraints.maxWidth / 10; // Set the spacing to be 1/10 of the screen width
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          InkWell(
-                            child: Container(
-                                //margin: const EdgeInsets.only(right: 50),
-                                width: 60,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.white,
-                                  image:DecorationImage(
-                                    image:AssetImage(
-                                      "img/${images.keys.elementAt(index)}" //methana uda index eken ganne
+                          for (int index = 0; index < 4; index++)
+                            Container(
+                              margin: EdgeInsets.only(right: spacing),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  InkWell(
+                                    child: Container(
+                                      width: 60,
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: Colors.white,
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                            "img/${images.keys.elementAt(index)}"
+                                          ),
+                                          fit: BoxFit.scaleDown,
+                                        ),
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => const DetailPage()),
+                                      );
+                                    },
                                   ),
-                                    fit:BoxFit.scaleDown,
-                                  )
-                                ),
+                                  const SizedBox(height: 5),
+                                  InkWell(
+                                    child: Container(
+                                      child: AppText(
+                                        text: images.values.elementAt(index),
+                                        color: AppColors.mainTextColor,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => const DetailPage2()),
+                                      );
+                                    },
+                                  ),
+                                ],
                               ),
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailPage()));
-                              },
-                          ),
-                           
-                            const SizedBox(height:5,),
-                            InkWell(
-                              child: Container(
-                                child: AppText(
-                                  
-                                  text:images.values.elementAt(index),
-                                  color: AppColors.mainTextColor,
-                                ),
-                              ),
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailPage2()));
-                    })
+                            ),
                         ],
                       ),
                     );
                   },
-               )
-             ),
+                ),
+              ),
+
+
+
 
                  const SizedBox(height: 10,),
 
