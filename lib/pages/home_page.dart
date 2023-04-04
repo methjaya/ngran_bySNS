@@ -247,7 +247,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                                     ),
                                     //text logic begin
 
-onTap: () {
+                            onTap: () {
                               if (index == 0) {
                                 Navigator.push(
                                   context,

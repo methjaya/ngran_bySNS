@@ -8,6 +8,8 @@ import 'package:flutter_firebase_test/component/paymentDetailList.dart';
 import 'package:flutter_firebase_test/component/sideMenu.dart';
 import 'package:flutter_firebase_test/config/responsive.dart';
 import 'package:flutter_firebase_test/config/size_config.dart';
+import 'package:flutter_firebase_test/pages/detail_page.dart';
+import 'package:flutter_firebase_test/pages/detail_page2.dart';
 import 'package:flutter_firebase_test/style/colors.dart';
 import 'package:flutter_firebase_test/style/style.dart';
 
@@ -18,6 +20,7 @@ class Dashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+      
       // key: _drawerKey,
       // drawer: SizedBox(width: 100, child: SideMenu()),
       // appBar: !Responsive.isDesktop(context)
@@ -47,6 +50,7 @@ class Dashboard extends StatelessWidget {
                 flex: 1,
                 child: SideMenu(),
               ),
+            
             Expanded(
               
                 flex: 10,
@@ -67,22 +71,69 @@ class Dashboard extends StatelessWidget {
                             runSpacing: 20,
                             alignment: WrapAlignment.spaceBetween,
                             children: [
-                              InfoCard(
-                                  icon: 'assets/add.svg',
-                                  label: 'Add an \nEvent',
-                                  amount: '\Add'),
-                              InfoCard(
-                                  icon: 'assets/edit.svg',
-                                  label: 'Edit/Remove \nanEvent',
-                                  amount: '\Edit'),
-                              InfoCard(
-                                  icon: 'assets/add2.svg',
-                                  label: 'Add Special \nNotices',
-                                  amount: '\Add'),
-                              InfoCard(
-                                  icon: 'assets/timetable2.svg',
-                                  label: 'Timetable \nUpdation',
-                                  amount: '\Update'),
+                              GestureDetector(
+                                onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const DetailPage(),
+                                  ),
+                                );
+                              },
+                                child: InfoCard(
+                                    icon: 'assets/add.svg',
+                                    label: 'Add an \nEvent',
+                                    amount: '\Add'),
+                              ),
+
+
+                              GestureDetector(
+                                onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const DetailPage2(),
+                                  ),
+                                );
+                              },
+
+                                child: InfoCard(
+                                    icon: 'assets/edit.svg',
+                                    label: 'Edit/Remove \nanEvent',
+                                    amount: '\Edit'),
+                              ),
+
+
+                              GestureDetector(
+                                onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const DetailPage(),
+                                  ),
+                                );
+                              },
+                                child: InfoCard(
+                                    icon: 'assets/add2.svg',
+                                    label: 'Add Special \nNotices',
+                                    amount: '\Add'),
+                              ),
+
+
+                              GestureDetector(
+                                onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const DetailPage2(),
+                                  ),
+                                );
+                              },
+                                child: InfoCard(
+                                    icon: 'assets/timetable2.svg',
+                                    label: 'Timetable \nUpdation',
+                                    amount: '\Update'),
+                              ),
                             ],
                           ),
                         ),
