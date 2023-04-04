@@ -178,12 +178,54 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                                         ),
                                       ),
                                     ),
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => const DetailPage()),
-                                      );
-                                    },
+                                    // onTap: () {
+                                    //   Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(builder: (context) => const DetailPage()),
+                                    //   );
+                                    // },
+
+                                  //logic start
+
+                            onTap: () {
+                              if (index == 0) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const DetailPage(),
+                                  ),
+                                );
+                              } 
+                              if (index == 1) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const DetailPage(),
+                                  ),
+                                );
+                              }
+                              if (index == 2) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const DetailPage2(),
+                                  ),
+                                );
+                              }
+                              if (index == 3) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const DetailPage2(),
+                                  ),
+                                );
+                              }
+                              
+                              
+                            },
+
+                                  //logic end
+                            
                                   ),
                                   const SizedBox(height: 5),
                                   InkWell(
@@ -193,12 +235,47 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                                         color: AppColors.mainTextColor,
                                       ),
                                     ),
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => const DetailPage2()),
-                                      );
-                                    },
+                                    //text logic begin
+
+onTap: () {
+                              if (index == 0) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const DetailPage(),
+                                  ),
+                                );
+                              } 
+                              if (index == 1) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const DetailPage(),
+                                  ),
+                                );
+                              }
+                              if (index == 2) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const DetailPage2(),
+                                  ),
+                                );
+                              }
+                              if (index == 3) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const DetailPage2(),
+                                  ),
+                                );
+                              }
+                              
+                              
+                            },
+
+
+                                    //text logic end
                                   ),
                                 ],
                               ),
