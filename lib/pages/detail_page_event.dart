@@ -43,7 +43,7 @@ class _DetailPageEventState extends State<DetailPageEvent>
   var eventLocation = "test";
   var eventDescription = "test";
 
-  Future<String> userName() async {
+  Future<void> userName() async {
     try {
       var eventData = await FirebaseFirestore.instance
           .collection("events")
@@ -56,11 +56,8 @@ class _DetailPageEventState extends State<DetailPageEvent>
       eventDescription = eventData['description'].toString();
       print(eventName);
       print(eventData['date'].toString());
-
-      return "null";
     } catch (e) {
       print(e.toString());
-      return "null";
     }
   }
 

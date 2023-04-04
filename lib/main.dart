@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_firebase_test/pages/detail_page_event.dart';
 import 'package:flutter_firebase_test/pages/home_page.dart';
+import 'package:flutter_firebase_test/pages/notice_page.dart';
 
 import 'package:flutter_firebase_test/screens/authscreen.dart';
 import 'package:flutter_firebase_test/screens/home.dart';
@@ -70,7 +71,7 @@ class MyApp extends StatelessWidget {
                 future: checkUserRole(userSnapshot.data!.uid),
                 builder: (contxt, snapshot) {
                   if (userRole == "student") {
-                    return HomePage();
+                    return Material(child: NoticesListWidget());
                   } else if (userRole == "admin") {
                     return DetailPageEvent();
                   } else {
