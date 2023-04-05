@@ -71,9 +71,9 @@ class MyApp extends StatelessWidget {
                 future: checkUserRole(userSnapshot.data!.uid),
                 builder: (contxt, snapshot) {
                   if (userRole == "student") {
-                    return Material(child: NoticesListWidget());
+                    return HomePage();
                   } else if (userRole == "admin") {
-                    return DetailPageEvent();
+                    return HomePage();
                   } else {
                     return AuthScreen();
                   }
