@@ -1,6 +1,6 @@
-# flutter_firebase_test
+# NGRam - Student Application for NSBM Green University
 
-A new Flutter project.
+.
 
 ## Getting Started
 
