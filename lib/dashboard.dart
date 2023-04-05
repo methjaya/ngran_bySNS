@@ -119,7 +119,20 @@ class Dashboard extends StatelessWidget {
                                     amount: '\Add'),
                               ),
 
-
+                              GestureDetector(
+                                onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const DetailPage(),
+                                  ),
+                                );
+                              },
+                                child: InfoCard(
+                                    icon: 'assets/edit2.svg',
+                                    label: 'Edit/Remove \nSpecial Notices',
+                                    amount: '\Edit'),
+                              ),
                               GestureDetector(
                                 onTap: () {
                               Navigator.push(

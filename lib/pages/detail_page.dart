@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_firebase_test/misc/colors.dart';
+import 'package:flutter_firebase_test/pages/home_page.dart';
 import 'package:flutter_firebase_test/widgets/app_large_text.dart';
 import 'package:flutter_firebase_test/widgets/app_text.dart';
 import 'package:flutter_firebase_test/widgets/responsive_button.dart';
@@ -63,7 +64,15 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin{
               
               child: Row(    
               children: [
-                IconButton(onPressed: (){
+                IconButton(
+                  onPressed: (){
+
+                       Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => HomePage(),
+                                  ),
+                                );
                   
                 }, icon: Icon(Icons.arrow_back_ios_new),
                 color: Color.fromRGBO(73, 141, 56, 1),
