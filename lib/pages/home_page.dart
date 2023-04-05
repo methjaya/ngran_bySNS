@@ -3,9 +3,8 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase_test/admin/addEvent.dart';
+import 'package:flutter_firebase_test/dashboard.dart';
 import 'package:flutter_firebase_test/misc/colors.dart';
-import 'package:flutter_firebase_test/pages/detail_page_event.dart';
 import 'package:flutter_firebase_test/widgets/app_large_text.dart';
 import 'package:flutter_firebase_test/widgets/app_text.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -55,6 +54,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     "notices.png": "Notices",
     "timetable.png": "Timetables",
     "updates.png": "Updates",
+    "user.png": "Dashboard",
   };
   var images2 = {
     "1_1.png",
@@ -159,7 +159,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    for (int index = 0; index < 4; index++)
+                    for (int index = 0; index < 5; index++)
                       Container(
                         margin: EdgeInsets.only(right: spacing),
                         child: Column(
@@ -179,14 +179,59 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   ),
                                 ),
                               ),
+                              // onTap: () {
+                              //   Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(builder: (context) => const DetailPage()),
+                              //   );
+                              // },
+
+                              //logic start
+
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const AddEvent()), //detail page _________________________________________
-                                );
+                                if (index == 0) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const DetailPage(),
+                                    ),
+                                  );
+                                }
+                                if (index == 1) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const DetailPage(),
+                                    ),
+                                  );
+                                }
+                                if (index == 2) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const DetailPage2(),
+                                    ),
+                                  );
+                                }
+                                if (index == 3) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const DetailPage2(),
+                                    ),
+                                  );
+                                }
+                                if (index == 4) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Dashboard(),
+                                    ),
+                                  );
+                                }
                               },
+
+                              //logic end
                             ),
                             const SizedBox(height: 5),
                             InkWell(
@@ -196,14 +241,44 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   color: AppColors.mainTextColor,
                                 ),
                               ),
+                              //text logic begin
+
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const DetailPageEvent()),
-                                );
+                                if (index == 0) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const DetailPage(),
+                                    ),
+                                  );
+                                }
+                                if (index == 1) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const DetailPage(),
+                                    ),
+                                  );
+                                }
+                                if (index == 2) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const DetailPage2(),
+                                    ),
+                                  );
+                                }
+                                if (index == 3) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Dashboard(),
+                                    ),
+                                  );
+                                }
                               },
+
+                              //text logic end
                             ),
                           ],
                         ),
@@ -271,14 +346,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const DetailPageEvent(),
+                            builder: (context) => const DetailPage(),
                           ),
                         );
                       } else {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const DetailPageEvent(),
+                            builder: (context) => const DetailPage2(),
                           ),
                         );
                       }
