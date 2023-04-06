@@ -23,7 +23,8 @@ class NoticesListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: getDataWithWhereClause("events", "time", Timestamp.now()),
+        future:
+            getDataWithWhereClause("notices", "noticeExpire", Timestamp.now()),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
@@ -38,7 +39,7 @@ class NoticesListWidget extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => NoticeWidget(
-                              eventData[index]['name'].toString(),
+                              eventData[index]['title'].toString(),
                               eventData[index]['description'].toString()),
                         ),
                       );
@@ -54,7 +55,7 @@ class NoticesListWidget extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Notice ${index + 1}',
+                              eventData[index]['title'],
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
@@ -62,7 +63,7 @@ class NoticesListWidget extends StatelessWidget {
                             ),
                             SizedBox(height: 8),
                             Text(
-                              eventData[index]['description'].toString(),
+                              eventData[index]['summary'].toString(),
                               style: TextStyle(fontSize: 16),
                             ),
                           ],
