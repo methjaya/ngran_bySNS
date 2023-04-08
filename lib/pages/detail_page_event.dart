@@ -127,9 +127,11 @@ class _DetailPageEventState extends State<DetailPageEvent>
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              AppLargeText(
-                                  text: widget.eventName,
-                                  color: Colors.black.withOpacity(0.8)),
+                              Flexible(
+                                child: AppLargeText(
+                                    text: widget.eventName,
+                                    color: Colors.black.withOpacity(0.8)),
+                              ),
                               AppLargeText(
                                 text: widget.eventDate,
                                 color: AppColors.starColor,
