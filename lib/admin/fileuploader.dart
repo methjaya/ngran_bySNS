@@ -8,6 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_firebase_test/style/style.dart';
 import "package:http/http.dart" as http;
 import 'package:path/path.dart' as path;
 
@@ -21,6 +22,7 @@ class FileUploader extends StatefulWidget {
 class _FileUploaderState extends State<FileUploader> {
   PlatformFile? _selectedFile;
   bool isUploaded = false;
+  bool isReady = true;
 
   Future fileSelecter() async {
     final selectedResult = await FilePicker.platform.pickFiles(
@@ -82,13 +84,15 @@ class _FileUploaderState extends State<FileUploader> {
 
       // Check the response and return the download URL
       if (response.statusCode == 200) {
-        isUploaded = true;
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Image uploaded successfully'),
           ),
         );
         final responseData = json.decode(response.body);
+        setState(() {
+          isUploaded = true;
+        });
         return responseData['url'];
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -101,11 +105,14 @@ class _FileUploaderState extends State<FileUploader> {
             'Failed to upload file to Filestack: ${response.statusCode}');
       }
     } else {
-      print("failed extension check");
-      return "invalid filetype";
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Invalid File Type'),
+        ),
+      );
+      return "";
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -133,10 +140,21 @@ class _FileUploaderState extends State<FileUploader> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              child: const Text("Upload Image"),
               onPressed: () async {
-                print(await uploadFileToFilestack());
+                if (isUploaded != true) {
+                  if (isReady == true) {
+                    isReady = false;
+                    print(await uploadFileToFilestack());
+                  }
+                } else {
+                  print("record added");
+                  setState(() {
+                    isUploaded = false;
+                    isReady = true;
+                  });
+                }
               },
+              child: Text(isUploaded ? "Add Record" : "Upload Image"),
             ),
           ],
         ),

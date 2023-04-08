@@ -12,13 +12,15 @@ class _EventBrowserState extends State<EventBrowser> {
     try {
       var eventData = await FirebaseFirestore.instance
           .collection("events")
-          .where("eventExpire", isGreaterThanOrEqualTo: Timestamp.now())
+          // .where("eventExpire", isGreaterThanOrEqualTo: Timestamp.now())
           .get();
       // print(uname1['firstName']);
 
-      print(eventData.docs[0]['name'].toString());
+      print("TimeStamp Now :  ${Timestamp.now()}");
 
       for (int x = 0; x < eventData.docs.length; x++) {
+        print(
+            "Firebase TimeStamp of ${eventData.docs[x]['name'].toString()} :  ${eventData.docs[x]['eventExpire'].toString()}");
         events.add(
           Event(
             image: eventData.docs[x]['img'].toString(),
