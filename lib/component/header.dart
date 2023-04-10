@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_test/config/responsive.dart';
+import 'package:flutter_firebase_test/pages/home_page.dart';
 import 'package:flutter_firebase_test/style/colors.dart';
 import 'package:flutter_firebase_test/style/style.dart';
 
@@ -8,28 +9,49 @@ class Header extends StatelessWidget {
     Key ?key,
   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
+@override
+Widget build(BuildContext context) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
       SizedBox(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              PrimaryText(
-                  text: 'NGram Dashboard',
-                  size: 30,
-                  fontWeight: FontWeight.w800),
-              PrimaryText(
-                text: 'Welcome Admin',
-                size: 16,
-                fontWeight: FontWeight.w400,
-                color: AppColors.secondary,
-              )
-            ]),
+        child: IconButton(
+          onPressed: () {
+           // Navigate to the intended page
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+    );
+          },
+          icon: Icon(Icons.arrow_back),
+          color: const Color.fromRGBO(76, 175, 80, 1),
+        ),
+
+
+
       ),
+          SizedBox(width: 10,),
+      SizedBox(
+        //width: 20,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            PrimaryText(
+              text: 'NGram Dashboard',
+              size: 30,
+              fontWeight: FontWeight.w800,
+            ),
+            
+            ]),
+        
+      ),
+
+
+
+
+
       Spacer(
         flex: 500,
       ),

@@ -92,6 +92,119 @@ flutter:
      - img/cover2.png 
      - img/user.png 
      - assets/
+     - img/001.png
+     - img/002.png
+     - img/003.png
+     - img/004.png
+     - img/005.png
+     - img/006.png
+     - img/007.png
+     - img/008.png
+     - img/009.png
+     - img/010.png
+     - img/L101.png
+     - img/L102.png
+     - img/L103.png
+     - img/L104.png
+     - img/L105.png
+     - img/L106.png
+     - img/L107.png
+     - img/L108-A.png
+     - img/L108-B.png
+     - img/L108C.png
+     - img/L109.png
+     - img/L110.png
+     - img/L111.png
+     - img/L112.png
+     - img/L113.png
+     - img/L114.png
+     - img/L201.png
+     - img/L202.png
+     - img/L203.png
+     - img/L204.png
+     - img/L205.png
+     - img/L206.png
+     - img/L301.png
+     - img/L302-A.png
+     - img/L302-B.png
+     - img/L302-C.png
+     - img/L302-D.png
+     - img/L303.png
+     - img/Map001.png
+     - img/Map002.png
+     - img/Map003.png
+     - img/Map004.png
+     - img/Map005.png
+     - img/Map006.png
+     - img/Map007.png
+     - img/Map008.png
+     - img/Map009.png
+     - img/Map010.png
+     - img/MapL101.png
+     - img/MapL101-1.png
+    #  - img/MapL102-1.png
+    #  - img/MapL103-1.png
+    #  - img/MapL104-1.png
+    #  - img/MapL105-1.png
+    #  - img/MapL106-1.png
+    #  - img/MapL107-1.png
+    #  - img/MapL109-1.png
+    #  - img/MapL110-1.png
+    #  - img/MapL11-1.png
+    #  - img/MapL112-1.png
+    #  - img/MapL113-1.png
+    #  - img/MapL114-1.png
+    #  - img/MapL108-A-1.png
+    #  - img/MapL108-B-1.png
+    #  - img/MapL108-C-1.png
+     - img/MapL102.png
+     - img/MapL103.png
+     - img/MapL104.png
+     - img/MapL105.png
+     - img/MapL106.png
+     - img/MapL107.png
+     - img/MapL108-A.png
+     - img/MapL108-B.png
+     - img/MapL108-C.png
+     - img/MapL109.png
+     - img/MapL110.png
+     - img/MapL111.png
+     - img/MapL112.png
+     - img/MapL113.png
+     - img/MapL114.png     
+     - img/MapL201.png
+     - img/MapL202.png
+     - img/MapL203.png
+     - img/MapL204.png
+     - img/MapL205.png
+     - img/MapL206.png
+     #THESE ARE TOBE ADDDED IN FUTUTRE ..HEHE
+     - img/MapL301.png
+     - img/MapL302-A.png
+     - img/MapL302-B.png
+     - img/MapL302-C.png
+     - img/MapL302-D.png
+     - img/MapL303.png
+     - img/Map1-101.png
+     - img/Map1-102.png
+     - img/Map1-103.png
+     - img/Map1-104.png
+     - img/Map1-105.png
+     - img/Map1-106.png
+     - img/Map1-107.png
+     - img/Map2-201.png
+     - img/Map2-202.png
+     - img/Map2-203.png
+     - img/Map2-204.png
+     - img/Map2-205.png
+     - img/Map2-206.png
+     - img/Map2-207.png
+
+
+
+     
+     
+     
     # - img/login3.png
      
     #  - img/faculty.png

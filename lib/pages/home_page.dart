@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_test/dashboard.dart';
 import 'package:flutter_firebase_test/misc/colors.dart';
+import 'package:flutter_firebase_test/pages/fac.dart';
 import 'package:flutter_firebase_test/widgets/app_large_text.dart';
 import 'package:flutter_firebase_test/widgets/app_text.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -194,7 +195,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const DetailPage(),
+                                    builder: (context) => const Fac(),
                                   ),
                                 );
                               } 
