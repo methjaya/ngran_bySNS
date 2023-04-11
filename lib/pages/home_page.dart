@@ -13,6 +13,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'detail_page.dart';
 import 'detail_page2.dart';
 import 'detail_page3.dart';
+import 'nav_pages/time_table_view.dart';
 //lib
 
 class HomePage extends StatefulWidget {
@@ -234,7 +235,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const DetailPage2(),
+                                      builder: (context) => const TimeTable(),
                                     ),
                                   );
                                 }
