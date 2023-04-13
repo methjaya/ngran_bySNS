@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_test/admin/addEvent.dart';
 import 'package:flutter_firebase_test/admin/add_notice.dart';
+import 'package:flutter_firebase_test/admin/updateEvent.dart';
+import 'package:flutter_firebase_test/admin/update_notice.dart';
 import 'package:flutter_firebase_test/component/appBarActionItems.dart';
 import 'package:flutter_firebase_test/component/barChart.dart';
 import 'package:flutter_firebase_test/component/header.dart';
@@ -89,7 +91,7 @@ class Dashboard extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const AddNotice(),
+                                      builder: (context) => const UpdateEvent(),
                                     ),
                                   );
                                 },
@@ -103,7 +105,7 @@ class Dashboard extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const DetailPage(),
+                                      builder: (context) => const AddNotice(),
                                     ),
                                   );
                                 },
@@ -117,7 +119,8 @@ class Dashboard extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const DetailPage(),
+                                      builder: (context) =>
+                                          const UpdateNotice(),
                                     ),
                                   );
                                 },

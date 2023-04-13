@@ -3,8 +3,12 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_test/admin/add_admin.dart';
 import 'package:flutter_firebase_test/admin/datetimepicker.dart';
 import 'package:flutter_firebase_test/admin/fileuploader.dart';
+import 'package:flutter_firebase_test/admin/selectEvent.dart';
+import 'package:flutter_firebase_test/admin/updateEvent.dart';
+import 'package:flutter_firebase_test/admin/update_notice.dart';
 import 'package:flutter_firebase_test/dashboard.dart';
 import 'package:flutter_firebase_test/misc/colors.dart';
 import 'package:flutter_firebase_test/pages/notice_page.dart';
@@ -197,7 +201,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => FileUploader(),
+                                      builder: (context) =>
+                                          const RegisterAdmin(),
                                     ),
                                   );
                                 }

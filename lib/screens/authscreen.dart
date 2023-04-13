@@ -71,7 +71,7 @@ class _AuthScreenState extends State<AuthScreen> {
       }
 
       ScaffoldMessenger.of(ctx).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("zzzz"),
           backgroundColor: Colors.red,
         ),
@@ -99,7 +99,7 @@ class _AuthScreenState extends State<AuthScreen> {
     // );
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("img/login.png"),
             fit: BoxFit.cover,

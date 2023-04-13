@@ -3,63 +3,109 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter/material.dart';
 import "package:http/http.dart" as http;
 import 'package:path/path.dart' as path;
 
-class AddEvent extends StatefulWidget {
-  const AddEvent({super.key});
+class UpdateEvent extends StatefulWidget {
+  const UpdateEvent({
+    super.key,
+  });
 
   @override
-  State<AddEvent> createState() => _AddEventState();
+  State<UpdateEvent> createState() => _UpdateEventState();
 }
 
-class _AddEventState extends State<AddEvent> {
+class _UpdateEventState extends State<UpdateEvent> {
   DateTime dateTime = DateTime.now();
-  bool isSelected = false;
   final _formKey = GlobalKey<FormState>();
   PlatformFile? _selectedFile;
-  bool isUploaded = false;
   bool isReady = true;
+  bool readyLocal = false;
+  bool readyNetwork = false;
+  TextEditingController _textEditingController1 =
+      TextEditingController(text: "");
+  TextEditingController _textEditingController2 =
+      TextEditingController(text: "");
+  TextEditingController _textEditingController3 =
+      TextEditingController(text: "");
+  TextEditingController _textEditingController4 =
+      TextEditingController(text: "");
 
   var Ename;
   var Edate;
   var Elocation;
   var Edescription;
   var Eimg;
+  late FixedExtentScrollController scrollController;
+  String _selectedOption = '';
+  List<dynamic> _options = [];
+  late QuerySnapshot _querySnapshot;
+  int indx = 0;
 
-  void _addEventSubmit() {
-    final isValidAEForm = _formKey.currentState!.validate();
+  @override
+  void initState() {
+    super.initState();
+    _fetchOptions();
+    scrollController = FixedExtentScrollController(initialItem: indx);
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _updateEventSubmit() async {
+    final isValidUEForm = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
 
-    if (isValidAEForm) {
+    if (_selectedFile != null) {
+      Eimg = await uploadFileToFilestack();
+    } else {
+      Eimg = _options[indx]["img"];
+    }
+
+    if (isValidUEForm) {
       _formKey.currentState!.save();
 
-      FirebaseFirestore.instance.collection("events").doc().set({
-        "name": Ename,
-        "date": Edate,
-        "location": Elocation,
-        "description": Edescription,
-        "eventExpire": Timestamp.fromDate(dateTime),
-        "img": Eimg
-      }).onError((e, _) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error Writing to Firebase ${e.toString()}'),
-            duration: const Duration(seconds: 1),
-          ),
-        );
-      }).then((value) {
+      if (Eimg != null && Eimg != "") {
+        FirebaseFirestore.instance
+            .collection("events")
+            .doc(_querySnapshot.docs[indx].id.toString())
+            .update({
+          "name": Ename,
+          "date": Edate,
+          "location": Elocation,
+          "description": Edescription,
+          "eventExpire": Timestamp.fromDate(dateTime),
+          "img": Eimg
+        }).onError((e, _) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Error Writing to Firebase ${e.toString()}'),
+              duration: const Duration(seconds: 1),
+            ),
+          );
+        }).then((value) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Record Updated'),
+              duration: Duration(seconds: 1),
+            ),
+          );
+        });
+      } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Record Added'),
+            content: Text('Image is Empty'),
             duration: Duration(seconds: 1),
           ),
         );
-      });
+      }
     }
 
     print(Ename);
@@ -81,6 +127,8 @@ class _AddEventState extends State<AddEvent> {
     setState(
       () {
         _selectedFile = selectedResult.files.first;
+        readyLocal = true;
+        readyNetwork = false;
       },
     );
     print(_selectedFile!.path);
@@ -89,16 +137,6 @@ class _AddEventState extends State<AddEvent> {
   //
 
   Future<String> uploadFileToFilestack() async {
-    if (_selectedFile == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please select the image first '),
-          duration: Duration(seconds: 1),
-        ),
-      );
-      return "";
-    }
-    isUploaded = false;
     String fileExtensionType =
         path.extension(_selectedFile!.path!).replaceAll('.', '');
 
@@ -109,6 +147,13 @@ class _AddEventState extends State<AddEvent> {
             fileExtensionType == "png") &&
         _selectedFile != null) {
       List<int> imageBytes = await File(_selectedFile!.path!).readAsBytes();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Uploading Image'),
+          duration: Duration(seconds: 1),
+        ),
+      );
 
       print("passed extension check");
 
@@ -121,13 +166,6 @@ class _AddEventState extends State<AddEvent> {
           },
           body: imageBytes);
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Uploading Image'),
-          duration: Duration(seconds: 1),
-        ),
-      );
-
       // Check the response and return the download URL
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -137,9 +175,6 @@ class _AddEventState extends State<AddEvent> {
           ),
         );
         final responseData = json.decode(response.body);
-        setState(() {
-          isUploaded = true;
-        });
         return responseData['url'];
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -163,6 +198,28 @@ class _AddEventState extends State<AddEvent> {
     }
   }
 
+  void _fetchOptions() async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection("events").get();
+
+    _querySnapshot = querySnapshot;
+
+    if (querySnapshot.docs.isNotEmpty) {
+      setState(() {
+        _options = querySnapshot.docs.map((doc) => doc.data()).toList();
+        dateTime = _options[indx]["eventExpire"].toDate();
+        _textEditingController1 =
+            TextEditingController(text: _options[indx]["name"]);
+        _textEditingController2 =
+            TextEditingController(text: _options[indx]["date"]);
+        _textEditingController3 =
+            TextEditingController(text: _options[indx]["location"]);
+        _textEditingController4 =
+            TextEditingController(text: _options[indx]["description"]);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final hours = dateTime.hour.toString().padLeft(2, '0');
@@ -174,7 +231,42 @@ class _AddEventState extends State<AddEvent> {
           child: Form(
             key: _formKey,
             child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+              Container(
+                padding: const EdgeInsets.all(50),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Select an option:',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      _selectedOption,
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: CupertinoButton.filled(
+                          child: const Text("Open Picker"),
+                          onPressed: () {
+                            scrollController.dispose();
+                            scrollController =
+                                FixedExtentScrollController(initialItem: indx);
+                            showCupertinoModalPopup(
+                                context: context,
+                                builder: (context) => CupertinoActionSheet(
+                                      actions: [buildPicker()],
+                                    ));
+                          }),
+                    ),
+                  ],
+                ),
+              ),
               TextFormField(
+                controller: _textEditingController1,
                 key: const ValueKey("name"),
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -182,6 +274,9 @@ class _AddEventState extends State<AddEvent> {
                   } else {
                     return null;
                   }
+                },
+                onChanged: (valN) {
+                  _textEditingController1 = TextEditingController(text: valN);
                 },
                 onSaved: (newValue) {
                   Ename = newValue!;
@@ -195,6 +290,7 @@ class _AddEventState extends State<AddEvent> {
                 height: 15,
               ),
               TextFormField(
+                controller: _textEditingController2,
                 key: const ValueKey("date"),
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -202,6 +298,9 @@ class _AddEventState extends State<AddEvent> {
                   } else {
                     return null;
                   }
+                },
+                onChanged: (valD) {
+                  _textEditingController2 = TextEditingController(text: valD);
                 },
                 onSaved: (newValue) {
                   Edate = newValue!;
@@ -215,6 +314,7 @@ class _AddEventState extends State<AddEvent> {
                 height: 15,
               ),
               TextFormField(
+                controller: _textEditingController3,
                 key: const ValueKey("location"),
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -222,6 +322,9 @@ class _AddEventState extends State<AddEvent> {
                   } else {
                     return null;
                   }
+                },
+                onChanged: (valL) {
+                  _textEditingController3 = TextEditingController(text: valL);
                 },
                 onSaved: (newValue) {
                   Elocation = newValue!;
@@ -235,6 +338,7 @@ class _AddEventState extends State<AddEvent> {
                 height: 15,
               ),
               TextFormField(
+                controller: _textEditingController4,
                 maxLines: null,
                 key: const ValueKey("description"),
                 validator: (value) {
@@ -243,6 +347,9 @@ class _AddEventState extends State<AddEvent> {
                   } else {
                     return null;
                   }
+                },
+                onChanged: (valDes) {
+                  _textEditingController4 = TextEditingController(text: valDes);
                 },
                 onSaved: (newValue) {
                   Edescription = newValue!;
@@ -275,9 +382,8 @@ class _AddEventState extends State<AddEvent> {
                             child: ElevatedButton(
                               child: Builder(
                                 builder: (context) {
-                                  return Text(isSelected
-                                      ? '${dateTime.year}/${dateTime.month}/${dateTime.day}'
-                                      : "");
+                                  return Text(
+                                      '${dateTime.year}/${dateTime.month}/${dateTime.day}');
                                 },
                               ),
                               onPressed: () async {
@@ -296,7 +402,6 @@ class _AddEventState extends State<AddEvent> {
 
                                 setState(
                                   () {
-                                    isSelected = true;
                                     dateTime = dateTimeNew;
                                   },
                                 );
@@ -342,16 +447,19 @@ class _AddEventState extends State<AddEvent> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (_selectedFile != null)
-                      Container(
-                        color: Colors.green[50],
-                        child: Image.file(
-                          File(_selectedFile!.path!),
-                          width: double.infinity,
-                          height: 200,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                    Container(
+                      color: Colors.green[50],
+                      child: readyLocal
+                          ? Image.file(
+                              File(_selectedFile!.path!),
+                              width: double.infinity,
+                              height: 200,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.network(_options.isNotEmpty
+                              ? _options[indx]["img"]
+                              : "https://via.placeholder.com/200x200"),
+                    ),
                     ElevatedButton(
                       child: const Text("Select Image"),
                       onPressed: () async {
@@ -361,20 +469,15 @@ class _AddEventState extends State<AddEvent> {
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () async {
-                        if (isUploaded != true) {
-                          if (isReady == true) {
-                            isReady = false;
-                            Eimg = await uploadFileToFilestack();
-                          }
-                        } else {
-                          _addEventSubmit();
-                          setState(() {
-                            isUploaded = false;
-                            isReady = true;
-                          });
+                        print(isReady);
+
+                        if (isReady) {
+                          isReady = false;
+                          await _updateEventSubmit();
+                          isReady = true;
                         }
                       },
-                      child: Text(isUploaded ? "Add Record" : "Upload Image"),
+                      child: const Text("Update Record"),
                     ),
                   ],
                 ),
@@ -394,4 +497,37 @@ class _AddEventState extends State<AddEvent> {
 
   Future<TimeOfDay?> timePick() =>
       showTimePicker(context: context, initialTime: TimeOfDay.now());
+
+  Widget buildPicker() => _options.isNotEmpty
+      ? SizedBox(
+          height: 350,
+          child: CupertinoPicker(
+            scrollController: scrollController,
+            itemExtent: 64,
+            onSelectedItemChanged: (index) {
+              setState(() {
+                indx = index;
+                _textEditingController1 =
+                    TextEditingController(text: _options[indx]["name"]);
+                _textEditingController2 =
+                    TextEditingController(text: _options[indx]["date"]);
+                _textEditingController3 =
+                    TextEditingController(text: _options[indx]["location"]);
+                _textEditingController4 =
+                    TextEditingController(text: _options[indx]["description"]);
+                _selectedOption = _options[index]["name"];
+                dateTime = _options.isNotEmpty
+                    ? (_options[index]["eventExpire"]).toDate()
+                    : DateTime.now();
+                readyNetwork = true;
+                readyLocal = false;
+                _selectedFile = null;
+              });
+            },
+            children: _options
+                .map((option) => Center(child: Text(option["name"])))
+                .toList(),
+          ),
+        )
+      : const CircularProgressIndicator();
 }
