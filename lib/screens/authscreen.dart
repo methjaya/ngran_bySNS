@@ -54,13 +54,13 @@ class _AuthScreenState extends State<AuthScreen> {
           'username': username,
           'email': email,
           'firstName': fName,
-          'LastName': lName,
+          'lastName': lName,
           'nic': nic,
           'studentID': stdID,
           'phoneNumber': phNo,
           'faculty': dropDownValF,
           'degree': dropDownValD,
-          'barch': dropDownValB,
+          'batch': dropDownValB,
         });
       }
     } on PlatformException catch (e) {
@@ -105,7 +105,8 @@ class _AuthScreenState extends State<AuthScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        child: AuthForm(_submitAuthForm, _isLoading), /* add child content here */
+        child:
+            AuthForm(_submitAuthForm, _isLoading), /* add child content here */
       ),
     );
   }

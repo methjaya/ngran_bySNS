@@ -19,6 +19,7 @@ class _UpdateNoticeState extends State<UpdateNotice> {
   var noticeDescription;
 
   late FixedExtentScrollController scrollController;
+  static Set<String> _selectedGroups = {};
   String _selectedOption = '';
   List<dynamic> _options = [];
   late QuerySnapshot _querySnapshot;
@@ -37,6 +38,7 @@ class _UpdateNoticeState extends State<UpdateNotice> {
     _querySnapshot = querySnapshot;
 
     if (querySnapshot.docs.isNotEmpty) {
+      _selectedGroups.clear();
       setState(() {
         _options = querySnapshot.docs.map((doc) => doc.data()).toList();
         dateTime = _options[indx]["noticeExpire"].toDate();
@@ -46,6 +48,8 @@ class _UpdateNoticeState extends State<UpdateNotice> {
             TextEditingController(text: _options[indx]["summary"]);
         _textEditingController3 =
             TextEditingController(text: _options[indx]["description"]);
+        _selectedGroups = Set<String>.from(
+            _options[indx]["groups"].map((e) => e.toString()).toSet());
       });
     }
   }
@@ -77,7 +81,8 @@ class _UpdateNoticeState extends State<UpdateNotice> {
         "title": noticeTitle,
         "summary": noticeSummary,
         "description": noticeDescription,
-        "expireDate": Timestamp.fromDate(dateTime)
+        "expireDate": Timestamp.fromDate(dateTime),
+        "groups": _selectedGroups
       }).onError((e, _) {
         print("Error writing document: $e");
         ScaffoldMessenger.of(context).showSnackBar(
@@ -102,8 +107,8 @@ class _UpdateNoticeState extends State<UpdateNotice> {
     print(noticeDescription);
   }
 
-  void _deleteNoticeSubmit() {
-    FirebaseFirestore.instance
+  void _deleteNoticeSubmit() async {
+    await FirebaseFirestore.instance
         .collection("notices")
         .doc(_querySnapshot.docs[indx].id.toString())
         .delete()
@@ -112,15 +117,15 @@ class _UpdateNoticeState extends State<UpdateNotice> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Error Deleting Document: $e'),
-          duration: const Duration(seconds: 1),
+          duration: const Duration(seconds: 3),
         ),
       );
     }).then((value) {
       print("record deleted");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Record Deleted'),
-          duration: Duration(seconds: 1),
+          content: Text('Notice Deleted'),
+          duration: Duration(seconds: 2),
         ),
       );
     });
@@ -139,6 +144,36 @@ class _UpdateNoticeState extends State<UpdateNotice> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Select options'),
+                          content: const CheckboxListTileGroupsUpdate(),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('CLOSE'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    ).then((value) => setState(() {
+                          _selectedGroups;
+                        }));
+                  },
+                  child: const Text('Select options'),
+                ),
+                Flexible(
+                  child: Text(_selectedGroups.toString()),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
                 Container(
                   padding: const EdgeInsets.all(50),
                   child: Column(
@@ -407,6 +442,7 @@ class _UpdateNoticeState extends State<UpdateNotice> {
             scrollController: scrollController,
             itemExtent: 64,
             onSelectedItemChanged: (index) {
+              _selectedGroups.clear();
               setState(() {
                 indx = index;
                 _textEditingController1 =
@@ -419,6 +455,8 @@ class _UpdateNoticeState extends State<UpdateNotice> {
                 dateTime = _options.isNotEmpty
                     ? (_options[index]["noticeExpire"]).toDate()
                     : DateTime.now();
+                _selectedGroups = Set<String>.from(
+                    _options[indx]["groups"].map((e) => e.toString()).toSet());
               });
             },
             children: _options
@@ -429,11 +467,67 @@ class _UpdateNoticeState extends State<UpdateNotice> {
       : const CircularProgressIndicator();
 }
 
+class CheckboxListTileGroupsUpdate extends StatefulWidget {
+  const CheckboxListTileGroupsUpdate({super.key});
 
+  @override
+  CheckboxListTileGroupsUpdateState createState() =>
+      CheckboxListTileGroupsUpdateState();
+}
 
+class CheckboxListTileGroupsUpdateState
+    extends State<CheckboxListTileGroupsUpdate> {
+  final List<String> _options = [
+    'FOC',
+    'SE-PLY',
+    'CYSEC-PLY',
+    'COMSC-PLY',
+    'FOB',
+    'MNG-1',
+    'MNG-2',
+    'MNG-3',
+    '21.1',
+    '21.2',
+    '21.3',
+  ];
 
+  void _onOptionSelected(String option) {
+    setState(() {
+      if (_UpdateNoticeState._selectedGroups.contains(option)) {
+        _UpdateNoticeState._selectedGroups.remove(option);
+      } else {
+        _UpdateNoticeState._selectedGroups.add(option);
+      }
+    });
+  }
 
-
-
-
-
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 320,
+      width: double.maxFinite,
+      child: ListView.builder(
+        itemCount: _options.length,
+        itemBuilder: (BuildContext context, int index) {
+          final option = _options[index];
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: SizedBox(
+              height: 55,
+              width: 200,
+              child: CheckboxListTile(
+                title: Text(option),
+                value: _UpdateNoticeState._selectedGroups.contains(option),
+                onChanged: (value) {
+                  setState(() {
+                    _onOptionSelected(option);
+                  });
+                },
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}

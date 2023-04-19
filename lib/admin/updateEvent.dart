@@ -59,6 +59,30 @@ class _UpdateEventState extends State<UpdateEvent> {
     super.dispose();
   }
 
+  void _deleteEventSubmit() {
+    FirebaseFirestore.instance
+        .collection("events")
+        .doc(_querySnapshot.docs[indx].id.toString())
+        .delete()
+        .onError((e, _) {
+      print("Error Deleting document: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error Deleting Document: $e'),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }).then((value) {
+      print("record deleted");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Event Deleted'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    });
+  }
+
   Future<void> _updateEventSubmit() async {
     final isValidUEForm = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
@@ -466,18 +490,85 @@ class _UpdateEventState extends State<UpdateEvent> {
                         fileSelecter();
                       },
                     ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () async {
-                        print(isReady);
+                    // const SizedBox(height: 15),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(25, 25, 25, 50),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                print(isReady);
 
-                        if (isReady) {
-                          isReady = false;
-                          await _updateEventSubmit();
-                          isReady = true;
-                        }
-                      },
-                      child: const Text("Update Record"),
+                                if (isReady) {
+                                  isReady = false;
+                                  await _updateEventSubmit();
+                                  isReady = true;
+                                }
+                              },
+                              child: const Text("Update Record"),
+                              style: ElevatedButton.styleFrom(
+                                  elevation: 5,
+                                  minimumSize: const Size(40, 40)),
+                            ),
+                          ),
+                          const SizedBox(width: 30),
+                          Expanded(
+                            flex: 1,
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              onLongPress: () {
+                                if (_options.isNotEmpty) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: const Text("Delete Event"),
+                                      content: const Text(
+                                          "Are you sure you want to delete the selected Event?"),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            _deleteEventSubmit();
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text(
+                                            "Yes",
+                                            style: TextStyle(fontSize: 15),
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text(
+                                            "No",
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.red),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('There are no Events'),
+                                      duration: Duration(seconds: 1),
+                                    ),
+                                  );
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  elevation: 5,
+                                  primary: Colors.red,
+                                  minimumSize: const Size(75, 40)),
+                              child: const Text("Delete Notice"),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

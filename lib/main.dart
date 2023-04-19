@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_firebase_test/pages/detail_page_event.dart';
 import 'package:flutter_firebase_test/pages/home_page.dart';
 import 'package:flutter_firebase_test/pages/notice_page.dart';
+import 'package:flutter_firebase_test/admin/user_data.dart';
 
 import 'package:flutter_firebase_test/screens/authscreen.dart';
 import 'package:flutter_firebase_test/screens/home.dart';
@@ -19,26 +20,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   var userRole;
 
-  void getDataFromFirestore(String uid) {
-    // Initialize Firestore
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-    try {
-      var user = FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .get()
-          .then((value) => userRole = value.data()!['role'])
-          .catchError((error) {
-        print('Error reading data from Firestore: $error');
-      });
-      print(userRole);
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future<bool> checkUserRole(String uid) async {
+  Future<void> checkUserRole(String uid) async {
     try {
       var user =
           await FirebaseFirestore.instance.collection("users").doc(uid).get();
@@ -46,13 +28,13 @@ class MyApp extends StatelessWidget {
       print(uid);
 
       userRole = user['role'];
-
-      return true;
+      UserData.userFaculty = user['faculty'];
+      UserData.userDegree = user['degree'];
+      UserData.userBatch = user['batch'];
 
       // print(userRole);
     } catch (e) {
       print(e.toString());
-      return false;
     }
   }
 

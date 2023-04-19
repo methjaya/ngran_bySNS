@@ -17,7 +17,7 @@ class AuthForm extends StatefulWidget {
     int stdID,
     int phNo,
     String dropDownValF,
-    String dropDownValD,
+    String degree,
     String dropDownValB,
   ) submitFn;
 
@@ -39,9 +39,21 @@ class _AuthFormState extends State<AuthForm> {
   String nic = '';
   int stdID = 0;
   int phNo = 0;
+  String degree = "SE-PLY";
   String dropDownValF = 'FOC';
-  String dropDownValD = 'se';
+  String dropDownValCD = 'SE-PLY';
+  String dropDownValMD = 'MNG-1';
   String dropDownValB = '21.1';
+  List<List<List<String>>> degreeList = [
+    [
+      ["Software Engineering", "Computer Science", "Cyber Security"],
+      ["SE-PLY", "COMSC-PLY", "CYSEC-PLY"]
+    ],
+    [
+      ["Management 1", "Management 2", "Management 3"],
+      ["MNG-1", "MNG-2", "MNG-3"]
+    ]
+  ];
 
   void _fSubmit() {
     final isValid = _formKey.currentState!.validate();
@@ -61,7 +73,7 @@ class _AuthFormState extends State<AuthForm> {
         stdID,
         phNo,
         dropDownValF,
-        dropDownValD,
+        degree,
         dropDownValB,
       );
     }
@@ -72,17 +84,30 @@ class _AuthFormState extends State<AuthForm> {
       setState(() {
         dropDownValF = sValue;
       });
+      if (sValue == "FOC") {
+        degree = dropDownValCD;
+      } else if (sValue == "FOB") {
+        degree = dropDownValMD;
+      }
     }
     print(dropDownValF);
   }
 
   void dropDownCallbackD(String? sValue) {
     if (sValue is String) {
-      setState(() {
-        dropDownValD = sValue;
-      });
+      if (dropDownValF == 'FOC') {
+        setState(() {
+          dropDownValCD = sValue;
+        });
+        degree = dropDownValCD;
+      }
+      if (dropDownValF == 'FOB') {
+        setState(() {
+          dropDownValMD = sValue;
+        });
+        degree = dropDownValMD;
+      }
     }
-    print(dropDownValD);
   }
 
   void dropDownCallbackB(String? sValue) {
@@ -98,17 +123,17 @@ class _AuthFormState extends State<AuthForm> {
   Widget build(BuildContext context) {
     return Center(
       child: Card(
-        margin: EdgeInsets.all(20),
+        margin: const EdgeInsets.all(20),
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Form(
               key: _formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   TextFormField(
-                    key: ValueKey("email"),
+                    key: const ValueKey("email"),
                     validator: (value) {
                       if (value!.isEmpty || !value.contains('@')) {
                         return "Email is invalid";
@@ -120,11 +145,12 @@ class _AuthFormState extends State<AuthForm> {
                       email = newValue!;
                     },
                     keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(labelText: 'Email Address'),
+                    decoration:
+                        const InputDecoration(labelText: 'Email Address'),
                   ),
                   if (!_isLogin)
                     TextFormField(
-                      key: ValueKey("uname"),
+                      key: const ValueKey("uname"),
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Username cannot be empty";
@@ -134,10 +160,10 @@ class _AuthFormState extends State<AuthForm> {
                       onSaved: (newValue) {
                         username = newValue!;
                       },
-                      decoration: InputDecoration(labelText: 'Username'),
+                      decoration: const InputDecoration(labelText: 'Username'),
                     ),
                   TextFormField(
-                    key: ValueKey("pass"),
+                    key: const ValueKey("pass"),
                     validator: (value) {
                       if (value!.isEmpty || value.length < 7) {
                         return 'Password should have at least 7 characters';
@@ -148,12 +174,12 @@ class _AuthFormState extends State<AuthForm> {
                     onSaved: (newValue) {
                       password = newValue!;
                     },
-                    decoration: InputDecoration(labelText: 'Password'),
+                    decoration: const InputDecoration(labelText: 'Password'),
                     obscureText: true,
                   ),
                   if (!_isLogin)
                     TextFormField(
-                      key: ValueKey("fName"),
+                      key: const ValueKey("fName"),
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "First name cannot be empty";
@@ -163,11 +189,12 @@ class _AuthFormState extends State<AuthForm> {
                       onSaved: (newValue) {
                         fName = newValue!;
                       },
-                      decoration: InputDecoration(labelText: 'First Name'),
+                      decoration:
+                          const InputDecoration(labelText: 'First Name'),
                     ),
                   if (!_isLogin)
                     TextFormField(
-                      key: ValueKey("lName"),
+                      key: const ValueKey("lName"),
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Last name cannot be empty";
@@ -177,11 +204,11 @@ class _AuthFormState extends State<AuthForm> {
                       onSaved: (newValue) {
                         lName = newValue!;
                       },
-                      decoration: InputDecoration(labelText: 'Last Name'),
+                      decoration: const InputDecoration(labelText: 'Last Name'),
                     ),
                   if (!_isLogin)
                     TextFormField(
-                      key: ValueKey("nic"),
+                      key: const ValueKey("nic"),
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "NIC cannot be empty";
@@ -191,11 +218,11 @@ class _AuthFormState extends State<AuthForm> {
                       onSaved: (newValue) {
                         nic = newValue!;
                       },
-                      decoration: InputDecoration(labelText: 'NIC'),
+                      decoration: const InputDecoration(labelText: 'NIC'),
                     ),
                   if (!_isLogin)
                     TextFormField(
-                      key: ValueKey("stdID"),
+                      key: const ValueKey("stdID"),
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Student ID cannot be empty";
@@ -205,11 +232,12 @@ class _AuthFormState extends State<AuthForm> {
                       onSaved: (newValue) {
                         stdID = int.parse(newValue!);
                       },
-                      decoration: InputDecoration(labelText: 'Student ID'),
+                      decoration:
+                          const InputDecoration(labelText: 'Student ID'),
                     ),
                   if (!_isLogin)
                     TextFormField(
-                      key: ValueKey("phNo"),
+                      key: const ValueKey("phNo"),
                       validator: (value) {
                         if (value!.isEmpty || value.length < 10) {
                           return "Phone Number cannot be empty";
@@ -219,15 +247,15 @@ class _AuthFormState extends State<AuthForm> {
                       onSaved: (newValue) {
                         phNo = int.parse(newValue!);
                       },
-                      decoration: InputDecoration(labelText: 'Phone Number'),
+                      decoration:
+                          const InputDecoration(labelText: 'Phone Number'),
                     ),
                   if (!_isLogin)
                     DropdownButton(
-                      key: ValueKey("faculty"),
+                      key: const ValueKey("faculty"),
                       items: const [
-                        DropdownMenuItem(child: Text("FOC"), value: "FOC"),
-                        DropdownMenuItem(child: Text("FOB"), value: "FOB"),
-                        DropdownMenuItem(child: Text("FOE"), value: "FOE"),
+                        DropdownMenuItem(value: "FOC", child: Text("FOC")),
+                        DropdownMenuItem(value: "FOB", child: Text("FOB")),
                       ],
                       onChanged: dropDownCallbackF,
                       isExpanded: true,
@@ -236,37 +264,53 @@ class _AuthFormState extends State<AuthForm> {
                     ),
                   if (!_isLogin)
                     DropdownButton(
-                      key: ValueKey("degree"),
-                      items: const [
-                        DropdownMenuItem(
-                            child: Text("Software Engineering"), value: "se"),
-                        DropdownMenuItem(
-                            child: Text("Computer Science"), value: "csc"),
-                        DropdownMenuItem(
-                            child: Text("Cyber security"), value: "cse"),
-                      ],
+                      key: const ValueKey("degree"),
+                      items: dropDownValF == "FOC"
+                          ? [
+                              DropdownMenuItem(
+                                  value: degreeList[0][1][0].toString(),
+                                  child: Text(degreeList[0][0][0].toString())),
+                              DropdownMenuItem(
+                                  value: degreeList[0][1][1].toString(),
+                                  child: Text(degreeList[0][0][1].toString())),
+                              DropdownMenuItem(
+                                  value: degreeList[0][1][2].toString(),
+                                  child: Text(degreeList[0][0][2].toString())),
+                            ]
+                          : [
+                              DropdownMenuItem(
+                                  value: degreeList[1][1][0].toString(),
+                                  child: Text(degreeList[1][0][0].toString())),
+                              DropdownMenuItem(
+                                  value: degreeList[1][1][1].toString(),
+                                  child: Text(degreeList[1][0][1].toString())),
+                              DropdownMenuItem(
+                                  value: degreeList[1][1][2].toString(),
+                                  child: Text(degreeList[1][0][2].toString())),
+                            ],
                       onChanged: dropDownCallbackD,
                       isExpanded: true,
-                      value: dropDownValD,
+                      value:
+                          dropDownValF == "FOC" ? dropDownValCD : dropDownValMD,
                       // iconSize: 42.0,
                     ),
                   if (!_isLogin)
                     DropdownButton(
-                      key: ValueKey("batch"),
+                      key: const ValueKey("batch"),
                       items: const [
-                        DropdownMenuItem(child: Text("21.1"), value: "21.1"),
-                        DropdownMenuItem(child: Text("21.2"), value: "21.2"),
-                        DropdownMenuItem(child: Text("21.3"), value: "21.3"),
+                        DropdownMenuItem(value: "21.1", child: Text("21.1")),
+                        DropdownMenuItem(value: "21.2", child: Text("21.2")),
+                        DropdownMenuItem(value: "21.3", child: Text("21.3")),
                       ],
                       onChanged: dropDownCallbackB,
                       isExpanded: true,
                       value: dropDownValB,
                       // iconSize: 42.0,
                     ),
-                  SizedBox(
+                  const SizedBox(
                     height: 12,
                   ),
-                  if (widget.isLoading) CircularProgressIndicator(),
+                  if (widget.isLoading) const CircularProgressIndicator(),
                   if (!widget.isLoading)
                     ElevatedButton(
                       onPressed: _fSubmit,
