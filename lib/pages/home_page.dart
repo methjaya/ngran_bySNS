@@ -3,25 +3,16 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase_test/admin/add_admin.dart';
-import 'package:flutter_firebase_test/admin/add_notice.dart';
-import 'package:flutter_firebase_test/admin/datetimepicker.dart';
-import 'package:flutter_firebase_test/admin/edit_user_details.dart';
-import 'package:flutter_firebase_test/admin/fileuploader.dart';
-import 'package:flutter_firebase_test/admin/selectEvent.dart';
-import 'package:flutter_firebase_test/admin/select_groups.dart';
-import 'package:flutter_firebase_test/admin/updateEvent.dart';
-import 'package:flutter_firebase_test/admin/update_notice.dart';
 import 'package:flutter_firebase_test/dashboard.dart';
 import 'package:flutter_firebase_test/misc/colors.dart';
-import 'package:flutter_firebase_test/pages/notice_page.dart';
+import 'package:flutter_firebase_test/pages/fac.dart';
 import 'package:flutter_firebase_test/widgets/app_large_text.dart';
 import 'package:flutter_firebase_test/widgets/app_text.dart';
-import 'package:flutter_firebase_test/widgets/eventbrowser.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import 'detail_page.dart';
 import 'detail_page2.dart';
+import 'detail_page3.dart';
 //lib
 
 class HomePage extends StatefulWidget {
@@ -58,6 +49,29 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       return "null";
     }
   }
+
+  List<Map<String, dynamic>> imagesAndTexts = [
+    {
+      "imagePath": "img/1_1.png",
+      "lowerText": "SNS \nHackathon",
+      "upperText": "FOC",
+      "dotColor": Colors.green,
+    },
+    {
+      "imagePath": "img/2_1.png",
+      "lowerText": "Green Buz \n'23'",
+      "upperText": "FOB",
+      "dotColor": Colors.blue,
+      // "loweText": "Green Buz \n'23",
+      // "upperText": "FOB",
+    },
+    {
+      "imagePath": "img/1_1.png",
+      "lowerText": "Dart \nWorkshop",
+      "upperText": "FOC",
+      "dotColor": Colors.green,
+    },
+  ];
 
   //map ekak use krnw: to get different images
   var images = {
@@ -204,8 +218,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          Material(child: NoticesListWidget()),
+                                      builder: (context) => const Fac(),
                                     ),
                                   );
                                 }
@@ -213,8 +226,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          Material(child: NoticesListWidget()),
+                                      builder: (context) => const DetailPage(),
                                     ),
                                   );
                                 }
@@ -230,7 +242,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => EventBrowser(),
+                                      builder: (context) => const DetailPage2(),
                                     ),
                                   );
                                 }
@@ -341,7 +353,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         const SizedBox(
           height: 30,
         ),
-        //events bar
+
+//T events bar starts
+
         Container(
           padding: const EdgeInsets.only(left: 20),
           height: 300,
@@ -350,26 +364,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             controller: _tabController,
             children: [
               ListView.builder(
-                itemCount: 2,
+                itemCount: imagesAndTexts.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
                     onTap: () {
-                      if (index == 0) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const DetailPage(),
-                          ),
-                        );
-                      } else {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const DetailPage2(),
-                          ),
-                        );
-                      }
+                      navigateToPage(context, index);
+                      // navigate to the desired page here using Navigator.push or other methods
                     },
                     child: Container(
                       margin: const EdgeInsets.only(right: 15, top: 10),
@@ -380,19 +381,78 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         color: Colors.white,
                         image: DecorationImage(
                           image: AssetImage(
-                            "img/${images2.elementAt(index)}",
+                            imagesAndTexts[index]["imagePath"] ?? "",
                           ),
                           fit: BoxFit.cover,
                         ),
+                      ),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            top: 10,
+                            left: 10,
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 10,
+                                  height: 10,
+                                  decoration: BoxDecoration(
+                                    color: imagesAndTexts[index]["dotColor"] ?? Colors.green,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                                SizedBox(width: 5),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 5,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Color.fromRGBO(255, 255, 255, 0.8),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Text(
+                                    imagesAndTexts[index]["upperText"] ?? "",
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 155, 155, 155),
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 10,
+                            left: 10,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 5,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(255, 255, 255, 0.8),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                imagesAndTexts[index]["lowerText"] ?? "",
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   );
                 },
               ),
               InkWell(
-                onTap: () {
-                  // navigate to another page here
-                },
+                onTap: () {},
                 child: Center(
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8,
@@ -411,9 +471,38 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ],
           ),
         ),
+
+//T events bar ends
+
         //SizedBox(height: 30,),
       ],
     ));
+  }
+}
+
+void navigateToPage(BuildContext context, int index) {
+  switch (index) {
+    case 0:
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => DetailPage()),
+      );
+      break;
+    case 1:
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => DetailPage2()),
+      );
+      break;
+    case 2:
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => DetailPage3()),
+      );
+      break;
+    default:
+      // Handle other cases here
+      break;
   }
 }
 
