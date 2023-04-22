@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_firebase_test/admin/push_notification.dart';
 import 'package:flutter_firebase_test/pages/detail_page_event.dart';
 import 'package:flutter_firebase_test/pages/home_page.dart';
 import 'package:flutter_firebase_test/pages/notice_page.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
       UserData.userFaculty = user['faculty'];
       UserData.userDegree = user['degree'];
       UserData.userBatch = user['batch'];
+      UserData.userRole = user['role'];
 
       // print(userRole);
     } catch (e) {
@@ -57,8 +59,28 @@ class MyApp extends StatelessWidget {
                     return HomePage();
                   } else if (userRole == "admin") {
                     return HomePage();
+                  } else if (snapshot.hasError) {
+                    return const Scaffold(
+                      body: Center(
+                        child: SizedBox(
+                          height: 200,
+                          width: 200,
+                          child: Text(
+                              "Error Initializing the app, Please try again later or contact an admin"),
+                        ),
+                      ),
+                    );
                   } else {
-                    return AuthScreen();
+                    return const Scaffold(
+                      body: Center(
+                        child: SizedBox(
+                          height: 200,
+                          width: 200,
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                    );
+                    ;
                   }
                 });
 

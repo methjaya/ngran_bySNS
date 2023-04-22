@@ -31,6 +31,43 @@ class _AddEventState extends State<AddEvent> {
   var Edescription;
   var Eimg;
 
+  void _showdialog(String txt, BuildContext context, bool type) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        icon: type
+            ? const Icon(
+                size: 80,
+                Icons.check_circle_outline_rounded,
+                color: Colors.green,
+              )
+            : const Icon(
+                size: 80,
+                Icons.error_outline_rounded,
+                color: Colors.red,
+              ),
+        content: Text(
+          txt,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text(
+              textAlign: TextAlign.center,
+              "Close",
+              style: TextStyle(
+                fontSize: 15,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _addEventSubmit() {
     final isValidAEForm = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
@@ -46,6 +83,8 @@ class _AddEventState extends State<AddEvent> {
         "eventExpire": Timestamp.fromDate(dateTime),
         "img": Eimg
       }).onError((e, _) {
+        _showdialog(
+            "Something Went Wrong With Adding The Event", context, false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error Writing to Firebase ${e.toString()}'),
@@ -53,12 +92,7 @@ class _AddEventState extends State<AddEvent> {
           ),
         );
       }).then((value) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Record Added'),
-            duration: Duration(seconds: 1),
-          ),
-        );
+        _showdialog("Event Added", context, true);
       });
     }
 
@@ -69,96 +103,103 @@ class _AddEventState extends State<AddEvent> {
   }
 
   Future fileSelecter() async {
-    final selectedResult = await FilePicker.platform.pickFiles(
-        allowMultiple: false,
-        type: FileType.custom,
-        allowedExtensions: ['jpg', 'jpeg', 'png']);
+    try {
+      final selectedResult = await FilePicker.platform.pickFiles(
+          allowMultiple: false,
+          type: FileType.custom,
+          allowedExtensions: ['jpg', 'jpeg', 'png']);
 
-    if (selectedResult == null) {
-      return;
+      if (selectedResult == null) {
+        return;
+      }
+
+      setState(
+        () {
+          _selectedFile = selectedResult.files.first;
+        },
+      );
+      print(_selectedFile!.path);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Something Went Wrong With Selecting Image!'),
+          duration: Duration(seconds: 3),
+        ),
+      );
     }
-
-    setState(
-      () {
-        _selectedFile = selectedResult.files.first;
-      },
-    );
-    print(_selectedFile!.path);
   }
 
   //
 
   Future<String> uploadFileToFilestack() async {
-    if (_selectedFile == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please select the image first '),
-          duration: Duration(seconds: 1),
-        ),
-      );
-      return "";
-    }
     isUploaded = false;
     String fileExtensionType =
         path.extension(_selectedFile!.path!).replaceAll('.', '');
 
-    print("EXTENSION : $fileExtensionType");
+    final isValid = _formKey.currentState!.validate();
+    FocusScope.of(context).unfocus();
 
-    if ((fileExtensionType == "jpeg" ||
-            fileExtensionType == "jpg" ||
-            fileExtensionType == "png") &&
-        _selectedFile != null) {
-      List<int> imageBytes = await File(_selectedFile!.path!).readAsBytes();
+    if (isValid) {
+      print("EXTENSION : $fileExtensionType");
 
-      print("passed extension check");
+      if ((fileExtensionType == "jpeg" ||
+              fileExtensionType == "jpg" ||
+              fileExtensionType == "png") &&
+          _selectedFile != null) {
+        List<int> imageBytes = await File(_selectedFile!.path!).readAsBytes();
 
-      // Send the binary data to Filestack API
-      final response = await http.post(
-          Uri.parse(
-              'https://www.filestackapi.com/api/store/S3?key=AgQ54ULwmQrOkb0OkzeVYz'),
-          headers: {
-            'Content-Type': 'image/$fileExtensionType',
-          },
-          body: imageBytes);
+        print("passed extension check");
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Uploading Image'),
-          duration: Duration(seconds: 1),
-        ),
-      );
+        // Send the binary data to Filestack API
+        final response = await http.post(
+            Uri.parse(
+                'https://www.filestackapi.com/api/store/S3?key=AgQ54ULwmQrOkb0OkzeVYz'),
+            headers: {
+              'Content-Type': 'image/$fileExtensionType',
+            },
+            body: imageBytes);
 
-      // Check the response and return the download URL
-      if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Image uploaded successfully'),
+            content: Text('Uploading Image'),
             duration: Duration(seconds: 1),
           ),
         );
-        final responseData = json.decode(response.body);
-        setState(() {
-          isUploaded = true;
-        });
-        return responseData['url'];
+
+        // Check the response and return the download URL
+        if (response.statusCode == 200) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Image uploaded successfully'),
+              duration: Duration(seconds: 1),
+            ),
+          );
+          final responseData = json.decode(response.body);
+          setState(() {
+            isUploaded = true;
+          });
+          return responseData['url'];
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content:
+                  Text('Failed to upload file to CDN: ${response.statusCode}'),
+              duration: const Duration(seconds: 1),
+            ),
+          );
+          throw Exception(
+              'Failed to upload file to Filestack: ${response.statusCode}');
+        }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content:
-                Text('Failed to upload file to CDN: ${response.statusCode}'),
-            duration: const Duration(seconds: 1),
+          const SnackBar(
+            content: Text('Invalid File Type'),
+            duration: Duration(seconds: 1),
           ),
         );
-        throw Exception(
-            'Failed to upload file to Filestack: ${response.statusCode}');
+        return "";
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Invalid File Type'),
-          duration: Duration(seconds: 1),
-        ),
-      );
       return "";
     }
   }
@@ -174,6 +215,105 @@ class _AddEventState extends State<AddEvent> {
           child: Form(
             key: _formKey,
             child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+              const Center(
+                child: Text("--Add Events--",
+                    style:
+                        TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+              ),
+              Container(
+                margin: const EdgeInsets.fromLTRB(0, 30, 0, 14),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(5.0),
+                  ),
+                ),
+                padding: const EdgeInsets.all(14),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Event Expire",
+                        style: TextStyle(fontSize: 18, color: Colors.cyan[900]),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.cyan[900]),
+                              child: Builder(
+                                builder: (context) {
+                                  return Text(isSelected
+                                      ? '${dateTime.year}/${dateTime.month}/${dateTime.day}'
+                                      : "");
+                                },
+                              ),
+                              onPressed: () async {
+                                final date = await datePick();
+
+                                if (date == null) return;
+
+                                final dateTimeNew = DateTime(
+                                    date.year,
+                                    date.month,
+                                    date.day,
+                                    dateTime.hour,
+                                    dateTime.minute);
+
+                                print(dateTime);
+
+                                setState(
+                                  () {
+                                    isSelected = true;
+                                    dateTime = dateTimeNew;
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 14,
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.cyan[900]),
+                              child: Text('$hours : $minutes'),
+                              onPressed: () async {
+                                final time = await timePick();
+
+                                if (time == null) return;
+
+                                final dateTimeNew = DateTime(
+                                    dateTime.year,
+                                    dateTime.month,
+                                    dateTime.day,
+                                    time.hour,
+                                    time.minute);
+
+                                print(dateTime);
+
+                                setState(() {
+                                  dateTime = dateTimeNew;
+                                });
+
+                                print(dateTime);
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               TextFormField(
                 key: const ValueKey("name"),
                 validator: (value) {
@@ -255,89 +395,6 @@ class _AddEventState extends State<AddEvent> {
               const SizedBox(
                 height: 12,
               ),
-              Container(
-                padding: const EdgeInsets.all(14),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "DateTime Picker",
-                        style: TextStyle(fontSize: 28),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: ElevatedButton(
-                              child: Builder(
-                                builder: (context) {
-                                  return Text(isSelected
-                                      ? '${dateTime.year}/${dateTime.month}/${dateTime.day}'
-                                      : "");
-                                },
-                              ),
-                              onPressed: () async {
-                                final date = await datePick();
-
-                                if (date == null) return;
-
-                                final dateTimeNew = DateTime(
-                                    date.year,
-                                    date.month,
-                                    date.day,
-                                    dateTime.hour,
-                                    dateTime.minute);
-
-                                print(dateTime);
-
-                                setState(
-                                  () {
-                                    isSelected = true;
-                                    dateTime = dateTimeNew;
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 14,
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: ElevatedButton(
-                              child: Text('$hours : $minutes'),
-                              onPressed: () async {
-                                final time = await timePick();
-
-                                if (time == null) return;
-
-                                final dateTimeNew = DateTime(
-                                    dateTime.year,
-                                    dateTime.month,
-                                    dateTime.day,
-                                    time.hour,
-                                    time.minute);
-
-                                print(dateTime);
-
-                                setState(() {
-                                  dateTime = dateTimeNew;
-                                });
-
-                                print(dateTime);
-                              },
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
               Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -347,20 +404,40 @@ class _AddEventState extends State<AddEvent> {
                         color: Colors.green[50],
                         child: Image.file(
                           File(_selectedFile!.path!),
-                          width: double.infinity,
+                          width: double.maxFinite,
                           height: 200,
                           fit: BoxFit.cover,
                         ),
                       ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
                     ElevatedButton(
                       child: const Text("Select Image"),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue[800]),
                       onPressed: () async {
                         fileSelecter();
                       },
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(width: 25),
                     ElevatedButton(
                       onPressed: () async {
+                        if (_selectedFile == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Please select the image first '),
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
+                        }
                         if (isUploaded != true) {
                           if (isReady == true) {
                             isReady = false;
@@ -378,7 +455,7 @@ class _AddEventState extends State<AddEvent> {
                     ),
                   ],
                 ),
-              ),
+              )
             ]),
           ),
         ),

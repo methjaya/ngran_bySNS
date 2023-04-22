@@ -45,6 +45,8 @@ dependencies:
   firebase_storage: ^11.1.0
   firebase_app_check: ^0.1.2
   http: ^0.13.3
+  mailer: ^6.0.1
+
 
 dev_dependencies:
   flutter_test:
@@ -84,6 +86,7 @@ flutter:
      #- img/login.png
      - img/login.png
      - img/button-one.png
+     - assets/images/waiting.png
      
      - img/faculty.png
      - img/notices.png

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
   final bool isLoading;
+  final int isError;
   final void Function(
     String email,
     String password,
@@ -21,7 +22,7 @@ class AuthForm extends StatefulWidget {
     String dropDownValB,
   ) submitFn;
 
-  AuthForm(this.submitFn, this.isLoading);
+  const AuthForm(this.submitFn, this.isLoading, this.isError, {super.key});
 
   @override
   State<AuthForm> createState() => _AuthFormState();
@@ -313,7 +314,25 @@ class _AuthFormState extends State<AuthForm> {
                   if (widget.isLoading) const CircularProgressIndicator(),
                   if (!widget.isLoading)
                     ElevatedButton(
-                      onPressed: _fSubmit,
+                      onPressed: () {
+                        _fSubmit();
+                        if (widget.isError == 1) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content:
+                                  Text('Login Error : Check Your Credentials'),
+                              duration: Duration(seconds: 4),
+                            ),
+                          );
+                        } else if (widget.isError == 2) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Unidentified Error Occured'),
+                              duration: Duration(seconds: 4),
+                            ),
+                          );
+                        }
+                      },
                       child: Text(_isLogin ? 'Login' : 'Sign up'),
                     ),
                   if (!widget.isLoading)
@@ -326,7 +345,7 @@ class _AuthFormState extends State<AuthForm> {
                       child: Text(_isLogin
                           ? 'Create New Account'
                           : 'I already have an account'),
-                    )
+                    ),
                 ],
               ),
             ),

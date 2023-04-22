@@ -31,6 +31,43 @@ class _UpdateNoticeState extends State<UpdateNotice> {
   TextEditingController _textEditingController3 =
       TextEditingController(text: "");
 
+  void _showdialog(String txt, BuildContext context, bool type) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        icon: type
+            ? const Icon(
+                size: 80,
+                Icons.check_circle_outline_rounded,
+                color: Colors.green,
+              )
+            : const Icon(
+                size: 80,
+                Icons.error_outline_rounded,
+                color: Colors.red,
+              ),
+        content: Text(
+          txt,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text(
+              textAlign: TextAlign.center,
+              "Close",
+              style: TextStyle(
+                fontSize: 15,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _fetchOptions() async {
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection("notices").get();
@@ -84,21 +121,11 @@ class _UpdateNoticeState extends State<UpdateNotice> {
         "expireDate": Timestamp.fromDate(dateTime),
         "groups": _selectedGroups
       }).onError((e, _) {
+        _showdialog(
+            "Something Went Wrong With Updating The Noitce", context, false);
         print("Error writing document: $e");
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error writing document: $e'),
-            duration: const Duration(seconds: 1),
-          ),
-        );
       }).then((value) {
-        print("record updated");
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Record Updated'),
-            duration: Duration(seconds: 1),
-          ),
-        );
+        _showdialog("Notice Updated Succussfully", context, true);
       });
     }
 
@@ -114,20 +141,11 @@ class _UpdateNoticeState extends State<UpdateNotice> {
         .delete()
         .onError((e, _) {
       print("Error Deleting document: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error Deleting Document: $e'),
-          duration: const Duration(seconds: 3),
-        ),
-      );
+      _showdialog(
+          "Something Went Wrong With Deleting The Noitce", context, false);
     }).then((value) {
       print("record deleted");
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Notice Deleted'),
-          duration: Duration(seconds: 2),
-        ),
-      );
+      _showdialog("Noitce Deleted!", context, false);
     });
   }
 
@@ -144,13 +162,21 @@ class _UpdateNoticeState extends State<UpdateNotice> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                const Center(
+                  child: Text("--Update Events--",
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
                 ElevatedButton(
                   onPressed: () {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: const Text('Select options'),
+                          title: const Text('Select Groups'),
                           content: const CheckboxListTileGroupsUpdate(),
                           actions: <Widget>[
                             TextButton(
@@ -166,7 +192,7 @@ class _UpdateNoticeState extends State<UpdateNotice> {
                           _selectedGroups;
                         }));
                   },
-                  child: const Text('Select options'),
+                  child: const Text('Select Groups'),
                 ),
                 Flexible(
                   child: Text(_selectedGroups.toString()),
@@ -175,25 +201,37 @@ class _UpdateNoticeState extends State<UpdateNotice> {
                   height: 20,
                 ),
                 Container(
-                  padding: const EdgeInsets.all(50),
+                  width: double.maxFinite,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(5.0),
+                    ),
+                  ),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Text(
-                        'Select an option:',
+                        'Select a Notice:',
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
+                      const SizedBox(height: 5),
                       Text(
                         _selectedOption,
                         style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                            fontSize: 14, fontWeight: FontWeight.w500),
                       ),
                       const SizedBox(height: 10),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: CupertinoButton.filled(
-                            child: const Text("Open Picker"),
+                            child: const Text(
+                              "Notices",
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
                             onPressed: () {
                               scrollController.dispose();
                               scrollController = FixedExtentScrollController(
@@ -207,6 +245,104 @@ class _UpdateNoticeState extends State<UpdateNotice> {
                       ),
                     ],
                   ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(5.0),
+                    ),
+                  ),
+                  padding: const EdgeInsets.all(14),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Notice Expire",
+                          style:
+                              TextStyle(fontSize: 18, color: Colors.cyan[900]),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.cyan[900]),
+                                child: Builder(
+                                  builder: (context) {
+                                    return Text(
+                                        '${dateTime.year}/${dateTime.month}/${dateTime.day}');
+                                  },
+                                ),
+                                onPressed: () async {
+                                  final date = await datePick();
+
+                                  if (date == null) return;
+
+                                  final dateTimeNew = DateTime(
+                                      date.year,
+                                      date.month,
+                                      date.day,
+                                      dateTime.hour,
+                                      dateTime.minute);
+
+                                  print(dateTime);
+
+                                  setState(
+                                    () {
+                                      dateTime = dateTimeNew;
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 14,
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.cyan[900]),
+                                child: Text('$hours : $minutes'),
+                                onPressed: () async {
+                                  final time = await timePick();
+
+                                  if (time == null) return;
+
+                                  final dateTimeNew = DateTime(
+                                      dateTime.year,
+                                      dateTime.month,
+                                      dateTime.day,
+                                      time.hour,
+                                      time.minute);
+
+                                  print(dateTime);
+
+                                  setState(() {
+                                    dateTime = dateTimeNew;
+                                  });
+
+                                  print(dateTime);
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
                 ),
                 TextFormField(
                   controller: _textEditingController1,
@@ -278,146 +414,83 @@ class _UpdateNoticeState extends State<UpdateNotice> {
                     border: OutlineInputBorder(),
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.all(14),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "DateTime Picker",
-                          style: TextStyle(fontSize: 28),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: ElevatedButton(
-                                child: Builder(
-                                  builder: (context) {
-                                    return Text(
-                                        '${dateTime.year}/${dateTime.month}/${dateTime.day}');
-                                  },
-                                ),
-                                onPressed: () async {
-                                  final date = await datePick();
-
-                                  if (date == null) return;
-
-                                  final dateTimeNew = DateTime(
-                                      date.year,
-                                      date.month,
-                                      date.day,
-                                      dateTime.hour,
-                                      dateTime.minute);
-
-                                  print(dateTime);
-
-                                  setState(
-                                    () {
-                                      dateTime = dateTimeNew;
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 14,
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: ElevatedButton(
-                                child: Text('$hours : $minutes'),
-                                onPressed: () async {
-                                  final time = await timePick();
-
-                                  if (time == null) return;
-
-                                  final dateTimeNew = DateTime(
-                                      dateTime.year,
-                                      dateTime.month,
-                                      dateTime.day,
-                                      time.hour,
-                                      time.minute);
-
-                                  print(dateTime);
-
-                                  setState(() {
-                                    dateTime = dateTimeNew;
-                                  });
-
-                                  print(dateTime);
-                                },
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
                 const SizedBox(
                   height: 12,
                 ),
-                ElevatedButton(
-                  onPressed: _updateNoticeSubmit,
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(180, 45)),
-                  child: const Text("Update Notice"),
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  onLongPress: () {
-                    if (_options.isNotEmpty) {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: const Text("Delete Notice"),
-                          content: const Text(
-                              "Are you sure you want to delete the selected Notice?"),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                _deleteNoticeSubmit();
-                                Navigator.pop(context);
-                              },
-                              child: const Text(
-                                "Yes",
-                                style: TextStyle(fontSize: 15),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text(
-                                "No",
-                                style:
-                                    TextStyle(fontSize: 15, color: Colors.red),
-                              ),
-                            ),
-                          ],
+                Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(5.0),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: ElevatedButton(
+                          onPressed: _updateNoticeSubmit,
+                          child: const Text("Update Notice"),
                         ),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('There are no notices'),
-                          duration: Duration(seconds: 1),
+                      ),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          onLongPress: () {
+                            if (_options.isNotEmpty) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text("Delete Notice"),
+                                  content: const Text(
+                                      "Are you sure you want to delete the selected Notice?"),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        _deleteNoticeSubmit();
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text(
+                                        "Yes",
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text(
+                                        "No",
+                                        style: TextStyle(
+                                            fontSize: 15, color: Colors.red),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('There are no notices'),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                          ),
+                          child: const Text("Delete Notice"),
                         ),
-                      );
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.red, minimumSize: const Size(75, 40)),
-                  child: const Text("Delete Notice"),
-                ),
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           ),

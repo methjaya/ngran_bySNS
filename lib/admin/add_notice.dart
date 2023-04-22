@@ -21,6 +21,43 @@ class _AddNoticeState extends State<AddNotice> {
   var noticeSummary;
   var noticeDescription;
 
+  void _showdialog(String txt, BuildContext context, bool type) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        icon: type
+            ? const Icon(
+                size: 80,
+                Icons.check_circle_outline_rounded,
+                color: Colors.green,
+              )
+            : const Icon(
+                size: 80,
+                Icons.error_outline_rounded,
+                color: Colors.red,
+              ),
+        content: Text(
+          txt,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text(
+              textAlign: TextAlign.center,
+              "Close",
+              style: TextStyle(
+                fontSize: 15,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _addNoticeSubmit() {
     final isValidANForm = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
@@ -40,8 +77,10 @@ class _AddNoticeState extends State<AddNotice> {
             "noticeExpire": Timestamp.fromDate(dateTime),
             "groups": _selectedOptions
           })
-          .onError((e, _) => print("Error writing document: $e"))
-          .then((value) => print("record added"));
+          .onError((e, _) => _showdialog(
+              "Something Went Wrong With Adding The Noitce", context, false))
+          .then((value) =>
+              _showdialog("Notice Added Succussfully", context, true));
     }
     if (dateTime.day == DateTime.now().day) {
       print('Please Select An Valid Expire Date For The Notice.');
@@ -74,181 +113,217 @@ class _AddNoticeState extends State<AddNotice> {
           padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
           child: Form(
             key: _formKey,
-            child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-              ElevatedButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        backgroundColor: Colors.white,
-                        title: const Text('Select options'),
-                        content: CheckboxListTileGroups(),
-                        actions: <Widget>[
-                          TextButton(
-                            child: const Text('CLOSE'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  ).then((value) => setState(() {
-                        _selectedOptions;
-                      }));
-                },
-                child: const Text('Select options'),
-              ),
-              Flexible(
-                child: Text(_selectedOptions.toString()),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                key: const ValueKey("Ntitle"),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Title cannot be empty";
-                  } else {
-                    return null;
-                  }
-                },
-                onSaved: (newValue) {
-                  noticeTitle = newValue!;
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Notice Title',
-                  border: OutlineInputBorder(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                const Center(
+                  child: Text("--Add Noticess--",
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
                 ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              TextFormField(
-                key: const ValueKey("Nsummary"),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Notice Summary cannot be empty";
-                  } else {
-                    return null;
-                  }
-                },
-                onSaved: (newValue) {
-                  noticeSummary = newValue!;
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Notice Summary',
-                  border: OutlineInputBorder(),
+                const SizedBox(
+                  height: 25,
                 ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              TextFormField(
-                maxLines: null,
-                key: const ValueKey("Ndescription"),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Notice Description cannot be empty";
-                  } else {
-                    return null;
-                  }
-                },
-                onSaved: (newValue) {
-                  noticeDescription = newValue!;
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Notice Description',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(14),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "DateTime Picker",
-                        style: TextStyle(fontSize: 28),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: ElevatedButton(
-                              child: Builder(
-                                builder: (context) {
-                                  return Text(isSelected
-                                      ? '${dateTime.year}/${dateTime.month}/${dateTime.day}'
-                                      : "");
-                                },
-                              ),
-                              onPressed: () async {
-                                final date = await datePick();
-
-                                if (date == null) return;
-
-                                final dateTimeNew = DateTime(
-                                    date.year,
-                                    date.month,
-                                    date.day,
-                                    dateTime.hour,
-                                    dateTime.minute);
-
-                                setState(
-                                  () {
-                                    isSelected = true;
-                                    dateTime = dateTimeNew;
-                                  },
-                                );
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue[800]),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          backgroundColor: Colors.white,
+                          title: const Text('Select Groups'),
+                          content: CheckboxListTileGroups(),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('CLOSE'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
                               },
                             ),
-                          ),
-                          const SizedBox(
-                            width: 14,
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: ElevatedButton(
-                              child: Text('$hours : $minutes'),
-                              onPressed: () async {
-                                final time = await timePick();
-
-                                if (time == null) return;
-
-                                final dateTimeNew = DateTime(
-                                    dateTime.year,
-                                    dateTime.month,
-                                    dateTime.day,
-                                    time.hour,
-                                    time.minute);
-
-                                setState(() {
-                                  dateTime = dateTimeNew;
-                                });
-                              },
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
+                          ],
+                        );
+                      },
+                    ).then((value) => setState(() {
+                          _selectedOptions;
+                        }));
+                  },
+                  child: const Text('Select Groups'),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Flexible(
+                  child: Text(_selectedOptions.toString()),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  key: const ValueKey("Ntitle"),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Title cannot be empty";
+                    } else {
+                      return null;
+                    }
+                  },
+                  onSaved: (newValue) {
+                    noticeTitle = newValue!;
+                  },
+                  decoration: const InputDecoration(
+                    labelText: 'Notice Title',
+                    border: OutlineInputBorder(),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              ElevatedButton(
-                onPressed: _addNoticeSubmit,
-                child: const Text("Add Event"),
-              ),
-            ]),
+                const SizedBox(
+                  height: 15,
+                ),
+                TextFormField(
+                  key: const ValueKey("Nsummary"),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Notice Summary cannot be empty";
+                    } else {
+                      return null;
+                    }
+                  },
+                  onSaved: (newValue) {
+                    noticeSummary = newValue!;
+                  },
+                  decoration: const InputDecoration(
+                    labelText: 'Notice Summary',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                TextFormField(
+                  maxLines: null,
+                  key: const ValueKey("Ndescription"),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Notice Description cannot be empty";
+                    } else {
+                      return null;
+                    }
+                  },
+                  onSaved: (newValue) {
+                    noticeDescription = newValue!;
+                  },
+                  decoration: const InputDecoration(
+                    labelText: 'Notice Description',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(
+                  height: 18,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(5.0),
+                    ),
+                  ),
+                  padding: const EdgeInsets.all(14),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Notice Expire",
+                          style:
+                              TextStyle(fontSize: 18, color: Colors.cyan[900]),
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.cyan[900]),
+                                child: Builder(
+                                  builder: (context) {
+                                    return Text(isSelected
+                                        ? '${dateTime.year}/${dateTime.month}/${dateTime.day}'
+                                        : "");
+                                  },
+                                ),
+                                onPressed: () async {
+                                  final date = await datePick();
+
+                                  if (date == null) return;
+
+                                  final dateTimeNew = DateTime(
+                                      date.year,
+                                      date.month,
+                                      date.day,
+                                      dateTime.hour,
+                                      dateTime.minute);
+
+                                  setState(
+                                    () {
+                                      isSelected = true;
+                                      dateTime = dateTimeNew;
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 14,
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.cyan[900]),
+                                child: Text('$hours : $minutes'),
+                                onPressed: () async {
+                                  final time = await timePick();
+
+                                  if (time == null) return;
+
+                                  final dateTimeNew = DateTime(
+                                      dateTime.year,
+                                      dateTime.month,
+                                      dateTime.day,
+                                      time.hour,
+                                      time.minute);
+
+                                  setState(
+                                    () {
+                                      dateTime = dateTimeNew;
+                                    },
+                                  );
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                ElevatedButton(
+                  onPressed: _addNoticeSubmit,
+                  child: const Text("Add Notice"),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+              ],
+            ),
           ),
         ),
       ),
