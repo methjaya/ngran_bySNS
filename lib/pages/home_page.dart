@@ -250,7 +250,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const DetailPage2(),
+                                                      const TimeTable(),
                                                 ),
                                               );
                                             }
