@@ -198,7 +198,7 @@ class _DetailPageState3 extends State<DetailPage3>
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    for (int index = 0; index < 5; index++)
+                    for (int index = 0; index < 4; index++)
                       Container(
                         margin: EdgeInsets.only(right: spacing),
                         child: Column(

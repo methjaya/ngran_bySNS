@@ -157,7 +157,7 @@ class _DetailPageState2 extends State<DetailPage2>
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               AppText(
-                                text: "Renewing the Touch of Business ",
+                                text: "Renewing the Touch of Business.\n\nA comprehensive training program designed \nto help individuals and organizations improve \ntheir overall management skills and enhance \ntheir business performance.",
                                 color: AppColors.mainTextColor,
                               ),
                               SizedBox(
@@ -197,7 +197,7 @@ class _DetailPageState2 extends State<DetailPage2>
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    for (int index = 0; index < 5; index++)
+                                    for (int index = 0; index <4; index++)
                                       Container(
                                         margin: EdgeInsets.only(right: spacing),
                                         child: Column(
