@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
+
 class RegisterAdmin extends StatefulWidget {
   const RegisterAdmin({super.key});
 
@@ -25,6 +28,44 @@ class _RegisterAdminState extends State<RegisterAdmin> {
   String _nic = '';
   int _phNo = 0;
 
+  Future sendMail() async {
+    final smtpServer = gmail('dev.mailsender8@gmail.com', 'tusuznpycmbkypzg');
+
+    final message = Message()
+      ..from = const Address('dev.mail.sender8@gmail.com')
+      ..recipients.add(_email)
+      ..subject = 'Ngram Account Creation'
+      ..text =
+          'Your Ngram Admin account has been created successfully. Use $_password as your login password. ';
+
+    try {
+      final sendReport = await send(message, smtpServer);
+      print('Login Credential Email Sent Succussfully');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Login Credential Email Sent Succussfully'),
+          duration: Duration(seconds: 5),
+        ),
+      );
+    } on MailerException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to Send Login Credential Email ${e.message}'),
+          duration: const Duration(seconds: 4),
+        ),
+      );
+      print('Message not sent.');
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Failed to Send Login Credential Email'),
+          duration: Duration(seconds: 4),
+        ),
+      );
+      print('Message not sent. another exception');
+    }
+  }
+
   void _showdialog(String txt, BuildContext context, bool type) {
     showDialog(
       context: context,
@@ -42,7 +83,7 @@ class _RegisterAdminState extends State<RegisterAdmin> {
               ),
         content: Text(
           txt,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
           TextButton(
@@ -63,6 +104,9 @@ class _RegisterAdminState extends State<RegisterAdmin> {
   }
 
   void _addUserDetails(String uid) async {
+    final isValid = _formKey.currentState!.validate();
+    FocusScope.of(context).unfocus();
+
     await FirebaseFirestore.instance.collection("users").doc(uid).set(
       {
         'uid': uid,
@@ -71,7 +115,7 @@ class _RegisterAdminState extends State<RegisterAdmin> {
         "nic": _nic,
         "phoneNumber": _phNo,
         "email": _email,
-        "role": 'Admin'
+        "role": 'admin'
       },
     ).onError((e, _) {
       _showdialog("Error Creating Document: $e", context, false);
@@ -79,7 +123,7 @@ class _RegisterAdminState extends State<RegisterAdmin> {
     }).then(
       (value) {
         print("record updated");
-        _showdialog("User Details Added Successfully", context, true);
+        _showdialog("Admin User Details Added Successfully", context, true);
       },
     );
   }
@@ -100,7 +144,7 @@ class _RegisterAdminState extends State<RegisterAdmin> {
       print('User ${userCredential.user!.uid} created successfully.');
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('User Succussfully Registered'),
+          content: Text('Admin Succussfully Registered'),
           duration: Duration(seconds: 4),
         ),
       );
@@ -108,6 +152,8 @@ class _RegisterAdminState extends State<RegisterAdmin> {
       _addUserDetails(
         _uid,
       );
+
+      await sendMail();
 
       await firebaseApp.delete();
     } on FirebaseAuthException catch (e) {
@@ -129,7 +175,7 @@ class _RegisterAdminState extends State<RegisterAdmin> {
         print('The account already exists for that email.');
       }
     } catch (e) {
-      _showdialog('Error creating user: $e', context, false);
+      _showdialog('Error creating Admin: $e', context, false);
       print('Error creating user: $e');
     }
   }
@@ -173,6 +219,14 @@ class _RegisterAdminState extends State<RegisterAdmin> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
+                      const Center(
+                        child: Text("--Register Admins--",
+                            style: TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.bold)),
+                      ),
+                      const SizedBox(
+                        height: 25,
+                      ),
                       TextFormField(
                         key: const ValueKey("email"),
                         validator: (value) {
@@ -271,7 +325,7 @@ class _RegisterAdminState extends State<RegisterAdmin> {
                         onPressed: () {
                           _fSubmit();
                         },
-                        child: const Text('Sign up'),
+                        child: const Text('Sign Up Admin'),
                       ),
                     ],
                   ),

@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:http/http.dart' as http;
 
 class EditUserDetails extends StatefulWidget {
   const EditUserDetails({super.key});
@@ -223,6 +226,14 @@ class _EditUserDetailsState extends State<EditUserDetails> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
+                    const Center(
+                      child: Text("--Update Details--",
+                          style: TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold)),
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
                     TextFormField(
                       controller: _txtControllerUname,
                       key: const ValueKey("EUname"),

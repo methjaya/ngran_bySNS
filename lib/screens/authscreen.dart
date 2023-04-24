@@ -16,6 +16,7 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   final _auth = FirebaseAuth.instance;
   var _isLoading = false;
+  int isError = 0;
 
   void _submitAuthForm(
     String email,
@@ -61,31 +62,21 @@ class _AuthScreenState extends State<AuthScreen> {
           'faculty': dropDownValF,
           'degree': dropDownValD,
           'batch': dropDownValB,
+          'role': "student"
         });
       }
     } on PlatformException catch (e) {
-      var message = "Error occurred, Check your credentails";
-
-      if (e.message != null) {
-        message = e.message!;
-      }
-
-      ScaffoldMessenger.of(ctx).showSnackBar(
-        const SnackBar(
-          content: Text("zzzz"),
-          backgroundColor: Colors.red,
-        ),
-      );
-
       setState(() {
         _isLoading = false;
+        isError = 1;
       });
 
-      print(message);
+      print(e.message);
     } catch (e) {
       print(e);
       setState(() {
         _isLoading = false;
+        isError = 2;
       });
     }
   }
@@ -105,8 +96,8 @@ class _AuthScreenState extends State<AuthScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        child:
-            AuthForm(_submitAuthForm, _isLoading), /* add child content here */
+        child: AuthForm(
+            _submitAuthForm, _isLoading, isError), /* add child content here */
       ),
     );
   }

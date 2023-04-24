@@ -11,93 +11,146 @@ class NoticesListWidget extends StatefulWidget {
 class _NoticesListWidgetState extends State<NoticesListWidget> {
   List<Map<String, dynamic>> eventData = [];
 
-  Future<void> getDataWithWhereClause() async {
-    try {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection("notices")
-          .where("noticeExpire", isGreaterThanOrEqualTo: Timestamp.now())
-          .where(
-        "groups",
-        arrayContainsAny: [
-          UserData.userFaculty,
-          UserData.userDegree,
-          UserData.userBatch
-        ],
-      ).get();
-      if (querySnapshot.docs.isEmpty) {
-        print("empty");
-      } else {
-        print("not empty");
+  Future<void> getUserData() async {
+    if (UserData.userRole == "student") {
+      try {
+        QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+            .collection("notices")
+            .where("noticeExpire", isGreaterThanOrEqualTo: Timestamp.now())
+            .where(
+          "groups",
+          arrayContainsAny: [
+            UserData.userFaculty,
+            UserData.userDegree,
+            UserData.userBatch
+          ],
+        ).get();
+        if (querySnapshot.docs.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('There Are No Notices'),
+              duration: Duration(seconds: 4),
+            ),
+          );
+        }
+        for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+          eventData.add(doc.data() as Map<String, dynamic>);
+        }
+      } catch (e) {
+        print(e.toString());
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Error Getting Notice Data'),
+            duration: Duration(seconds: 60),
+          ),
+        );
       }
-      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
-        eventData.add(doc.data() as Map<String, dynamic>);
+    } else {
+      try {
+        QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+            .collection("notices")
+            .where("noticeExpire", isGreaterThanOrEqualTo: Timestamp.now())
+            .get();
+
+        if (querySnapshot.docs.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('There Are No Notices'),
+              duration: Duration(seconds: 4),
+            ),
+          );
+        }
+
+        for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+          eventData.add(doc.data() as Map<String, dynamic>);
+        }
+      } catch (e) {
+        print(e.toString());
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Error Getting Notice Data'),
+            duration: Duration(seconds: 60),
+          ),
+        );
       }
-      print(UserData.userFaculty);
-      print(UserData.userDegree);
-      print(UserData.userBatch);
-      print("Length is : ${eventData.length}" + "TIME IS : ${Timestamp.now()}");
-    } catch (e) {
-      print(e);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error Getting Data : ${e.toString()}'),
-          duration: const Duration(seconds: 3),
-        ),
-      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getDataWithWhereClause(),
+      future: getUserData(),
       builder: (context, snapshot) {
-        return ListView.builder(
-          itemCount: eventData.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                onTap: () {
-                  // Handle click event here
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => NoticeWidget(
-                          eventData[index]['title'].toString(),
-                          eventData[index]['description'].toString()),
-                    ),
-                  );
-                },
-                child: Card(
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          eventData[index]['title'],
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
+        return Scaffold(
+          appBar: AppBar(
+            foregroundColor: Colors.black,
+            backgroundColor: Colors.green[100],
+            title: const Text("Notices"),
+          ),
+          body: ListView.builder(
+            itemCount: eventData.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text(eventData[index]['title']),
+                        content: Flexible(
+                          child: Text(
+                            eventData[index]['description'].toString(),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        Text(
-                          eventData[index]['summary'].toString(),
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      ],
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              textAlign: TextAlign.center,
+                              "Close",
+                              style: TextStyle(
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  child: Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            eventData[index]['title'],
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            eventData[index]['summary'].toString(),
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         );
       },
     );

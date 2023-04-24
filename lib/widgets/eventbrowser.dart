@@ -12,15 +12,18 @@ class _EventBrowserState extends State<EventBrowser> {
     try {
       var eventData = await FirebaseFirestore.instance
           .collection("events")
-          // .where("eventExpire", isGreaterThanOrEqualTo: Timestamp.now())
+          .where("eventExpire", isGreaterThanOrEqualTo: Timestamp.now())
           .get();
-      // print(uname1['firstName']);
-
-      print("TimeStamp Now :  ${Timestamp.now()}");
 
       for (int x = 0; x < eventData.docs.length; x++) {
-        print(
-            "Firebase TimeStamp of ${eventData.docs[x]['name'].toString()} :  ${eventData.docs[x]['eventExpire'].toString()}");
+        if (eventData.docs.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('There Are No Events'),
+              duration: Duration(seconds: 4),
+            ),
+          );
+        }
         events.add(
           Event(
             image: eventData.docs[x]['img'].toString(),
@@ -32,7 +35,12 @@ class _EventBrowserState extends State<EventBrowser> {
         );
       }
     } catch (e) {
-      print(e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('An Error Occurred When Getting Event Data'),
+          duration: Duration(seconds: 4),
+        ),
+      );
     }
   }
 
@@ -45,6 +53,8 @@ class _EventBrowserState extends State<EventBrowser> {
         builder: (context, snapshot) {
           return Scaffold(
             appBar: AppBar(
+              foregroundColor: Colors.black,
+              backgroundColor: Colors.green[100],
               title: const Text("Events"),
             ),
             body: Center(
