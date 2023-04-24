@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_test/admin/addEvent.dart';
+import 'package:flutter_firebase_test/admin/add_notice.dart';
+import 'package:flutter_firebase_test/admin/updateEvent.dart';
+import 'package:flutter_firebase_test/admin/update_notice.dart';
 import 'package:flutter_firebase_test/component/appBarActionItems.dart';
 import 'package:flutter_firebase_test/component/barChart.dart';
 import 'package:flutter_firebase_test/component/header.dart';
@@ -20,7 +24,6 @@ class Dashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      
       // key: _drawerKey,
       // drawer: SizedBox(width: 100, child: SideMenu()),
       // appBar: !Responsive.isDesktop(context)
@@ -36,7 +39,7 @@ class Dashboard extends StatelessWidget {
       //           AppBarActionItems(),
       //         ],
       //       )
-            
+
       //     : PreferredSize(
       //         preferredSize: Size.zero,
       //         child: SizedBox(),
@@ -50,9 +53,7 @@ class Dashboard extends StatelessWidget {
                 flex: 1,
                 child: SideMenu(),
               ),
-            
             Expanded(
-              
                 flex: 10,
                 child: SafeArea(
                   child: SingleChildScrollView(
@@ -73,61 +74,56 @@ class Dashboard extends StatelessWidget {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const DetailPage(),
-                                  ),
-                                );
-                              },
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const AddEvent(),
+                                    ),
+                                  );
+                                },
                                 child: InfoCard(
                                     icon: 'assets/add.svg',
                                     label: 'Add an \nEvent',
                                     amount: '\Add'),
                               ),
-
-
                               GestureDetector(
                                 onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const DetailPage2(),
-                                  ),
-                                );
-                              },
-
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const UpdateEvent(),
+                                    ),
+                                  );
+                                },
                                 child: InfoCard(
                                     icon: 'assets/edit.svg',
                                     label: 'Edit/Remove \nanEvent',
                                     amount: '\Edit'),
                               ),
-
-
                               GestureDetector(
                                 onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const DetailPage(),
-                                  ),
-                                );
-                              },
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const AddNotice(),
+                                    ),
+                                  );
+                                },
                                 child: InfoCard(
                                     icon: 'assets/add2.svg',
                                     label: 'Add Special \nNotices',
                                     amount: '\Add'),
                               ),
-
                               GestureDetector(
                                 onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const DetailPage(),
-                                  ),
-                                );
-                              },
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const UpdateNotice(),
+                                    ),
+                                  );
+                                },
                                 child: InfoCard(
                                     icon: 'assets/edit2.svg',
                                     label: 'Edit/Remove \nSpecial Notices',
@@ -135,13 +131,13 @@ class Dashboard extends StatelessWidget {
                               ),
                               GestureDetector(
                                 onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const DetailPage2(),
-                                  ),
-                                );
-                              },
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const DetailPage2(),
+                                    ),
+                                  );
+                                },
                                 child: InfoCard(
                                     icon: 'assets/timetable2.svg',
                                     label: 'Timetable \nUpdation',
@@ -206,7 +202,6 @@ class Dashboard extends StatelessWidget {
                         //   ],
                         // ),
                         // r
-                        
                       ],
                     ),
                   ),

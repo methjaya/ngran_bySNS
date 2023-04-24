@@ -16,6 +16,7 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   final _auth = FirebaseAuth.instance;
   var _isLoading = false;
+  int isError = 0;
 
   void _submitAuthForm(
     String email,
@@ -54,38 +55,28 @@ class _AuthScreenState extends State<AuthScreen> {
           'username': username,
           'email': email,
           'firstName': fName,
-          'LastName': lName,
+          'lastName': lName,
           'nic': nic,
           'studentID': stdID,
           'phoneNumber': phNo,
           'faculty': dropDownValF,
           'degree': dropDownValD,
-          'barch': dropDownValB,
+          'batch': dropDownValB,
+          'role': "student"
         });
       }
     } on PlatformException catch (e) {
-      var message = "Error occurred, Check your credentails";
-
-      if (e.message != null) {
-        message = e.message!;
-      }
-
-      ScaffoldMessenger.of(ctx).showSnackBar(
-        SnackBar(
-          content: Text("zzzz"),
-          backgroundColor: Colors.red,
-        ),
-      );
-
       setState(() {
         _isLoading = false;
+        isError = 1;
       });
 
-      print(message);
+      print(e.message);
     } catch (e) {
       print(e);
       setState(() {
         _isLoading = false;
+        isError = 2;
       });
     }
   }
@@ -99,13 +90,14 @@ class _AuthScreenState extends State<AuthScreen> {
     // );
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("img/login.png"),
             fit: BoxFit.cover,
           ),
         ),
-        child: AuthForm(_submitAuthForm, _isLoading), /* add child content here */
+        child: AuthForm(
+            _submitAuthForm, _isLoading, isError), /* add child content here */
       ),
     );
   }
