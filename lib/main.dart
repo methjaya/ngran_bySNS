@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_firebase_test/admin/push_notification.dart';
+import 'package:flutter_firebase_test/admin/verify_email.dart';
 import 'package:flutter_firebase_test/pages/detail_page_event.dart';
 import 'package:flutter_firebase_test/pages/home_page.dart';
 import 'package:flutter_firebase_test/pages/notice_page.dart';
@@ -55,10 +56,9 @@ class MyApp extends StatelessWidget {
             return FutureBuilder(
                 future: checkUserRole(userSnapshot.data!.uid),
                 builder: (contxt, snapshot) {
-                  if (userRole == "student") {
-                    return HomePage();
-                  } else if (userRole == "admin") {
-                    return HomePage();
+                  if (userRole == "student" || userRole == "admin") {
+                    // return const HomePage();
+                    return const VerifyUserEmail();
                   } else if (snapshot.hasError) {
                     return const Scaffold(
                       body: Center(
