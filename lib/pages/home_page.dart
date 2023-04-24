@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase_test/dashboard.dart';
 import 'package:flutter_firebase_test/misc/colors.dart';
 import 'package:flutter_firebase_test/pages/fac.dart';
+import 'package:flutter_firebase_test/pages/notice_page.dart';
 import 'package:flutter_firebase_test/widgets/app_large_text.dart';
 import 'package:flutter_firebase_test/widgets/app_text.dart';
+import 'package:flutter_firebase_test/widgets/eventbrowser.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import 'detail_page.dart';
@@ -240,7 +242,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const DetailPage(),
+                                                      NoticesListWidget(),
                                                 ),
                                               );
                                             }
@@ -258,7 +260,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const DetailPage2(),
+                                                      EventBrowser(),
                                                 ),
                                               );
                                             }
