@@ -157,7 +157,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                               children: [
                                 AppText(
                                   text:
-                                      "This Hackathon was named after the 3 Great \nComputer Geniuses Sahansa, Nethun & \nSujeewa (SNS).",
+                                      "This Hackathon was named after the 3 Great \nComputer Geniuses Sahansa, Nethun & \nSujeewa (SNS).\n\nThis will gives you the opprtunity to compete \nagainst your peers by putting your coding skills \nto test.",
                                   color: AppColors.mainTextColor,
                                 ),
                                 SizedBox(

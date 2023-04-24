@@ -143,1169 +143,1171 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
     //the reason for putting TabControler is without it the tabs won't work unless an error will show
     TabController _tabController = TabController(length: 3, vsync: this);
     return Scaffold(
-        body: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          padding: const EdgeInsets.only(top: 50, left: 20),
-          child: Row(children: [
-            GestureDetector(
-  onTap: () {
-    // Navigate to the intended page
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => HomePage()),
-    );
-  },
-  //
-  child: Container(
-    margin: const EdgeInsets.only(right: 200),
-    width: 50,
-    height: 30,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(30),
-      color: const Color.fromRGBO(76, 175, 80, 1).withOpacity(0.5),
-    ),
-    child: Center(
-      child: Text(
-        '<',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
+        body: SingleChildScrollView(scrollDirection: Axis.vertical,
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+          Container(
+            padding: const EdgeInsets.only(top: 50, left: 20),
+            child: Row(children: [
+              GestureDetector(
+          onTap: () {
+            // Navigate to the intended page
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
+          },
+          //
+          child: Container(
+            margin: const EdgeInsets.only(right: 200),
+            width: 50,
+            height: 30,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: const Color.fromRGBO(76, 175, 80, 1).withOpacity(0.5),
+            ),
+            child: Center(
+              child: Text(
+          '<',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+              ),
+          ),
+         ),
         ),
-      ),
-  ),
- ),
-),
-            // Container(
-            //   margin: const EdgeInsets.only(right: 200),
-            //   width: 50,
-            //   height: 30,
-            //   decoration: BoxDecoration(
-            //     borderRadius: BorderRadius.circular(30),
-            //     color: const Color.fromRGBO(76, 175, 80, 1).withOpacity(0.5),
-            //   ),
-            // ),
-            // Icon(Icons.account_circle_rounded,size:40,color:Color.fromRGBO(76, 175, 80, 1).withOpacity(0.7)),
-            DropdownButton(
-              underline: const SizedBox(),
-              items: [
-                DropdownMenuItem(
-                  value: 'logout',
+              // Container(
+              //   margin: const EdgeInsets.only(right: 200),
+              //   width: 50,
+              //   height: 30,
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(30),
+              //     color: const Color.fromRGBO(76, 175, 80, 1).withOpacity(0.5),
+              //   ),
+              // ),
+              // Icon(Icons.account_circle_rounded,size:40,color:Color.fromRGBO(76, 175, 80, 1).withOpacity(0.7)),
+              DropdownButton(
+                underline: const SizedBox(),
+                items: [
+                  DropdownMenuItem(
+                    value: 'logout',
+                    child: Row(
+                      children: const <Widget>[
+                        Icon(Icons.exit_to_app),
+                        SizedBox(
+                          width: 8,
+                          height: 10,
+                        ),
+                        Text("Logout")
+                      ],
+                    ),
+                  ),
+                ],
+                onChanged: (itemIdentifier) {
+                  if (itemIdentifier == 'logout') {
+                    FirebaseAuth.instance.signOut();
+                  }
+                },
+                icon: const Icon(
+                  Icons.more_vert,
+                  color: Color.fromARGB(255, 22, 165, 65),
+                ),
+              ),
+              Expanded(child: Container()),
+            ]),
+          ),
+          Row(
+            children: [
+              //blank Space
+              const SizedBox(
+                height: 50,
+              ),
+              //Greeting Text
+              Container(
+                margin: const EdgeInsets.only(left: 20),
+                child: AppLargeText(text: "Faculty Navigation"),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+            ],
+          ),
+        
+        
+          const SizedBox(
+            height: 10,
+          ),
+          //Categories begin
+          Container(
+              margin: const EdgeInsets.only(left: 20, right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AppLargeText(
+                    text: "001 - 010 (G)",
+                    size: 22,
+                  ),
+                  //AppText(text: "See all",color: AppColors.textColor1,)
+                ],
+              )),
+          //Categories ends
+          const SizedBox(
+            height: 20,
+          ),
+        
+          //categories icons
+          Container(
+            height: 100,
+            margin: const EdgeInsets.only(left: 20),
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                double spacing = constraints.maxWidth /
+                    10; // Set the spacing to be 1/10 of the screen width
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
                   child: Row(
-                    children: const <Widget>[
-                      Icon(Icons.exit_to_app),
-                      SizedBox(
-                        width: 8,
-                        height: 10,
-                      ),
-                      Text("Logout")
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      for (int index = 0; index < 10; index++)
+                        Container(
+                          margin: EdgeInsets.only(right: spacing),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                child: Container(
+                                  width: 60,
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.white,
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                          "img/${images.keys.elementAt(index)}"),
+                                      fit: BoxFit.scaleDown,
+                                    ),
+                                  ),
+                                ),
+                                // onTap: () {
+                                //   Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(builder: (context) => const DetailPage()),
+                                //   );
+                                // },
+        
+                                //logic start
+        
+                                onTap: () {
+                                  if (index == 0) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Hall001(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 1) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Hall002(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 2) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Hall003(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 3) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Hall004(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 4) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Hall005(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 5) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Hall006(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 6) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Hall007(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 7) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Hall008(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 8) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Hall009(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 9) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Hall010(),
+                                      ),
+                                    );
+                                  }
+                                  //check this
+                                  if (index == 10) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Dashboard(),
+                                      ),
+                                    );
+                                  }
+                                },
+        
+                                //logic end
+                              ),
+                              const SizedBox(height: 5),
+                              InkWell(
+                                child: Container(
+                                  child: AppText(
+                                    text: images.values.elementAt(index),
+                                    color: AppColors.mainTextColor,
+                                  ),
+                                ),
+                                //text logic begin
+        
+                                onTap: () {
+                                  if (index == 0) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Hall001(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 1) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Hall002(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 2) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Hall003(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 3) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Hall004(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 4) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Hall005(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 5) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Hall006(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 6) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Hall007(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 7) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Hall008(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 8) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Hall009(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 9) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Hall010(),
+                                      ),
+                                    );
+                                  }
+                                  //check this
+                                  if (index == 10) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Dashboard(),
+                                      ),
+                                    );
+                                  }
+                                },
+        
+                                //text logic end
+                              ),
+                            ],
+                          ),
+                        ),
                     ],
                   ),
-                ),
-              ],
-              onChanged: (itemIdentifier) {
-                if (itemIdentifier == 'logout') {
-                  FirebaseAuth.instance.signOut();
-                }
+                );
               },
-              icon: const Icon(
-                Icons.more_vert,
-                color: Color.fromARGB(255, 22, 165, 65),
+            ),
+          ),
+        
+          //2nd START
+        
+          const SizedBox(
+            height: 05,
+          ),
+          //Categories begin
+          Container(
+              margin: const EdgeInsets.only(left: 20, right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AppLargeText(
+                    text: "L101 - L114 (B1)",
+                    size: 22,
+                  ),
+                  //AppText(text: "See all",color: AppColors.textColor1,)
+                ],
+              )),
+          //Categories ends
+          const SizedBox(
+            height: 20,
+          ),
+        
+          //categories icons
+          Container(
+            height: 100,
+            margin: const EdgeInsets.only(left: 20),
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                double spacing = constraints.maxWidth /
+                    10; // Set the spacing to be 1/10 of the screen width
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      for (int index = 0; index < 16; index++)
+                        Container(
+                          margin: EdgeInsets.only(right: spacing),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                child: Container(
+                                  width: 60,
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.white,
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                          "img/${im3.keys.elementAt(index)}"),
+                                      fit: BoxFit.scaleDown,
+                                    ),
+                                  ),
+                                ),
+                                // onTap: () {
+                                //   Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(builder: (context) => const DetailPage()),
+                                //   );
+                                // },
+        
+                                //logic start
+        
+                                onTap: () {
+                                  if (index == 0) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL101(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 1) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL102(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 2) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL103(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 3) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL104(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 4) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL105(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 5) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL106(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 6) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL107(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 7) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL108_A(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 8) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL108_B(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 9) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL108_C(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 10) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL109(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 11) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL110(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 12) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL111(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 13) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL112(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 14) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL113(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 15) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL114(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 16) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL114(),
+                                      ),
+                                    );
+                                  }
+                                },
+        
+                                //logic end
+                              ),
+                              const SizedBox(height: 5),
+                              InkWell(
+                                child: Container(
+                                  child: AppText(
+                                    text: im3.values.elementAt(index),
+                                    color: AppColors.mainTextColor,
+                                  ),
+                                ),
+                                //text logic begin
+        
+                                onTap: () {
+                                  if (index == 0) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL101(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 1) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL102(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 2) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL103(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 3) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL104(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 4) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL105(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 5) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL106(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 6) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL107(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 7) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL108_A(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 8) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL108_B(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 9) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL108_C(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 10) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL109(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 11) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL110(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 12) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL111(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 13) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL112(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 14) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL113(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 15) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL114(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 16) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL114(),
+                                      ),
+                                    );
+                                  }
+                                },
+        
+                                //text logic end
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        
+          //2ND END
+          //3RD START
+        
+          const SizedBox(
+            height: 5,
+          ),
+          //Categories begin
+          Container(
+              margin: const EdgeInsets.only(left: 20, right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AppLargeText(
+                    text: "L201 - L206 (B2)",
+                    size: 22,
+                  ),
+                  //AppText(text: "See all",color: AppColors.textColor1,)
+                ],
+              )),
+          //Categories ends
+          const SizedBox(
+            height: 20,
+          ),
+        
+          //categories icons
+          Container(
+            height: 100,
+            margin: const EdgeInsets.only(left: 20),
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                double spacing = constraints.maxWidth /
+                    10; // Set the spacing to be 1/10 of the screen width
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      for (int index = 0; index < 6; index++)
+                        Container(
+                          margin: EdgeInsets.only(right: spacing),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                child: Container(
+                                  width: 60,
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.white,
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                          "img/${im4.keys.elementAt(index)}"),
+                                      fit: BoxFit.scaleDown,
+                                    ),
+                                  ),
+                                ),
+                                // onTap: () {
+                                //   Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(builder: (context) => const DetailPage()),
+                                //   );
+                                // },
+        
+                                //logic start
+        
+                                onTap: () {
+                                  if (index == 0) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL201(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 1) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL202(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 2) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL203(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 3) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL204(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 4) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL205(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 5) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL206(),
+                                      ),
+                                    );
+                                  }
+                                  //checl this also
+                                  if (index == 6) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Dashboard(),
+                                      ),
+                                    );
+                                  }
+                                },
+        
+                                //logic end
+                              ),
+                              const SizedBox(height: 5),
+                              InkWell(
+                                child: Container(
+                                  child: AppText(
+                                    text: im3.values.elementAt(index),
+                                    color: AppColors.mainTextColor,
+                                  ),
+                                ),
+                                //text logic begin
+        
+                                onTap: () {
+                                  if (index == 0) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL201(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 1) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL202(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 2) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL203(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 3) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL204(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 4) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL205(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 5) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL206(),
+                                      ),
+                                    );
+                                  }
+                                  //checl this also
+                                  if (index == 6) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Dashboard(),
+                                      ),
+                                    );
+                                  }
+                                },
+        
+                                //text logic end
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+          
+          //3RD END
+        
+          //4TH START
+        
+          const SizedBox(
+            height: 20,
+          ),
+          //Categories begin
+          Container(
+              margin: const EdgeInsets.only(left: 20, right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AppLargeText(
+                    text: "L301 - L303 (B3)",
+                    size: 22,
+                  ),
+                  //AppText(text: "See all",color: AppColors.textColor1,)
+                ],
+              )),
+          //Categories ends
+          const SizedBox(
+            height: 20,
+          ),
+        
+          //categories icons
+          Container(
+            height: 100,
+            margin: const EdgeInsets.only(left: 20),
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                double spacing = constraints.maxWidth /
+                    10; // Set the spacing to be 1/10 of the screen width
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      for (int index = 0; index < 6; index++)
+                        Container(
+                          margin: EdgeInsets.only(right: spacing),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                child: Container(
+                                  width: 60,
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.white,
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                          "img/${im5.keys.elementAt(index)}"),
+                                      fit: BoxFit.scaleDown,
+                                    ),
+                                  ),
+                                ),
+                                // onTap: () {
+                                //   Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(builder: (context) => const DetailPage()),
+                                //   );
+                                // },
+        
+                                //logic start
+        
+                                onTap: () {
+                                  if (index == 0) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL301(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 1) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL302_A(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 2) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL302_B(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 3) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL302_C(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 4) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL302_D(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 5) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL303(),
+                                      ),
+                                    );
+                                  }
+                                  //check this too too
+                                  if (index == 6) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Dashboard(),
+                                      ),
+                                    );
+                                  }
+                                },
+        
+                                //logic end
+                              ),
+                              const SizedBox(height: 5),
+                              InkWell(
+                                child: Container(
+                                  child: AppText(
+                                    text: im3.values.elementAt(index),
+                                    color: AppColors.mainTextColor,
+                                  ),
+                                ),
+                                //text logic begin
+        
+                                onTap: () {
+                                  if (index == 0) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL301(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 1) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL302_A(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 2) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL302_B(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 3) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HallL302_C(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 4) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL302_D(),
+                                      ),
+                                    );
+                                  }
+                                  if (index == 5) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HallL303(),
+                                      ),
+                                    );
+                                  }
+                                  //check this too too
+                                  if (index == 6) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Dashboard(),
+                                      ),
+                                    );
+                                  }
+                                },
+        
+                                //text logic end
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        
+          //4TH END
+        
+          
+       
+          const SizedBox(
+            height: 10,
+          ),
+        
+          //SizedBox(height: 30,),
+           ],
               ),
-            ),
-            Expanded(child: Container()),
-          ]),
-        ),
-        Row(
-          children: [
-            //blank Space
-            const SizedBox(
-              height: 50,
-            ),
-            //Greeting Text
-            Container(
-              margin: const EdgeInsets.only(left: 20),
-              child: AppLargeText(text: "Faculty Navigation"),
-            ),
-            const SizedBox(
-              height: 25,
-            ),
-          ],
-        ),
-
-
-        const SizedBox(
-          height: 10,
-        ),
-        //Categories begin
-        Container(
-            margin: const EdgeInsets.only(left: 20, right: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppLargeText(
-                  text: "001 - 010",
-                  size: 22,
-                ),
-                //AppText(text: "See all",color: AppColors.textColor1,)
-              ],
-            )),
-        //Categories ends
-        const SizedBox(
-          height: 20,
-        ),
-
-        //categories icons
-        Container(
-          height: 100,
-          margin: const EdgeInsets.only(left: 20),
-          child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              double spacing = constraints.maxWidth /
-                  10; // Set the spacing to be 1/10 of the screen width
-              return SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    for (int index = 0; index < 10; index++)
-                      Container(
-                        margin: EdgeInsets.only(right: spacing),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              child: Container(
-                                width: 60,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.white,
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                        "img/${images.keys.elementAt(index)}"),
-                                    fit: BoxFit.scaleDown,
-                                  ),
-                                ),
-                              ),
-                              // onTap: () {
-                              //   Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(builder: (context) => const DetailPage()),
-                              //   );
-                              // },
-
-                              //logic start
-
-                              onTap: () {
-                                if (index == 0) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const Hall001(),
-                                    ),
-                                  );
-                                }
-                                if (index == 1) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const Hall002(),
-                                    ),
-                                  );
-                                }
-                                if (index == 2) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const Hall003(),
-                                    ),
-                                  );
-                                }
-                                if (index == 3) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const Hall004(),
-                                    ),
-                                  );
-                                }
-                                if (index == 4) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Hall005(),
-                                    ),
-                                  );
-                                }
-                                if (index == 5) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Hall006(),
-                                    ),
-                                  );
-                                }
-                                if (index == 6) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Hall007(),
-                                    ),
-                                  );
-                                }
-                                if (index == 7) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Hall008(),
-                                    ),
-                                  );
-                                }
-                                if (index == 8) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Hall009(),
-                                    ),
-                                  );
-                                }
-                                if (index == 9) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Hall010(),
-                                    ),
-                                  );
-                                }
-                                //check this
-                                if (index == 10) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Dashboard(),
-                                    ),
-                                  );
-                                }
-                              },
-
-                              //logic end
-                            ),
-                            const SizedBox(height: 5),
-                            InkWell(
-                              child: Container(
-                                child: AppText(
-                                  text: images.values.elementAt(index),
-                                  color: AppColors.mainTextColor,
-                                ),
-                              ),
-                              //text logic begin
-
-                              onTap: () {
-                                if (index == 0) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const Hall001(),
-                                    ),
-                                  );
-                                }
-                                if (index == 1) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const Hall002(),
-                                    ),
-                                  );
-                                }
-                                if (index == 2) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const Hall003(),
-                                    ),
-                                  );
-                                }
-                                if (index == 3) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const Hall004(),
-                                    ),
-                                  );
-                                }
-                                if (index == 4) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Hall005(),
-                                    ),
-                                  );
-                                }
-                                if (index == 5) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Hall006(),
-                                    ),
-                                  );
-                                }
-                                if (index == 6) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Hall007(),
-                                    ),
-                                  );
-                                }
-                                if (index == 7) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Hall008(),
-                                    ),
-                                  );
-                                }
-                                if (index == 8) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Hall009(),
-                                    ),
-                                  );
-                                }
-                                if (index == 9) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Hall010(),
-                                    ),
-                                  );
-                                }
-                                //check this
-                                if (index == 10) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Dashboard(),
-                                    ),
-                                  );
-                                }
-                              },
-
-                              //text logic end
-                            ),
-                          ],
-                        ),
-                      ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
-
-        //2nd START
-
-        const SizedBox(
-          height: 05,
-        ),
-        //Categories begin
-        Container(
-            margin: const EdgeInsets.only(left: 20, right: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppLargeText(
-                  text: "L101 - L114",
-                  size: 22,
-                ),
-                //AppText(text: "See all",color: AppColors.textColor1,)
-              ],
-            )),
-        //Categories ends
-        const SizedBox(
-          height: 20,
-        ),
-
-        //categories icons
-        Container(
-          height: 100,
-          margin: const EdgeInsets.only(left: 20),
-          child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              double spacing = constraints.maxWidth /
-                  10; // Set the spacing to be 1/10 of the screen width
-              return SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    for (int index = 0; index < 16; index++)
-                      Container(
-                        margin: EdgeInsets.only(right: spacing),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              child: Container(
-                                width: 60,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.white,
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                        "img/${im3.keys.elementAt(index)}"),
-                                    fit: BoxFit.scaleDown,
-                                  ),
-                                ),
-                              ),
-                              // onTap: () {
-                              //   Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(builder: (context) => const DetailPage()),
-                              //   );
-                              // },
-
-                              //logic start
-
-                              onTap: () {
-                                if (index == 0) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL101(),
-                                    ),
-                                  );
-                                }
-                                if (index == 1) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL102(),
-                                    ),
-                                  );
-                                }
-                                if (index == 2) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL103(),
-                                    ),
-                                  );
-                                }
-                                if (index == 3) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL104(),
-                                    ),
-                                  );
-                                }
-                                if (index == 4) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL105(),
-                                    ),
-                                  );
-                                }
-                                if (index == 5) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL106(),
-                                    ),
-                                  );
-                                }
-                                if (index == 6) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL107(),
-                                    ),
-                                  );
-                                }
-                                if (index == 7) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL108_A(),
-                                    ),
-                                  );
-                                }
-                                if (index == 8) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL108_B(),
-                                    ),
-                                  );
-                                }
-                                if (index == 9) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL108_C(),
-                                    ),
-                                  );
-                                }
-                                if (index == 10) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL109(),
-                                    ),
-                                  );
-                                }
-                                if (index == 11) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL110(),
-                                    ),
-                                  );
-                                }
-                                if (index == 12) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL111(),
-                                    ),
-                                  );
-                                }
-                                if (index == 13) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL112(),
-                                    ),
-                                  );
-                                }
-                                if (index == 14) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL113(),
-                                    ),
-                                  );
-                                }
-                                if (index == 15) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL114(),
-                                    ),
-                                  );
-                                }
-                                if (index == 16) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL114(),
-                                    ),
-                                  );
-                                }
-                              },
-
-                              //logic end
-                            ),
-                            const SizedBox(height: 5),
-                            InkWell(
-                              child: Container(
-                                child: AppText(
-                                  text: im3.values.elementAt(index),
-                                  color: AppColors.mainTextColor,
-                                ),
-                              ),
-                              //text logic begin
-
-                              onTap: () {
-                                if (index == 0) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL101(),
-                                    ),
-                                  );
-                                }
-                                if (index == 1) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL102(),
-                                    ),
-                                  );
-                                }
-                                if (index == 2) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL103(),
-                                    ),
-                                  );
-                                }
-                                if (index == 3) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL104(),
-                                    ),
-                                  );
-                                }
-                                if (index == 4) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL105(),
-                                    ),
-                                  );
-                                }
-                                if (index == 5) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL106(),
-                                    ),
-                                  );
-                                }
-                                if (index == 6) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL107(),
-                                    ),
-                                  );
-                                }
-                                if (index == 7) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL108_A(),
-                                    ),
-                                  );
-                                }
-                                if (index == 8) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL108_B(),
-                                    ),
-                                  );
-                                }
-                                if (index == 9) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL108_C(),
-                                    ),
-                                  );
-                                }
-                                if (index == 10) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL109(),
-                                    ),
-                                  );
-                                }
-                                if (index == 11) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL110(),
-                                    ),
-                                  );
-                                }
-                                if (index == 12) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL111(),
-                                    ),
-                                  );
-                                }
-                                if (index == 13) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL112(),
-                                    ),
-                                  );
-                                }
-                                if (index == 14) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL113(),
-                                    ),
-                                  );
-                                }
-                                if (index == 15) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL114(),
-                                    ),
-                                  );
-                                }
-                                if (index == 16) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL114(),
-                                    ),
-                                  );
-                                }
-                              },
-
-                              //text logic end
-                            ),
-                          ],
-                        ),
-                      ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
-
-        //2ND END
-        //3RD START
-
-        const SizedBox(
-          height: 5,
-        ),
-        //Categories begin
-        Container(
-            margin: const EdgeInsets.only(left: 20, right: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppLargeText(
-                  text: "L201 - L206",
-                  size: 22,
-                ),
-                //AppText(text: "See all",color: AppColors.textColor1,)
-              ],
-            )),
-        //Categories ends
-        const SizedBox(
-          height: 20,
-        ),
-
-        //categories icons
-        Container(
-          height: 100,
-          margin: const EdgeInsets.only(left: 20),
-          child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              double spacing = constraints.maxWidth /
-                  10; // Set the spacing to be 1/10 of the screen width
-              return SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    for (int index = 0; index < 6; index++)
-                      Container(
-                        margin: EdgeInsets.only(right: spacing),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              child: Container(
-                                width: 60,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.white,
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                        "img/${im4.keys.elementAt(index)}"),
-                                    fit: BoxFit.scaleDown,
-                                  ),
-                                ),
-                              ),
-                              // onTap: () {
-                              //   Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(builder: (context) => const DetailPage()),
-                              //   );
-                              // },
-
-                              //logic start
-
-                              onTap: () {
-                                if (index == 0) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL201(),
-                                    ),
-                                  );
-                                }
-                                if (index == 1) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL202(),
-                                    ),
-                                  );
-                                }
-                                if (index == 2) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL203(),
-                                    ),
-                                  );
-                                }
-                                if (index == 3) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL204(),
-                                    ),
-                                  );
-                                }
-                                if (index == 4) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL205(),
-                                    ),
-                                  );
-                                }
-                                if (index == 5) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL206(),
-                                    ),
-                                  );
-                                }
-                                //checl this also
-                                if (index == 6) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Dashboard(),
-                                    ),
-                                  );
-                                }
-                              },
-
-                              //logic end
-                            ),
-                            const SizedBox(height: 5),
-                            InkWell(
-                              child: Container(
-                                child: AppText(
-                                  text: im3.values.elementAt(index),
-                                  color: AppColors.mainTextColor,
-                                ),
-                              ),
-                              //text logic begin
-
-                              onTap: () {
-                                if (index == 0) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL201(),
-                                    ),
-                                  );
-                                }
-                                if (index == 1) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL202(),
-                                    ),
-                                  );
-                                }
-                                if (index == 2) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL203(),
-                                    ),
-                                  );
-                                }
-                                if (index == 3) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL204(),
-                                    ),
-                                  );
-                                }
-                                if (index == 4) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL205(),
-                                    ),
-                                  );
-                                }
-                                if (index == 5) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL206(),
-                                    ),
-                                  );
-                                }
-                                //checl this also
-                                if (index == 6) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Dashboard(),
-                                    ),
-                                  );
-                                }
-                              },
-
-                              //text logic end
-                            ),
-                          ],
-                        ),
-                      ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
-        
-        //3RD END
-
-        //4TH START
-
-        const SizedBox(
-          height: 20,
-        ),
-        //Categories begin
-        Container(
-            margin: const EdgeInsets.only(left: 20, right: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppLargeText(
-                  text: "L301 - L303",
-                  size: 22,
-                ),
-                //AppText(text: "See all",color: AppColors.textColor1,)
-              ],
-            )),
-        //Categories ends
-        const SizedBox(
-          height: 20,
-        ),
-
-        //categories icons
-        Container(
-          height: 100,
-          margin: const EdgeInsets.only(left: 20),
-          child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              double spacing = constraints.maxWidth /
-                  10; // Set the spacing to be 1/10 of the screen width
-              return SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    for (int index = 0; index < 6; index++)
-                      Container(
-                        margin: EdgeInsets.only(right: spacing),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              child: Container(
-                                width: 60,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.white,
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                        "img/${im5.keys.elementAt(index)}"),
-                                    fit: BoxFit.scaleDown,
-                                  ),
-                                ),
-                              ),
-                              // onTap: () {
-                              //   Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(builder: (context) => const DetailPage()),
-                              //   );
-                              // },
-
-                              //logic start
-
-                              onTap: () {
-                                if (index == 0) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL301(),
-                                    ),
-                                  );
-                                }
-                                if (index == 1) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL302_A(),
-                                    ),
-                                  );
-                                }
-                                if (index == 2) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL302_B(),
-                                    ),
-                                  );
-                                }
-                                if (index == 3) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL302_C(),
-                                    ),
-                                  );
-                                }
-                                if (index == 4) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL302_D(),
-                                    ),
-                                  );
-                                }
-                                if (index == 5) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL303(),
-                                    ),
-                                  );
-                                }
-                                //check this too too
-                                if (index == 6) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Dashboard(),
-                                    ),
-                                  );
-                                }
-                              },
-
-                              //logic end
-                            ),
-                            const SizedBox(height: 5),
-                            InkWell(
-                              child: Container(
-                                child: AppText(
-                                  text: im3.values.elementAt(index),
-                                  color: AppColors.mainTextColor,
-                                ),
-                              ),
-                              //text logic begin
-
-                              onTap: () {
-                                if (index == 0) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL301(),
-                                    ),
-                                  );
-                                }
-                                if (index == 1) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL302_A(),
-                                    ),
-                                  );
-                                }
-                                if (index == 2) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL302_B(),
-                                    ),
-                                  );
-                                }
-                                if (index == 3) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HallL302_C(),
-                                    ),
-                                  );
-                                }
-                                if (index == 4) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL302_D(),
-                                    ),
-                                  );
-                                }
-                                if (index == 5) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HallL303(),
-                                    ),
-                                  );
-                                }
-                                //check this too too
-                                if (index == 6) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Dashboard(),
-                                    ),
-                                  );
-                                }
-                              },
-
-                              //text logic end
-                            ),
-                          ],
-                        ),
-                      ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
-
-        //4TH END
-
-        
-
-        const SizedBox(
-          height: 10,
-        ),
-
-        //SizedBox(height: 30,),
-         ],
-      )
+        )
         );
   }
 }
