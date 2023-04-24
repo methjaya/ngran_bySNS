@@ -82,8 +82,8 @@ class _HomePageAdminState extends State<HomePageAdmin>
     "faculty.png": "Faculty",
     "notices.png": "Notices",
     "timetable.png": "Timetables",
-    "updates.png": "Updates",
-    // "user.png": "Dashboard",
+    "updates.png": "Events",
+    "user.png": "Dashboard",
   };
   var images2 = {
     "1_1.png",
@@ -198,7 +198,7 @@ class _HomePageAdminState extends State<HomePageAdmin>
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                for (int index = 0; index < 4; index++)
+                                for (int index = 0; index < 5; index++)
                                   Container(
                                     margin: EdgeInsets.only(right: spacing),
                                     child: Column(
@@ -306,6 +306,15 @@ class _HomePageAdminState extends State<HomePageAdmin>
                                                 MaterialPageRoute(
                                                   builder: (context) =>
                                                       const DetailPage2(),
+                                                ),
+                                              );
+                                            }
+                                            if (index == 3) {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Dashboard(),
                                                 ),
                                               );
                                             }

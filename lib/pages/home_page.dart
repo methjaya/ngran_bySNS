@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     "faculty.png": "Faculty",
     "notices.png": "Notices",
     "timetable.png": "Timetables",
-    "updates.png": "Updates",
+    "updates.png": "Events",
     "user.png": "Dashboard",
   };
   var images2 = {
@@ -196,7 +196,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                for (int index = 0; index < 5; index++)
+                                for (int index = 0; index < 4; index++)
                                   Container(
                                     margin: EdgeInsets.only(right: spacing),
                                     child: Column(
@@ -204,79 +204,69 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                           CrossAxisAlignment.center,
                                       children: [
                                         InkWell(
-                                          child: Container(
-                                            width: 60,
-                                            height: 60,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              color: Colors.white,
-                                              image: DecorationImage(
-                                                image: AssetImage(
-                                                    "img/${images.keys.elementAt(index)}"),
-                                                fit: BoxFit.scaleDown,
+                                            child: Container(
+                                              width: 60,
+                                              height: 60,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                color: Colors.white,
+                                                image: DecorationImage(
+                                                  image: AssetImage(
+                                                      "img/${images.keys.elementAt(index)}"),
+                                                  fit: BoxFit.scaleDown,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          // onTap: () {
-                                          //   Navigator.push(
-                                          //     context,
-                                          //     MaterialPageRoute(builder: (context) => const DetailPage()),
-                                          //   );
-                                          // },
+                                            // onTap: () {
+                                            //   Navigator.push(
+                                            //     context,
+                                            //     MaterialPageRoute(builder: (context) => const DetailPage()),
+                                            //   );
+                                            // },
 
-                                          //logic start
+                                            //logic start
 
-                                          onTap: () {
-                                            if (index == 0) {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const Fac(),
-                                                ),
-                                              );
+                                            onTap: () {
+                                              if (index == 0) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const Fac(),
+                                                  ),
+                                                );
+                                              }
+                                              if (index == 1) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        NoticesListWidget(),
+                                                  ),
+                                                );
+                                              }
+                                              if (index == 2) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const DetailPage2(),
+                                                  ),
+                                                );
+                                              }
+                                              if (index == 3) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EventBrowser(),
+                                                  ),
+                                                );
+                                              }
                                             }
-                                            if (index == 1) {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      NoticesListWidget(),
-                                                ),
-                                              );
-                                            }
-                                            if (index == 2) {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const DetailPage2(),
-                                                ),
-                                              );
-                                            }
-                                            if (index == 3) {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      EventBrowser(),
-                                                ),
-                                              );
-                                            }
-                                            if (index == 4) {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Dashboard(),
-                                                ),
-                                              );
-                                            }
-                                          },
-
-                                          //logic end
-                                        ),
+                                            //logic end
+                                            ),
                                         const SizedBox(height: 5),
                                         InkWell(
                                           child: Container(
@@ -313,15 +303,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                                 MaterialPageRoute(
                                                   builder: (context) =>
                                                       const DetailPage2(),
-                                                ),
-                                              );
-                                            }
-                                            if (index == 3) {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Dashboard(),
                                                 ),
                                               );
                                             }

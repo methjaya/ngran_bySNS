@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_test/admin/addEvent.dart';
+import 'package:flutter_firebase_test/admin/add_admin.dart';
 import 'package:flutter_firebase_test/admin/add_notice.dart';
 import 'package:flutter_firebase_test/admin/updateEvent.dart';
 import 'package:flutter_firebase_test/admin/update_notice.dart';
@@ -134,7 +135,8 @@ class Dashboard extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const DetailPage2(),
+                                      builder: (context) =>
+                                          const RegisterAdmin(),
                                     ),
                                   );
                                 },
