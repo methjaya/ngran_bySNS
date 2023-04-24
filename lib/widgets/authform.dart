@@ -327,7 +327,8 @@ class _AuthFormState extends State<AuthForm> {
                         } else if (widget.isError == 2) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Unidentified Error Occured'),
+                              content: Text(
+                                  'An Error occured while trying to sign you in'),
                               duration: Duration(seconds: 4),
                             ),
                           );
