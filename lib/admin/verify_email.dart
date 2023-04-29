@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_firebase_test/admin/admin_home_page.dart';
+import 'package:flutter_firebase_test/admin/user_data.dart';
 import 'package:flutter_firebase_test/pages/home_page.dart';
 
 class VerifyUserEmail extends StatefulWidget {
@@ -73,7 +75,9 @@ class _VerifyUserEmailState extends State<VerifyUserEmail> {
 
   @override
   Widget build(BuildContext context) => isVerified
-      ? const HomePage()
+      ? (UserData.userRole == "student"
+          ? const HomePage()
+          : const HomePageAdmin())
       : Scaffold(
           appBar: AppBar(
             title: const Text("Verify Email"),
