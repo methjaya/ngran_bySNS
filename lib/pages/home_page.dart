@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_test/admin/edit_user_details.dart';
 import 'package:flutter_firebase_test/dashboard.dart';
 import 'package:flutter_firebase_test/misc/colors.dart';
 import 'package:flutter_firebase_test/pages/fac.dart';
+import 'package:flutter_firebase_test/pages/nav_pages/time_table_view.dart';
 import 'package:flutter_firebase_test/pages/notice_page.dart';
 import 'package:flutter_firebase_test/widgets/app_large_text.dart';
 import 'package:flutter_firebase_test/widgets/app_text.dart';
@@ -46,9 +48,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         // Use setState to update the value of uname
         uname = uname1['firstName'].toString();
       });
-      return "null";
+      return uname1['firstName'].toString();
     } catch (e) {
-      return "null";
+      return "error";
     }
   }
 
@@ -121,6 +123,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         DropdownButton(
                           underline: const SizedBox(),
                           items: [
+                            // DropdownMenuItem(
+                            //     value: 'logout', child: Text("Logout")),
+                            // DropdownMenuItem(
+                            //     value: 'editDetails',
+                            //     child: Text("Edit Profile")),
+
                             DropdownMenuItem(
                               value: 'logout',
                               child: Row(
@@ -134,10 +142,31 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                 ],
                               ),
                             ),
+                            DropdownMenuItem(
+                              value: 'editDetails',
+                              child: Row(
+                                children: const <Widget>[
+                                  Icon(Icons.edit_document),
+                                  SizedBox(
+                                    width: 8,
+                                    height: 10,
+                                  ),
+                                  Text("Profile")
+                                ],
+                              ),
+                            ),
                           ],
                           onChanged: (itemIdentifier) {
                             if (itemIdentifier == 'logout') {
                               FirebaseAuth.instance.signOut();
+                            }
+                            if (itemIdentifier == 'editDetails') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const EditUserDetails()),
+                              );
                             }
                           },
                           icon: const Icon(
@@ -251,7 +280,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
-                                                        const DetailPage2(),
+                                                        const TimeTable(),
                                                   ),
                                                 );
                                               }
@@ -359,7 +388,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       height: 30,
                     ),
 
-                    //T events bar starts
+                    //T events bar starts /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                     Container(
                       padding: const EdgeInsets.only(left: 20),
@@ -410,14 +439,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                                 shape: BoxShape.circle,
                                               ),
                                             ),
-                                            SizedBox(width: 5),
+                                            const SizedBox(width: 5),
                                             Container(
-                                              padding: EdgeInsets.symmetric(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
                                                 horizontal: 10,
                                                 vertical: 5,
                                               ),
                                               decoration: BoxDecoration(
-                                                color: Color.fromRGBO(
+                                                color: const Color.fromRGBO(
                                                     255, 255, 255, 0.8),
                                                 borderRadius:
                                                     BorderRadius.circular(10),
@@ -426,7 +456,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                                 imagesAndTexts[index]
                                                         ["upperText"] ??
                                                     "",
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   color: Color.fromARGB(
                                                       255, 155, 155, 155),
                                                   fontSize: 15,
@@ -441,12 +471,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                         bottom: 10,
                                         left: 10,
                                         child: Container(
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                             horizontal: 10,
                                             vertical: 5,
                                           ),
                                           decoration: BoxDecoration(
-                                            color: Color.fromRGBO(
+                                            color: const Color.fromRGBO(
                                                 255, 255, 255, 0.8),
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -455,7 +485,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                             imagesAndTexts[index]
                                                     ["lowerText"] ??
                                                 "",
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color:
                                                   Color.fromARGB(255, 0, 0, 0),
                                               fontSize: 20,
@@ -544,19 +574,19 @@ void navigateToPage(BuildContext context, int index) {
     case 0:
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => DetailPage()),
+        MaterialPageRoute(builder: (context) => const DetailPage()),
       );
       break;
     case 1:
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => DetailPage2()),
+        MaterialPageRoute(builder: (context) => const DetailPage2()),
       );
       break;
     case 2:
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => DetailPage3()),
+        MaterialPageRoute(builder: (context) => const DetailPage3()),
       );
       break;
     default:

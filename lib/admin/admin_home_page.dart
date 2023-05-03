@@ -3,11 +3,14 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_test/admin/edit_admin_details.dart';
+import 'package:flutter_firebase_test/admin/edit_user_details.dart';
 import 'package:flutter_firebase_test/dashboard.dart';
 import 'package:flutter_firebase_test/misc/colors.dart';
 import 'package:flutter_firebase_test/pages/detail_page.dart';
 import 'package:flutter_firebase_test/pages/detail_page3.dart';
 import 'package:flutter_firebase_test/pages/fac.dart';
+import 'package:flutter_firebase_test/pages/nav_pages/time_table_view.dart';
 import 'package:flutter_firebase_test/pages/notice_page.dart';
 import 'package:flutter_firebase_test/widgets/app_large_text.dart';
 import 'package:flutter_firebase_test/widgets/app_text.dart';
@@ -136,10 +139,31 @@ class _HomePageAdminState extends State<HomePageAdmin>
                                 ],
                               ),
                             ),
+                            DropdownMenuItem(
+                              value: 'editDetails',
+                              child: Row(
+                                children: const <Widget>[
+                                  Icon(Icons.edit_document),
+                                  SizedBox(
+                                    width: 8,
+                                    height: 10,
+                                  ),
+                                  Text("Profile")
+                                ],
+                              ),
+                            ),
                           ],
                           onChanged: (itemIdentifier) {
                             if (itemIdentifier == 'logout') {
                               FirebaseAuth.instance.signOut();
+                            }
+                            if (itemIdentifier == 'editDetails') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const EditAdminDetails()),
+                              );
                             }
                           },
                           icon: const Icon(
@@ -253,7 +277,7 @@ class _HomePageAdminState extends State<HomePageAdmin>
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const DetailPage2(),
+                                                      const TimeTable(),
                                                 ),
                                               );
                                             }
@@ -263,6 +287,15 @@ class _HomePageAdminState extends State<HomePageAdmin>
                                                 MaterialPageRoute(
                                                   builder: (context) =>
                                                       EventBrowser(),
+                                                ),
+                                              );
+                                            }
+                                            if (index == 4) {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Dashboard(),
                                                 ),
                                               );
                                             }
@@ -310,6 +343,15 @@ class _HomePageAdminState extends State<HomePageAdmin>
                                               );
                                             }
                                             if (index == 3) {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Dashboard(),
+                                                ),
+                                              );
+                                            }
+                                            if (index == 4) {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
