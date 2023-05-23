@@ -20,26 +20,34 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  var userRole;
+  var isVerified;
 
-  Future<void> checkUserRole(String uid) async {
+  Future<void> checkUserVerification(String uid) async {
     try {
-      var user =
-          await FirebaseFirestore.instance.collection("users").doc(uid).get();
-
-      print(uid);
-
-      userRole = user['role'];
-      UserData.userFaculty = user['faculty'];
-      UserData.userDegree = user['degree'];
-      UserData.userBatch = user['batch'];
-      UserData.userRole = user['role'];
-
+      isVerified = FirebaseAuth.instance.currentUser!.emailVerified;
       // print(userRole);
     } catch (e) {
       print(e.toString());
     }
   }
+  //   Future<void> checkUserRole(String uid) async {
+  //   try {
+  //     var user =
+  //         await FirebaseFirestore.instance.collection("users").doc(uid).get();
+
+  //     print(uid);
+
+  //     userRole = user['role'];
+  //     UserData.userFaculty = user['faculty'];
+  //     UserData.userDegree = user['degree'];
+  //     UserData.userBatch = user['batch'];
+  //     UserData.userRole = user['role'];
+
+  //     // print(userRole);
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -53,36 +61,27 @@ class MyApp extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (ctx, userSnapshot) {
           if (userSnapshot.hasData) {
-            return FutureBuilder(
-                future: checkUserRole(userSnapshot.data!.uid),
-                builder: (contxt, snapshot) {
-                  if (userRole == "student" || userRole == "admin") {
-                    // return const HomePage();
-                    return const VerifyUserEmail();
-                  } else if (snapshot.hasError) {
-                    return const Scaffold(
-                      body: Center(
-                        child: SizedBox(
-                          height: 200,
-                          width: 200,
-                          child: Text(
-                              "Error Initializing the app, Please try again later or contact an admin"),
-                        ),
-                      ),
-                    );
-                  } else {
-                    return const Scaffold(
-                      body: Center(
-                        child: SizedBox(
-                          height: 200,
-                          width: 200,
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
-                    );
-                    ;
-                  }
-                });
+            return const VerifyUserEmail();
+            // FutureBuilder(
+            //     future: checkUserVerification(userSnapshot.data!.uid),
+            //     builder: (contxt, snapshot) {
+            //       if (isVerified == false) {
+            //         // return const HomePage();
+            //         return const VerifyUserEmail();
+            //       }
+            //       else {
+            //         return const Scaffold(
+            //           body: Center(
+            //             child: SizedBox(
+            //               height: 200,
+            //               width: 200,
+            //               child: CircularProgressIndicator(),
+            //             ),
+            //           ),
+            //         );
+            //         ;
+            //       }
+            //     });
 
             // checkUserRole(userSnapshot.data!.uid);
             // getDataFromFirestore(userSnapshot.data!.uid);

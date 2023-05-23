@@ -3,17 +3,20 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_test/admin/edit_user_details.dart';
 import 'package:flutter_firebase_test/dashboard.dart';
 import 'package:flutter_firebase_test/misc/colors.dart';
 import 'package:flutter_firebase_test/pages/fac.dart';
+import 'package:flutter_firebase_test/pages/nav_pages/time_table_view.dart';
+import 'package:flutter_firebase_test/pages/notice_page.dart';
 import 'package:flutter_firebase_test/widgets/app_large_text.dart';
 import 'package:flutter_firebase_test/widgets/app_text.dart';
+import 'package:flutter_firebase_test/widgets/eventbrowser.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import 'detail_page.dart';
 import 'detail_page2.dart';
 import 'detail_page3.dart';
-import 'nav_pages/time_table_view.dart';
 //lib
 
 class HomePage extends StatefulWidget {
@@ -45,9 +48,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         // Use setState to update the value of uname
         uname = uname1['firstName'].toString();
       });
-      return "null";
+      return uname1['firstName'].toString();
     } catch (e) {
-      return "null";
+      return "error";
     }
   }
 
@@ -79,7 +82,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     "faculty.png": "Faculty",
     "notices.png": "Notices",
     "timetable.png": "Timetables",
-    "updates.png": "Updates",
+    "updates.png": "Events",
     "user.png": "Dashboard",
   };
   var images2 = {
@@ -120,6 +123,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         DropdownButton(
                           underline: const SizedBox(),
                           items: [
+                            // DropdownMenuItem(
+                            //     value: 'logout', child: Text("Logout")),
+                            // DropdownMenuItem(
+                            //     value: 'editDetails',
+                            //     child: Text("Edit Profile")),
+
                             DropdownMenuItem(
                               value: 'logout',
                               child: Row(
@@ -133,10 +142,31 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                 ],
                               ),
                             ),
+                            DropdownMenuItem(
+                              value: 'editDetails',
+                              child: Row(
+                                children: const <Widget>[
+                                  Icon(Icons.edit_document),
+                                  SizedBox(
+                                    width: 8,
+                                    height: 10,
+                                  ),
+                                  Text("Profile")
+                                ],
+                              ),
+                            ),
                           ],
                           onChanged: (itemIdentifier) {
                             if (itemIdentifier == 'logout') {
                               FirebaseAuth.instance.signOut();
+                            }
+                            if (itemIdentifier == 'editDetails') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const EditUserDetails()),
+                              );
                             }
                           },
                           icon: const Icon(
@@ -195,7 +225,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                for (int index = 0; index < 5; index++)
+                                for (int index = 0; index < 4; index++)
                                   Container(
                                     margin: EdgeInsets.only(right: spacing),
                                     child: Column(
@@ -203,79 +233,69 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                           CrossAxisAlignment.center,
                                       children: [
                                         InkWell(
-                                          child: Container(
-                                            width: 60,
-                                            height: 60,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              color: Colors.white,
-                                              image: DecorationImage(
-                                                image: AssetImage(
-                                                    "img/${images.keys.elementAt(index)}"),
-                                                fit: BoxFit.scaleDown,
+                                            child: Container(
+                                              width: 60,
+                                              height: 60,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                color: Colors.white,
+                                                image: DecorationImage(
+                                                  image: AssetImage(
+                                                      "img/${images.keys.elementAt(index)}"),
+                                                  fit: BoxFit.scaleDown,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          // onTap: () {
-                                          //   Navigator.push(
-                                          //     context,
-                                          //     MaterialPageRoute(builder: (context) => const DetailPage()),
-                                          //   );
-                                          // },
+                                            // onTap: () {
+                                            //   Navigator.push(
+                                            //     context,
+                                            //     MaterialPageRoute(builder: (context) => const DetailPage()),
+                                            //   );
+                                            // },
 
-                                          //logic start
+                                            //logic start
 
-                                          onTap: () {
-                                            if (index == 0) {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const Fac(),
-                                                ),
-                                              );
+                                            onTap: () {
+                                              if (index == 0) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const Fac(),
+                                                  ),
+                                                );
+                                              }
+                                              if (index == 1) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        NoticesListWidget(),
+                                                  ),
+                                                );
+                                              }
+                                              if (index == 2) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const TimeTable(),
+                                                  ),
+                                                );
+                                              }
+                                              if (index == 3) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EventBrowser(),
+                                                  ),
+                                                );
+                                              }
                                             }
-                                            if (index == 1) {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const DetailPage(),
-                                                ),
-                                              );
-                                            }
-                                            if (index == 2) {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const TimeTable(),
-                                                ),
-                                              );
-                                            }
-                                            if (index == 3) {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const DetailPage2(),
-                                                ),
-                                              );
-                                            }
-                                            if (index == 4) {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Dashboard(),
-                                                ),
-                                              );
-                                            }
-                                          },
-
-                                          //logic end
-                                        ),
+                                            //logic end
+                                            ),
                                         const SizedBox(height: 5),
                                         InkWell(
                                           child: Container(
@@ -312,15 +332,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                                 MaterialPageRoute(
                                                   builder: (context) =>
                                                       const DetailPage2(),
-                                                ),
-                                              );
-                                            }
-                                            if (index == 3) {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Dashboard(),
                                                 ),
                                               );
                                             }
@@ -377,7 +388,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       height: 30,
                     ),
 
-                    //T events bar starts
+                    //T events bar starts /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                     Container(
                       padding: const EdgeInsets.only(left: 20),
@@ -428,14 +439,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                                 shape: BoxShape.circle,
                                               ),
                                             ),
-                                            SizedBox(width: 5),
+                                            const SizedBox(width: 5),
                                             Container(
-                                              padding: EdgeInsets.symmetric(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
                                                 horizontal: 10,
                                                 vertical: 5,
                                               ),
                                               decoration: BoxDecoration(
-                                                color: Color.fromRGBO(
+                                                color: const Color.fromRGBO(
                                                     255, 255, 255, 0.8),
                                                 borderRadius:
                                                     BorderRadius.circular(10),
@@ -444,7 +456,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                                 imagesAndTexts[index]
                                                         ["upperText"] ??
                                                     "",
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   color: Color.fromARGB(
                                                       255, 155, 155, 155),
                                                   fontSize: 15,
@@ -459,12 +471,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                         bottom: 10,
                                         left: 10,
                                         child: Container(
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                             horizontal: 10,
                                             vertical: 5,
                                           ),
                                           decoration: BoxDecoration(
-                                            color: Color.fromRGBO(
+                                            color: const Color.fromRGBO(
                                                 255, 255, 255, 0.8),
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -473,7 +485,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                             imagesAndTexts[index]
                                                     ["lowerText"] ??
                                                 "",
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color:
                                                   Color.fromARGB(255, 0, 0, 0),
                                               fontSize: 20,
@@ -562,19 +574,19 @@ void navigateToPage(BuildContext context, int index) {
     case 0:
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => DetailPage()),
+        MaterialPageRoute(builder: (context) => const DetailPage()),
       );
       break;
     case 1:
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => DetailPage2()),
+        MaterialPageRoute(builder: (context) => const DetailPage2()),
       );
       break;
     case 2:
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => DetailPage3()),
+        MaterialPageRoute(builder: (context) => const DetailPage3()),
       );
       break;
     default:

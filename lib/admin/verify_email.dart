@@ -1,9 +1,13 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_firebase_test/admin/addEvent.dart';
+import 'package:flutter_firebase_test/admin/admin_home_page.dart';
+import 'package:flutter_firebase_test/admin/user_data.dart';
 import 'package:flutter_firebase_test/pages/home_page.dart';
 
 class VerifyUserEmail extends StatefulWidget {
@@ -65,6 +69,31 @@ class _VerifyUserEmailState extends State<VerifyUserEmail> {
     }
   }
 
+  Future<bool> checkUserRole(String uid) async {
+    try {
+      var user =
+          await FirebaseFirestore.instance.collection("users").doc(uid).get();
+
+      print(uid);
+
+      if (user['role'] == "student") {
+        UserData.userFaculty = user['faculty'];
+        UserData.userDegree = user['degree'];
+        UserData.userBatch = user['batch'];
+        UserData.userRole = user['role'];
+      } else {
+        UserData.userRole = user['role'];
+      }
+
+      return true;
+
+      // print(userRole);
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
+
   @override
   void dispose() {
     timer?.cancel();
@@ -72,56 +101,216 @@ class _VerifyUserEmailState extends State<VerifyUserEmail> {
   }
 
   @override
-  Widget build(BuildContext context) => isVerified
-      ? const HomePage()
-      : Scaffold(
-          appBar: AppBar(
-            title: const Text("Verify Email"),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 80),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "A Verification Email has been sent to your email",
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
-                    textAlign: TextAlign.center,
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: checkUserRole(FirebaseAuth.instance.currentUser!.uid),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.hasError) {
+              return const Scaffold(
+                body: Center(
+                  child: SizedBox(
+                    height: 200,
+                    width: 200,
+                    child: Text(
+                        "Error Initializing the app, Please try again later or contact an admin"),
                   ),
-                  const SizedBox(
-                    height: 18,
-                  ),
-                  SizedBox(
-                    height: 50,
-                    child: ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                          minimumSize: const Size.fromHeight(50)),
-                      onPressed: () {
-                        sendEmailVerification();
-                      },
-                      icon: const Icon(Icons.email, size: 34),
-                      label: const Text(
-                        "Resend Email",
-                        style: TextStyle(fontSize: 24),
+                ),
+              );
+            } else {
+              print("fac :" + UserData.userFaculty);
+              print("userole ; " + UserData.userRole);
+              return isVerified
+                  ? (UserData.userRole == "student"
+                      ? const HomePage()
+                      : (UserData.userRole == "admin"
+                          ? const HomePageAdmin()
+                          : (UserData.userRole == "superadmin")
+                              ? const HomePageAdmin()
+                              : const AddEvent()))
+                  : Scaffold(
+                      appBar: AppBar(
+                        title: const Text("Verify Email"),
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 18,
-                  ),
-                  TextButton(
-                      onPressed: () => FirebaseAuth.instance.signOut(),
-                      child: const Text(
-                        "Cancel",
-                        style: TextStyle(fontSize: 24),
-                      ))
-                ],
+                      body: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Container(
+                          margin: const EdgeInsets.fromLTRB(0, 0, 0, 80),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "A Verification Email has been sent to your email",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(
+                                height: 18,
+                              ),
+                              SizedBox(
+                                height: 50,
+                                child: ElevatedButton.icon(
+                                  style: ElevatedButton.styleFrom(
+                                      minimumSize: const Size.fromHeight(50)),
+                                  onPressed: () {
+                                    sendEmailVerification();
+                                  },
+                                  icon: const Icon(Icons.email, size: 34),
+                                  label: const Text(
+                                    "Resend Email",
+                                    style: TextStyle(fontSize: 24),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 18,
+                              ),
+                              TextButton(
+                                  onPressed: () =>
+                                      FirebaseAuth.instance.signOut(),
+                                  child: const Text(
+                                    "Cancel",
+                                    style: TextStyle(fontSize: 24),
+                                  ))
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+            }
+          } else {
+            return const Scaffold(
+              body: Center(
+                child: SizedBox(
+                  height: 200,
+                  width: 200,
+                  child: CircularProgressIndicator(),
+                ),
               ),
-            ),
-          ),
-        );
+            );
+          }
+        });
+  }
+
+  // @override
+  // Widget build(BuildContext context) => isVerified
+  //     ? (UserData.userRole == "student"
+  //         ? const HomePage()
+  //         : (UserData.userRole == "admin"
+  //             ? const HomePageAdmin()
+  //             : (UserData.userRole == "superadmin")
+  //                 ? const HomePageAdmin()
+  //                 : const AddEvent()))
+  //     : Scaffold(
+  //         appBar: AppBar(
+  //           title: const Text("Verify Email"),
+  //         ),
+  //         body: Padding(
+  //           padding: const EdgeInsets.all(16),
+  //           child: Container(
+  //             margin: const EdgeInsets.fromLTRB(0, 0, 0, 80),
+  //             child: Column(
+  //               mainAxisAlignment: MainAxisAlignment.center,
+  //               children: [
+  //                 const Text(
+  //                   "A Verification Email has been sent to your email",
+  //                   style: TextStyle(
+  //                     fontSize: 20,
+  //                   ),
+  //                   textAlign: TextAlign.center,
+  //                 ),
+  //                 const SizedBox(
+  //                   height: 18,
+  //                 ),
+  //                 SizedBox(
+  //                   height: 50,
+  //                   child: ElevatedButton.icon(
+  //                     style: ElevatedButton.styleFrom(
+  //                         minimumSize: const Size.fromHeight(50)),
+  //                     onPressed: () {
+  //                       sendEmailVerification();
+  //                     },
+  //                     icon: const Icon(Icons.email, size: 34),
+  //                     label: const Text(
+  //                       "Resend Email",
+  //                       style: TextStyle(fontSize: 24),
+  //                     ),
+  //                   ),
+  //                 ),
+  //                 const SizedBox(
+  //                   height: 18,
+  //                 ),
+  //                 TextButton(
+  //                     onPressed: () => FirebaseAuth.instance.signOut(),
+  //                     child: const Text(
+  //                       "Cancel",
+  //                       style: TextStyle(fontSize: 24),
+  //                     ))
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //       );
 }
+
+
+// isVerified
+//       ? (UserData.userRole == "student"
+//           ? const HomePage()
+//           : (UserData.userRole == "admin"
+//               ? const HomePageAdmin()
+//               : (UserData.userRole == "superadmin")
+//                   ? const HomePageAdmin()
+//                   : const AddEvent()))
+//       : Scaffold(
+//           appBar: AppBar(
+//             title: const Text("Verify Email"),
+//           ),
+//           body: Padding(
+//             padding: const EdgeInsets.all(16),
+//             child: Container(
+//               margin: const EdgeInsets.fromLTRB(0, 0, 0, 80),
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   const Text(
+//                     "A Verification Email has been sent to your email",
+//                     style: TextStyle(
+//                       fontSize: 20,
+//                     ),
+//                     textAlign: TextAlign.center,
+//                   ),
+//                   const SizedBox(
+//                     height: 18,
+//                   ),
+//                   SizedBox(
+//                     height: 50,
+//                     child: ElevatedButton.icon(
+//                       style: ElevatedButton.styleFrom(
+//                           minimumSize: const Size.fromHeight(50)),
+//                       onPressed: () {
+//                         sendEmailVerification();
+//                       },
+//                       icon: const Icon(Icons.email, size: 34),
+//                       label: const Text(
+//                         "Resend Email",
+//                         style: TextStyle(fontSize: 24),
+//                       ),
+//                     ),
+//                   ),
+//                   const SizedBox(
+//                     height: 18,
+//                   ),
+//                   TextButton(
+//                       onPressed: () => FirebaseAuth.instance.signOut(),
+//                       child: const Text(
+//                         "Cancel",
+//                         style: TextStyle(fontSize: 24),
+//                       ))
+//                 ],
+//               ),
+//             ),
+//           ),
+//         );

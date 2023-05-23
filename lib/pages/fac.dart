@@ -143,42 +143,41 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
     //the reason for putting TabControler is without it the tabs won't work unless an error will show
     TabController _tabController = TabController(length: 3, vsync: this);
     return Scaffold(
-        body: SingleChildScrollView(scrollDirection: Axis.vertical,
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+        body: SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Container(
             padding: const EdgeInsets.only(top: 50, left: 20),
             child: Row(children: [
               GestureDetector(
-          onTap: () {
-            // Navigate to the intended page
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomePage()),
-            );
-          },
-          //
-          child: Container(
-            margin: const EdgeInsets.only(right: 200),
-            width: 50,
-            height: 30,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              color: const Color.fromRGBO(76, 175, 80, 1).withOpacity(0.5),
-            ),
-            child: Center(
-              child: Text(
-          '<',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+                onTap: () {
+                  // Navigate to the intended page
+                  Navigator.of(context).pop();
+                },
+                //
+                child: Container(
+                  margin: const EdgeInsets.only(right: 200),
+                  width: 50,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color:
+                        const Color.fromRGBO(76, 175, 80, 1).withOpacity(0.5),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      '<',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
               ),
-          ),
-         ),
-        ),
               // Container(
               //   margin: const EdgeInsets.only(right: 200),
               //   width: 50,
@@ -235,8 +234,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
               ),
             ],
           ),
-        
-        
+
           const SizedBox(
             height: 10,
           ),
@@ -257,7 +255,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
           const SizedBox(
             height: 20,
           ),
-        
+
           //categories icons
           Container(
             height: 100,
@@ -297,9 +295,9 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                 //     MaterialPageRoute(builder: (context) => const DetailPage()),
                                 //   );
                                 // },
-        
+
                                 //logic start
-        
+
                                 onTap: () {
                                   if (index == 0) {
                                     Navigator.push(
@@ -337,7 +335,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => Hall005(),
+                                        builder: (context) => const Hall005(),
                                       ),
                                     );
                                   }
@@ -345,7 +343,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => Hall006(),
+                                        builder: (context) => const Hall006(),
                                       ),
                                     );
                                   }
@@ -353,7 +351,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => Hall007(),
+                                        builder: (context) => const Hall007(),
                                       ),
                                     );
                                   }
@@ -361,7 +359,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => Hall008(),
+                                        builder: (context) => const Hall008(),
                                       ),
                                     );
                                   }
@@ -369,7 +367,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => Hall009(),
+                                        builder: (context) => const Hall009(),
                                       ),
                                     );
                                   }
@@ -377,7 +375,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => Hall010(),
+                                        builder: (context) => const Hall010(),
                                       ),
                                     );
                                   }
@@ -391,7 +389,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     );
                                   }
                                 },
-        
+
                                 //logic end
                               ),
                               const SizedBox(height: 5),
@@ -403,7 +401,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                   ),
                                 ),
                                 //text logic begin
-        
+
                                 onTap: () {
                                   if (index == 0) {
                                     Navigator.push(
@@ -441,7 +439,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => Hall005(),
+                                        builder: (context) => const Hall005(),
                                       ),
                                     );
                                   }
@@ -449,7 +447,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => Hall006(),
+                                        builder: (context) => const Hall006(),
                                       ),
                                     );
                                   }
@@ -457,7 +455,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => Hall007(),
+                                        builder: (context) => const Hall007(),
                                       ),
                                     );
                                   }
@@ -465,7 +463,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => Hall008(),
+                                        builder: (context) => const Hall008(),
                                       ),
                                     );
                                   }
@@ -473,7 +471,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => Hall009(),
+                                        builder: (context) => const Hall009(),
                                       ),
                                     );
                                   }
@@ -481,7 +479,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => Hall010(),
+                                        builder: (context) => const Hall010(),
                                       ),
                                     );
                                   }
@@ -495,7 +493,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     );
                                   }
                                 },
-        
+
                                 //text logic end
                               ),
                             ],
@@ -507,9 +505,9 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
               },
             ),
           ),
-        
+
           //2nd START
-        
+
           const SizedBox(
             height: 05,
           ),
@@ -530,7 +528,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
           const SizedBox(
             height: 20,
           ),
-        
+
           //categories icons
           Container(
             height: 100,
@@ -570,9 +568,9 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                 //     MaterialPageRoute(builder: (context) => const DetailPage()),
                                 //   );
                                 // },
-        
+
                                 //logic start
-        
+
                                 onTap: () {
                                   if (index == 0) {
                                     Navigator.push(
@@ -610,7 +608,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL105(),
+                                        builder: (context) => const HallL105(),
                                       ),
                                     );
                                   }
@@ -618,7 +616,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL106(),
+                                        builder: (context) => const HallL106(),
                                       ),
                                     );
                                   }
@@ -626,7 +624,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL107(),
+                                        builder: (context) => const HallL107(),
                                       ),
                                     );
                                   }
@@ -634,7 +632,8 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL108_A(),
+                                        builder: (context) =>
+                                            const HallL108_A(),
                                       ),
                                     );
                                   }
@@ -642,7 +641,8 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL108_B(),
+                                        builder: (context) =>
+                                            const HallL108_B(),
                                       ),
                                     );
                                   }
@@ -650,7 +650,8 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL108_C(),
+                                        builder: (context) =>
+                                            const HallL108_C(),
                                       ),
                                     );
                                   }
@@ -658,7 +659,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL109(),
+                                        builder: (context) => const HallL109(),
                                       ),
                                     );
                                   }
@@ -666,7 +667,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL110(),
+                                        builder: (context) => const HallL110(),
                                       ),
                                     );
                                   }
@@ -674,7 +675,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL111(),
+                                        builder: (context) => const HallL111(),
                                       ),
                                     );
                                   }
@@ -682,7 +683,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL112(),
+                                        builder: (context) => const HallL112(),
                                       ),
                                     );
                                   }
@@ -690,7 +691,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL113(),
+                                        builder: (context) => const HallL113(),
                                       ),
                                     );
                                   }
@@ -698,7 +699,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL114(),
+                                        builder: (context) => const HallL114(),
                                       ),
                                     );
                                   }
@@ -706,12 +707,12 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL114(),
+                                        builder: (context) => const HallL114(),
                                       ),
                                     );
                                   }
                                 },
-        
+
                                 //logic end
                               ),
                               const SizedBox(height: 5),
@@ -723,7 +724,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                   ),
                                 ),
                                 //text logic begin
-        
+
                                 onTap: () {
                                   if (index == 0) {
                                     Navigator.push(
@@ -761,7 +762,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL105(),
+                                        builder: (context) => const HallL105(),
                                       ),
                                     );
                                   }
@@ -769,7 +770,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL106(),
+                                        builder: (context) => const HallL106(),
                                       ),
                                     );
                                   }
@@ -777,7 +778,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL107(),
+                                        builder: (context) => const HallL107(),
                                       ),
                                     );
                                   }
@@ -785,7 +786,8 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL108_A(),
+                                        builder: (context) =>
+                                            const HallL108_A(),
                                       ),
                                     );
                                   }
@@ -793,7 +795,8 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL108_B(),
+                                        builder: (context) =>
+                                            const HallL108_B(),
                                       ),
                                     );
                                   }
@@ -801,7 +804,8 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL108_C(),
+                                        builder: (context) =>
+                                            const HallL108_C(),
                                       ),
                                     );
                                   }
@@ -809,7 +813,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL109(),
+                                        builder: (context) => const HallL109(),
                                       ),
                                     );
                                   }
@@ -817,7 +821,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL110(),
+                                        builder: (context) => const HallL110(),
                                       ),
                                     );
                                   }
@@ -825,7 +829,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL111(),
+                                        builder: (context) => const HallL111(),
                                       ),
                                     );
                                   }
@@ -833,7 +837,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL112(),
+                                        builder: (context) => const HallL112(),
                                       ),
                                     );
                                   }
@@ -841,7 +845,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL113(),
+                                        builder: (context) => const HallL113(),
                                       ),
                                     );
                                   }
@@ -849,7 +853,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL114(),
+                                        builder: (context) => const HallL114(),
                                       ),
                                     );
                                   }
@@ -857,12 +861,12 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL114(),
+                                        builder: (context) => const HallL114(),
                                       ),
                                     );
                                   }
                                 },
-        
+
                                 //text logic end
                               ),
                             ],
@@ -874,10 +878,10 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
               },
             ),
           ),
-        
+
           //2ND END
           //3RD START
-        
+
           const SizedBox(
             height: 5,
           ),
@@ -898,7 +902,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
           const SizedBox(
             height: 20,
           ),
-        
+
           //categories icons
           Container(
             height: 100,
@@ -938,9 +942,9 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                 //     MaterialPageRoute(builder: (context) => const DetailPage()),
                                 //   );
                                 // },
-        
+
                                 //logic start
-        
+
                                 onTap: () {
                                   if (index == 0) {
                                     Navigator.push(
@@ -978,7 +982,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL205(),
+                                        builder: (context) => const HallL205(),
                                       ),
                                     );
                                   }
@@ -986,7 +990,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL206(),
+                                        builder: (context) => const HallL206(),
                                       ),
                                     );
                                   }
@@ -1000,7 +1004,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     );
                                   }
                                 },
-        
+
                                 //logic end
                               ),
                               const SizedBox(height: 5),
@@ -1012,7 +1016,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                   ),
                                 ),
                                 //text logic begin
-        
+
                                 onTap: () {
                                   if (index == 0) {
                                     Navigator.push(
@@ -1050,7 +1054,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL205(),
+                                        builder: (context) => const HallL205(),
                                       ),
                                     );
                                   }
@@ -1058,7 +1062,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL206(),
+                                        builder: (context) => const HallL206(),
                                       ),
                                     );
                                   }
@@ -1072,7 +1076,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     );
                                   }
                                 },
-        
+
                                 //text logic end
                               ),
                             ],
@@ -1084,11 +1088,11 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
               },
             ),
           ),
-          
+
           //3RD END
-        
+
           //4TH START
-        
+
           const SizedBox(
             height: 20,
           ),
@@ -1109,7 +1113,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
           const SizedBox(
             height: 20,
           ),
-        
+
           //categories icons
           Container(
             height: 100,
@@ -1149,9 +1153,9 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                 //     MaterialPageRoute(builder: (context) => const DetailPage()),
                                 //   );
                                 // },
-        
+
                                 //logic start
-        
+
                                 onTap: () {
                                   if (index == 0) {
                                     Navigator.push(
@@ -1165,7 +1169,8 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => const HallL302_A(),
+                                        builder: (context) =>
+                                            const HallL302_A(),
                                       ),
                                     );
                                   }
@@ -1173,7 +1178,8 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => const HallL302_B(),
+                                        builder: (context) =>
+                                            const HallL302_B(),
                                       ),
                                     );
                                   }
@@ -1181,7 +1187,8 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => const HallL302_C(),
+                                        builder: (context) =>
+                                            const HallL302_C(),
                                       ),
                                     );
                                   }
@@ -1189,7 +1196,8 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL302_D(),
+                                        builder: (context) =>
+                                            const HallL302_D(),
                                       ),
                                     );
                                   }
@@ -1197,7 +1205,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL303(),
+                                        builder: (context) => const HallL303(),
                                       ),
                                     );
                                   }
@@ -1211,7 +1219,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     );
                                   }
                                 },
-        
+
                                 //logic end
                               ),
                               const SizedBox(height: 5),
@@ -1223,7 +1231,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                   ),
                                 ),
                                 //text logic begin
-        
+
                                 onTap: () {
                                   if (index == 0) {
                                     Navigator.push(
@@ -1237,7 +1245,8 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => const HallL302_A(),
+                                        builder: (context) =>
+                                            const HallL302_A(),
                                       ),
                                     );
                                   }
@@ -1245,7 +1254,8 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => const HallL302_B(),
+                                        builder: (context) =>
+                                            const HallL302_B(),
                                       ),
                                     );
                                   }
@@ -1253,7 +1263,8 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => const HallL302_C(),
+                                        builder: (context) =>
+                                            const HallL302_C(),
                                       ),
                                     );
                                   }
@@ -1261,7 +1272,8 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL302_D(),
+                                        builder: (context) =>
+                                            const HallL302_D(),
                                       ),
                                     );
                                   }
@@ -1269,7 +1281,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HallL303(),
+                                        builder: (context) => const HallL303(),
                                       ),
                                     );
                                   }
@@ -1283,7 +1295,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
                                     );
                                   }
                                 },
-        
+
                                 //text logic end
                               ),
                             ],
@@ -1295,20 +1307,17 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
               },
             ),
           ),
-        
+
           //4TH END
-        
-          
-       
+
           const SizedBox(
             height: 10,
           ),
-        
+
           //SizedBox(height: 30,),
-           ],
-              ),
-        )
-        );
+        ],
+      ),
+    ));
   }
 }
 
