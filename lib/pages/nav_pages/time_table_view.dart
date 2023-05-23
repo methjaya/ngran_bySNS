@@ -15,13 +15,14 @@ class _TimeTableState extends State<TimeTable> {
   int currentPosition = 0;
   List<String> viewType = ['Day View', 'Week View', 'Month View'];
 
-    Future<String> fetchData() async {
+  Future<Map<String, dynamic>> fetchData() async {
     var url = Uri.parse(
         'https://sheets.googleapis.com/v4/spreadsheets/1eYPsj8kZwNfA-AEjTGcHM8Iqeq7uSdwjP_hEpkN8Rx4/values/FOC?key=AIzaSyCljPBwMPw7cJT8e0-oLFTRN4v1Dz23GGM');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {
-      return response.body;
+      Map<String, dynamic> data = jsonDecode(response.body);
+      return data;
     } else {
       throw Exception('Failed to load data');
     }
@@ -57,7 +58,7 @@ class _TimeTableState extends State<TimeTable> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.lightGreen,
+        backgroundColor: const Color.fromRGBO(73, 141, 56, 1),
       ),
       body: Column(
         children: <Widget>[
@@ -95,36 +96,28 @@ class _TimeTableState extends State<TimeTable> {
           const SizedBox(
             height: 20,
           ),
-          
-          FutureBuilder<String>(
+          FutureBuilder<Map<String, dynamic>>(
             future: fetchData(),
-            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+            builder: (BuildContext context,
+                AsyncSnapshot<Map<String, dynamic>> snapshot) {
               if (snapshot.hasData) {
-                Map<String, dynamic> map = jsonDecode(snapshot.data!);
-                Map<String, dynamic> TData = {};
+                Map<String, dynamic> data = snapshot.data!;
+                List<Appointment> appointments = getAppointments(data);
 
-              for (int i = 0; i < map['values'][0].length; i++) {
-                TData[map['values'][0][i]] = [          map['values'][1][i],
-                map['values'][2][i]
-                ];
-                }
-
-            List<Appointment> appointments = getAppointments(TData);
-
-            return Expanded(
-              child: SfCalendar(
-                key: ValueKey(currentPosition),
-                view: getCalendarView(),
-                //dataSource: LectureSchedule(appointments),
-              ),
-      );
-    } else if (snapshot.hasError) {
-      return Text('${snapshot.error}');
-    } else {
-      return const CircularProgressIndicator();
-    }
-  },
-),
+                return Expanded(
+                  child: SfCalendar(
+                    key: ValueKey(currentPosition),
+                    view: getCalendarView(),
+                    dataSource: LectureSchedule(appointments),
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              } else {
+                return const CircularProgressIndicator();
+              }
+            },
+          ),
         ],
       ),
     );
@@ -134,25 +127,32 @@ class _TimeTableState extends State<TimeTable> {
 List<Appointment> getAppointments(Map<String, dynamic> events) {
   List<Appointment> appointments = [];
 
-  events.forEach((dateString, eventInfo) {
-    DateTime date = DateFormat('d-MMM-yy').parse(dateString);
-    for (String info in eventInfo) {
-      List<String> parts = info.trim().split(' I ');
-      if (parts.length >= 3) {
-        String subject = parts[0];
-        String startString = parts[1];
-        String endString = parts[2];
-        DateTime start = DateFormat('hh:mma').parse(startString, date as bool);
-        DateTime end = DateFormat('hh:mma').parse(endString, date as bool);
-        appointments.add(Appointment(
-          startTime: start,
-          endTime: end,
-          subject: subject,
-          color: Colors.blue,
-        ));
+  if (events.containsKey('values')) {
+    List<dynamic> values = events['values'];
+    if (values.length > 1) {
+      for (int i = 1; i < values.length; i++) {
+        List<dynamic> dataRow = values[i];
+        if (dataRow.length >= 5) {
+          String subject = dataRow[1];
+          String startString = dataRow[2];
+          String endString = dataRow[3];
+          String location = dataRow[4];
+
+          DateTime start = DateFormat('dd/MM/yyyy HH:mm').parse(startString);
+          DateTime end = DateFormat('dd/MM/yyyy HH:mm').parse(endString);
+
+          Appointment appointment = Appointment(
+            startTime: start,
+            endTime: end,
+            subject: "$subject at $location",
+            color: const Color.fromRGBO(73, 141, 56, 1),
+          );
+
+          appointments.add(appointment);
+        }
       }
     }
-  });
+  }
 
   return appointments;
 }
@@ -160,5 +160,20 @@ List<Appointment> getAppointments(Map<String, dynamic> events) {
 class LectureSchedule extends CalendarDataSource {
   LectureSchedule(List<Appointment> source) {
     appointments = source;
+  }
+
+  @override
+  DateTime getStartTime(int index) {
+    return appointments?[index].startTime!;
+  }
+
+  @override
+  bool isAllDay(int index) {
+    return false; // Set to true if the appointments are all-day events
+  }
+
+  @override
+  DateTime getEndTime(int index) {
+    return appointments?[index].endTime!;
   }
 }
