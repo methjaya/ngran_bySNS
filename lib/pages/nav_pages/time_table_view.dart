@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:intl/intl.dart';
@@ -14,6 +15,7 @@ class TimeTable extends StatefulWidget {
 class _TimeTableState extends State<TimeTable> {
   int currentPosition = 0;
   List<String> viewType = ['Day View', 'Week View', 'Month View'];
+  DateTime? selectedDate; // Store the selected date
 
   Future<Map<String, dynamic>> fetchData() async {
     var url = Uri.parse(
@@ -96,28 +98,44 @@ class _TimeTableState extends State<TimeTable> {
           const SizedBox(
             height: 20,
           ),
-          FutureBuilder<Map<String, dynamic>>(
+            FutureBuilder<Map<String, dynamic>>(
             future: fetchData(),
             builder: (BuildContext context,
                 AsyncSnapshot<Map<String, dynamic>> snapshot) {
               if (snapshot.hasData) {
-                Map<String, dynamic> data = snapshot.data!;
-                List<Appointment> appointments = getAppointments(data);
+                  Map<String, dynamic> data = snapshot.data!;
+                  List<Appointment> appointments = getAppointments(data);
 
-                return Expanded(
+                  return Expanded(
                   child: SfCalendar(
                     key: ValueKey(currentPosition),
                     view: getCalendarView(),
                     dataSource: LectureSchedule(appointments),
+                    initialDisplayDate: selectedDate, // Set initial display date
+                    timeSlotViewSettings: const TimeSlotViewSettings(
+                      startHour: 6, // Set the start time to 6AM since realistically there will not be any lectures / events scheduled before that
+                      endHour: 24,
+                    ),
+                    onTap: (CalendarTapDetails details) {
+                      if (details.targetElement == CalendarElement.calendarCell &&
+                          getCalendarView() == CalendarView.month) {
+                        // Switch to day view and update selected date
+                        setState(() {
+                          currentPosition = 0;
+                          selectedDate = details.date!;
+                        });
+                      }
+                    },
                   ),
                 );
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              } else {
-                return const CircularProgressIndicator();
-              }
-            },
-          ),
+
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
+            ),
         ],
       ),
     );
@@ -169,7 +187,7 @@ class LectureSchedule extends CalendarDataSource {
 
   @override
   bool isAllDay(int index) {
-    return false; // Set to true if the appointments are all-day events
+    return false;
   }
 
   @override
