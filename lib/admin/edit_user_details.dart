@@ -1,7 +1,11 @@
+import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:http/http.dart' as http;
 
 class EditUserDetails extends StatefulWidget {
   const EditUserDetails({super.key});

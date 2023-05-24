@@ -5,18 +5,21 @@ import 'package:flutter_firebase_test/admin/add_notice.dart';
 import 'package:flutter_firebase_test/admin/updateEvent.dart';
 import 'package:flutter_firebase_test/admin/update_notice.dart';
 import 'package:flutter_firebase_test/component/appBarActionItems.dart';
+import 'package:flutter_firebase_test/component/barChart.dart';
 import 'package:flutter_firebase_test/component/header.dart';
 
 import 'package:flutter_firebase_test/component/infoCard.dart';
+import 'package:flutter_firebase_test/component/paymentDetailList.dart';
 import 'package:flutter_firebase_test/component/sideMenu.dart';
 import 'package:flutter_firebase_test/config/responsive.dart';
 import 'package:flutter_firebase_test/config/size_config.dart';
+import 'package:flutter_firebase_test/pages/detail_page.dart';
+import 'package:flutter_firebase_test/pages/detail_page2.dart';
 import 'package:flutter_firebase_test/style/colors.dart';
+import 'package:flutter_firebase_test/style/style.dart';
 
 class Dashboard extends StatelessWidget {
-  final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
-
-  Dashboard({super.key});
+  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +50,7 @@ class Dashboard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (Responsive.isDesktop(context))
-              const Expanded(
+              Expanded(
                 flex: 1,
                 child: SideMenu(),
               ),
@@ -55,12 +58,11 @@ class Dashboard extends StatelessWidget {
                 flex: 10,
                 child: SafeArea(
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 30, horizontal: 30),
+                    padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Header(),
+                        Header(),
                         SizedBox(
                           height: SizeConfig.blockSizeVertical! * 4,
                         ),
@@ -80,10 +82,10 @@ class Dashboard extends StatelessWidget {
                                     ),
                                   );
                                 },
-                                child: const InfoCard(
+                                child: InfoCard(
                                     icon: 'assets/add.svg',
                                     label: 'Add an \nEvent',
-                                    amount: 'Add'),
+                                    amount: '\Add'),
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -94,10 +96,10 @@ class Dashboard extends StatelessWidget {
                                     ),
                                   );
                                 },
-                                child: const InfoCard(
+                                child: InfoCard(
                                     icon: 'assets/edit.svg',
                                     label: 'Edit/Remove \nanEvent',
-                                    amount: 'Edit'),
+                                    amount: '\Edit'),
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -108,10 +110,10 @@ class Dashboard extends StatelessWidget {
                                     ),
                                   );
                                 },
-                                child: const InfoCard(
+                                child: InfoCard(
                                     icon: 'assets/add2.svg',
                                     label: 'Add Special \nNotices',
-                                    amount: 'Add'),
+                                    amount: '\Add'),
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -123,10 +125,10 @@ class Dashboard extends StatelessWidget {
                                     ),
                                   );
                                 },
-                                child: const InfoCard(
+                                child: InfoCard(
                                     icon: 'assets/edit2.svg',
                                     label: 'Edit/Remove \nSpecial Notices',
-                                    amount: 'Edit'),
+                                    amount: '\Edit'),
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -138,10 +140,10 @@ class Dashboard extends StatelessWidget {
                                     ),
                                   );
                                 },
-                                child: const InfoCard(
+                                child: InfoCard(
                                     icon: 'assets/timetable2.svg',
                                     label: 'Timetable \nUpdation',
-                                    amount: 'Update'),
+                                    amount: '\Update'),
                               ),
                             ],
                           ),
@@ -213,11 +215,10 @@ class Dashboard extends StatelessWidget {
                   child: Container(
                     width: double.infinity,
                     height: SizeConfig.screenHeight,
-                    decoration:
-                        const BoxDecoration(color: AppColors.secondaryBg),
+                    decoration: BoxDecoration(color: AppColors.secondaryBg),
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 30, horizontal: 30),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                       child: Column(
                         children: const [
                           AppBarActionItems(),

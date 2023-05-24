@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_test/admin/edit_admin_details.dart';
+import 'package:flutter_firebase_test/admin/edit_user_details.dart';
 import 'package:flutter_firebase_test/dashboard.dart';
 import 'package:flutter_firebase_test/misc/colors.dart';
 import 'package:flutter_firebase_test/pages/detail_page.dart';
@@ -96,13 +97,13 @@ class _HomePageAdminState extends State<HomePageAdmin>
   @override
   Widget build(BuildContext context) {
     //the reason for putting TabControler is without it the tabs won't work unless an error will show
-    TabController tabController = TabController(length: 3, vsync: this);
+    TabController _tabController = TabController(length: 3, vsync: this);
     return FutureBuilder(
         future: userName(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Scaffold(
-              body: SizedBox(
+              body: Container(
                 width: double.maxFinite,
                 height: double.maxFinite,
                 child: Column(
@@ -267,7 +268,7 @@ class _HomePageAdminState extends State<HomePageAdmin>
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const NoticesListWidget(),
+                                                      NoticesListWidget(),
                                                 ),
                                               );
                                             }
@@ -285,7 +286,7 @@ class _HomePageAdminState extends State<HomePageAdmin>
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const EventBrowser(),
+                                                      EventBrowser(),
                                                 ),
                                               );
                                             }
@@ -387,7 +388,7 @@ class _HomePageAdminState extends State<HomePageAdmin>
                                 32, // Subtracting the horizontal padding
                           ),
                           child: TabBar(
-                            controller: tabController,
+                            controller: _tabController,
                             labelColor: Colors.black,
                             unselectedLabelColor: Colors.grey,
                             isScrollable: true,
@@ -419,7 +420,7 @@ class _HomePageAdminState extends State<HomePageAdmin>
                       height: 300,
                       width: double.maxFinite,
                       child: TabBarView(
-                        controller: tabController,
+                        controller: _tabController,
                         children: [
                           ListView.builder(
                             itemCount: imagesAndTexts.length,
@@ -463,15 +464,14 @@ class _HomePageAdminState extends State<HomePageAdmin>
                                                 shape: BoxShape.circle,
                                               ),
                                             ),
-                                            const SizedBox(width: 5),
+                                            SizedBox(width: 5),
                                             Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
+                                              padding: EdgeInsets.symmetric(
                                                 horizontal: 10,
                                                 vertical: 5,
                                               ),
                                               decoration: BoxDecoration(
-                                                color: const Color.fromRGBO(
+                                                color: Color.fromRGBO(
                                                     255, 255, 255, 0.8),
                                                 borderRadius:
                                                     BorderRadius.circular(10),
@@ -480,7 +480,7 @@ class _HomePageAdminState extends State<HomePageAdmin>
                                                 imagesAndTexts[index]
                                                         ["upperText"] ??
                                                     "",
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                   color: Color.fromARGB(
                                                       255, 155, 155, 155),
                                                   fontSize: 15,
@@ -495,12 +495,12 @@ class _HomePageAdminState extends State<HomePageAdmin>
                                         bottom: 10,
                                         left: 10,
                                         child: Container(
-                                          padding: const EdgeInsets.symmetric(
+                                          padding: EdgeInsets.symmetric(
                                             horizontal: 10,
                                             vertical: 5,
                                           ),
                                           decoration: BoxDecoration(
-                                            color: const Color.fromRGBO(
+                                            color: Color.fromRGBO(
                                                 255, 255, 255, 0.8),
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -509,7 +509,7 @@ class _HomePageAdminState extends State<HomePageAdmin>
                                             imagesAndTexts[index]
                                                     ["lowerText"] ??
                                                 "",
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               color:
                                                   Color.fromARGB(255, 0, 0, 0),
                                               fontSize: 20,
@@ -598,19 +598,19 @@ void navigateToPage(BuildContext context, int index) {
     case 0:
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const DetailPage()),
+        MaterialPageRoute(builder: (context) => DetailPage()),
       );
       break;
     case 1:
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const DetailPage2()),
+        MaterialPageRoute(builder: (context) => DetailPage2()),
       );
       break;
     case 2:
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const DetailPage3()),
+        MaterialPageRoute(builder: (context) => DetailPage3()),
       );
       break;
     default:
@@ -638,14 +638,14 @@ class _CirclePainter extends BoxPainter {
 
   @override
   void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
-    Paint paint = Paint();
-    paint.color = color;
-    paint.isAntiAlias = true;
+    Paint _paint = Paint();
+    _paint.color = color;
+    _paint.isAntiAlias = true;
     final Offset circleOffset = Offset(
         configuration.size!.width / 4 - radius / 2,
         configuration.size!.height - radius);
 
-    canvas.drawCircle(offset + circleOffset, radius, paint);
+    canvas.drawCircle(offset + circleOffset, radius, _paint);
   }
 
   //TODO: implement createBoxPainter

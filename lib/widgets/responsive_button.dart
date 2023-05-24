@@ -1,10 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ResponsiveButton extends StatelessWidget {
   final bool? isResponsive;
   final double? width;
-  const ResponsiveButton({Key? key, this.width, this.isResponsive = false})
+  ResponsiveButton({Key? key, this.width, this.isResponsive = false})
       : super(key: key);
 
   @override
@@ -26,7 +28,7 @@ class ResponsiveButton extends StatelessWidget {
           height: 60,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: const Color.fromRGBO(73, 141, 56, 1),
+            color: Color.fromRGBO(73, 141, 56, 1),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

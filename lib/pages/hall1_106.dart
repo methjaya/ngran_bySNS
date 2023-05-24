@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_firebase_test/misc/colors.dart';
 import 'package:flutter_firebase_test/pages/fac.dart';
+import 'package:flutter_firebase_test/pages/home_page.dart';
 import 'package:flutter_firebase_test/widgets/app_large_text.dart';
 import 'package:flutter_firebase_test/widgets/app_text.dart';
+import 'package:flutter_firebase_test/widgets/responsive_button.dart';
 
 class Hall1_106 extends StatefulWidget {
   const Hall1_106({Key? key}) : super(key: key);
@@ -23,9 +27,9 @@ class _Hall1_106 extends State<Hall1_106> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    TabController tabController = TabController(length: 3, vsync: this);
+    TabController _tabController = TabController(length: 3, vsync: this);
     return Scaffold(
-        body: SizedBox(
+        body: Container(
             width: double.maxFinite,
             height: double.maxFinite,
             child: Stack(
@@ -37,7 +41,7 @@ class _Hall1_106 extends State<Hall1_106> with TickerProviderStateMixin {
                   child: Container(
                     width: double.maxFinite,
                     height: 570,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                         image: DecorationImage(
                       image: AssetImage("img/1-106.png"),
                       fit: BoxFit.cover,
@@ -55,12 +59,12 @@ class _Hall1_106 extends State<Hall1_106> with TickerProviderStateMixin {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const Fac(),
+                                builder: (context) => Fac(),
                               ),
                             );
                           },
-                          icon: const Icon(Icons.arrow_back_ios_new),
-                          color: const Color.fromRGBO(255, 255, 255, 1),
+                          icon: Icon(Icons.arrow_back_ios_new),
+                          color: Color.fromRGBO(255, 255, 255, 1),
                         )
                       ],
                     )),
@@ -74,7 +78,7 @@ class _Hall1_106 extends State<Hall1_106> with TickerProviderStateMixin {
                       ),
                       width: MediaQuery.of(context).size.width,
                       height: 500,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(30),
@@ -90,13 +94,13 @@ class _Hall1_106 extends State<Hall1_106> with TickerProviderStateMixin {
                                   //size:25,
                                   color: Colors.black.withOpacity(0.8)),
                               AppLargeText(
-                                text: "First Floor",
+                                text: "\First Floor",
                                 color: AppColors.starColor,
                                 size: 20,
                               )
                             ],
                           ),
-                          const SizedBox(height: 25,),
+                          SizedBox(height: 25,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children:[

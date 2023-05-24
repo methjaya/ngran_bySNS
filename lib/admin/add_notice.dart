@@ -1,4 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 
 class AddNotice extends StatefulWidget {
@@ -9,7 +12,7 @@ class AddNotice extends StatefulWidget {
 }
 
 class _AddNoticeState extends State<AddNotice> {
-  static final Set<String> _selectedOptions = {};
+  static Set<String> _selectedOptions = {};
   DateTime dateTime = DateTime.now();
   final _formKey = GlobalKey<FormState>();
   bool isSelected = false;
@@ -35,7 +38,7 @@ class _AddNoticeState extends State<AddNotice> {
               ),
         content: Text(
           txt,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
           TextButton(
@@ -132,7 +135,7 @@ class _AddNoticeState extends State<AddNotice> {
                         return AlertDialog(
                           backgroundColor: Colors.white,
                           title: const Text('Select Groups'),
-                          content: const CheckboxListTileGroups(),
+                          content: CheckboxListTileGroups(),
                           actions: <Widget>[
                             TextButton(
                               child: const Text('CLOSE'),
@@ -338,8 +341,6 @@ class _AddNoticeState extends State<AddNotice> {
 }
 
 class CheckboxListTileGroups extends StatefulWidget {
-  const CheckboxListTileGroups({super.key});
-
   @override
   CheckboxListTileGroupsState createState() => CheckboxListTileGroupsState();
 }

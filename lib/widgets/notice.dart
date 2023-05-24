@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class NoticeWidget extends StatelessWidget {
   final String title;
   final String body;
-  const NoticeWidget(this.title, this.body, {super.key});
+  const NoticeWidget(this.title, this.body);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: SizedBox(
+        child: Container(
           height: 400,
           width: 400,
           child: Card(
