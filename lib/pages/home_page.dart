@@ -130,7 +130,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         // Icon(Icons.account_circle_rounded,size:40,color:Color.fromRGBO(76, 175, 80, 1).withOpacity(0.7)),
                         DropdownButton(
                           underline: const SizedBox(),
-                          items: const [
+                          items: [
                             // DropdownMenuItem(
                             //     value: 'logout', child: Text("Logout")),
                             // DropdownMenuItem(
@@ -140,7 +140,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             DropdownMenuItem(
                               value: 'logout',
                               child: Row(
-                                children: <Widget>[
+                                children: const <Widget>[
                                   Icon(Icons.exit_to_app),
                                   SizedBox(
                                     width: 8,
@@ -153,7 +153,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             DropdownMenuItem(
                               value: 'editDetails',
                               child: Row(
-                                children: <Widget>[
+                                children: const <Widget>[
                                   Icon(Icons.edit_document),
                                   SizedBox(
                                     width: 8,
@@ -732,36 +732,36 @@ class _QRViewExampleState extends State<QRViewExample> {
       setState(() {
         result = scanData;
       });
-      
-      if (!dataSent) { // Check if data has already been sent
-      String? qrContent = scanData.code;
-      List<String> qrValues = qrContent!.split('\n');
 
-      String lecture = qrValues[0].split(' : ')[1];
-      String lecturer = qrValues[1].split(' : ')[1];
-      String location = qrValues[2].split(' : ')[1];
-      String startTime = qrValues[3].split(' : ')[1];
-      String endTime = qrValues[4].split(' : ')[1];
+      if (!dataSent) {
+        // Check if data has already been sent
+        String? qrContent = scanData.code;
+        List<String> qrValues = qrContent!.split('\n');
 
-      // Create a map of the data to be sent to Firestore
-      Map<String, dynamic> data = {
-        'lecture': lecture,
-        'lecturer': lecturer,
-        'location': location,
-        'startTime': startTime,
-        'endTime': endTime,
-      };
+        String lecture = qrValues[0].split(' : ')[1];
+        String lecturer = qrValues[1].split(' : ')[1];
+        String location = qrValues[2].split(' : ')[1];
+        String startTime = qrValues[3].split(' : ')[1];
+        String endTime = qrValues[4].split(' : ')[1];
 
-      try {
-        dataSent = true; // Set the flag to true once data is sent
-        
-        // Send the data to Firestore
-        await FirebaseFirestore.instance.collection('qr_data').add(data);
-      } catch (error) {
-        print('Error sending data to Firestore: $error');
+        // Create a map of the data to be sent to Firestore
+        Map<String, dynamic> data = {
+          'lecture': lecture,
+          'lecturer': lecturer,
+          'location': location,
+          'startTime': startTime,
+          'endTime': endTime,
+        };
+
+        try {
+          dataSent = true; // Set the flag to true once data is sent
+
+          // Send the data to Firestore
+          await FirebaseFirestore.instance.collection('qr_data').add(data);
+        } catch (error) {
+          print('Error sending data to Firestore: $error');
+        }
       }
-    }
-
     });
   }
 

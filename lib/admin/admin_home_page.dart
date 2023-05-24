@@ -124,11 +124,11 @@ class _HomePageAdminState extends State<HomePageAdmin>
                         // Icon(Icons.account_circle_rounded,size:40,color:Color.fromRGBO(76, 175, 80, 1).withOpacity(0.7)),
                         DropdownButton(
                           underline: const SizedBox(),
-                          items: const [
+                          items: [
                             DropdownMenuItem(
                               value: 'logout',
                               child: Row(
-                                children: <Widget>[
+                                children: const <Widget>[
                                   Icon(Icons.exit_to_app),
                                   SizedBox(
                                     width: 8,
@@ -141,7 +141,7 @@ class _HomePageAdminState extends State<HomePageAdmin>
                             DropdownMenuItem(
                               value: 'editDetails',
                               child: Row(
-                                children: <Widget>[
+                                children: const <Widget>[
                                   Icon(Icons.edit_document),
                                   SizedBox(
                                     width: 8,
@@ -465,7 +465,8 @@ class _HomePageAdminState extends State<HomePageAdmin>
                                             ),
                                             const SizedBox(width: 5),
                                             Container(
-                                              padding: const EdgeInsets.symmetric(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
                                                 horizontal: 10,
                                                 vertical: 5,
                                               ),

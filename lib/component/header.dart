@@ -25,12 +25,12 @@ class Header extends StatelessWidget {
           const SizedBox(
             width: 10,
           ),
-          const SizedBox(
+          SizedBox(
             //width: 20,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: const [
                   PrimaryText(
                     text: 'NGram Dashboard',
                     size: 30,

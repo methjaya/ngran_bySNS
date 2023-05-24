@@ -165,8 +165,8 @@ class _DetailPageState3 extends State<DetailPage3>
                               ),
                             ]),
 
-                        const Row(
-                          children: [],
+                        Row(
+                          children: const [],
                         ),
                         const SizedBox(
                           height: 30,
@@ -184,158 +184,172 @@ class _DetailPageState3 extends State<DetailPage3>
                           height: 20,
                         ),
                         //categories icons
-        Container(
-          height: 100,
-          margin: const EdgeInsets.only(left: 20),
-          child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              double spacing = constraints.maxWidth /
-                  10; // Set the spacing to be 1/10 of the screen width
-              return SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    for (int index = 0; index < 4; index++)
-                      Container(
-                        margin: EdgeInsets.only(right: spacing),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              child: Container(
-                                width: 60,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.white,
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                        "img/${images.keys.elementAt(index)}"),
-                                    fit: BoxFit.scaleDown,
-                                  ),
+                        Container(
+                          height: 100,
+                          margin: const EdgeInsets.only(left: 20),
+                          child: LayoutBuilder(
+                            builder: (BuildContext context,
+                                BoxConstraints constraints) {
+                              double spacing = constraints.maxWidth /
+                                  10; // Set the spacing to be 1/10 of the screen width
+                              return SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    for (int index = 0; index < 4; index++)
+                                      Container(
+                                        margin: EdgeInsets.only(right: spacing),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            InkWell(
+                                              child: Container(
+                                                width: 60,
+                                                height: 60,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  color: Colors.white,
+                                                  image: DecorationImage(
+                                                    image: AssetImage(
+                                                        "img/${images.keys.elementAt(index)}"),
+                                                    fit: BoxFit.scaleDown,
+                                                  ),
+                                                ),
+                                              ),
+                                              // onTap: () {
+                                              //   Navigator.push(
+                                              //     context,
+                                              //     MaterialPageRoute(builder: (context) => const DetailPage()),
+                                              //   );
+                                              // },
+
+                                              //logic start
+
+                                              onTap: () {
+                                                if (index == 0) {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const Fac(),
+                                                    ),
+                                                  );
+                                                }
+                                                if (index == 1) {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const DetailPage(),
+                                                    ),
+                                                  );
+                                                }
+                                                if (index == 2) {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const DetailPage2(),
+                                                    ),
+                                                  );
+                                                }
+                                                if (index == 3) {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const DetailPage2(),
+                                                    ),
+                                                  );
+                                                }
+                                                if (index == 4) {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Dashboard(),
+                                                    ),
+                                                  );
+                                                }
+                                              },
+
+                                              //logic end
+                                            ),
+                                            const SizedBox(height: 5),
+                                            InkWell(
+                                              child: Container(
+                                                child: AppText(
+                                                  text: images.values
+                                                      .elementAt(index),
+                                                  color:
+                                                      AppColors.mainTextColor,
+                                                ),
+                                              ),
+                                              //text logic begin
+
+                                              onTap: () {
+                                                if (index == 0) {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const DetailPage(),
+                                                    ),
+                                                  );
+                                                }
+                                                if (index == 1) {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const DetailPage(),
+                                                    ),
+                                                  );
+                                                }
+                                                if (index == 2) {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const DetailPage2(),
+                                                    ),
+                                                  );
+                                                }
+                                                if (index == 3) {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Dashboard(),
+                                                    ),
+                                                  );
+                                                }
+                                              },
+
+                                              //text logic end
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                  ],
                                 ),
-                              ),
-                              // onTap: () {
-                              //   Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(builder: (context) => const DetailPage()),
-                              //   );
-                              // },
-
-                              //logic start
-
-                              onTap: () {
-                                if (index == 0) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const Fac(),
-                                    ),
-                                  );
-                                }
-                                if (index == 1) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const DetailPage(),
-                                    ),
-                                  );
-                                }
-                                if (index == 2) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const DetailPage2(),
-                                    ),
-                                  );
-                                }
-                                if (index == 3) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const DetailPage2(),
-                                    ),
-                                  );
-                                }
-                                if (index == 4) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Dashboard(),
-                                    ),
-                                  );
-                                }
-                              },
-
-                              //logic end
-                            ),
-                            const SizedBox(height: 5),
-                            InkWell(
-                              child: Container(
-                                child: AppText(
-                                  text: images.values.elementAt(index),
-                                  color: AppColors.mainTextColor,
-                                ),
-                              ),
-                              //text logic begin
-
-                              onTap: () {
-                                if (index == 0) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const DetailPage(),
-                                    ),
-                                  );
-                                }
-                                if (index == 1) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const DetailPage(),
-                                    ),
-                                  );
-                                }
-                                if (index == 2) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const DetailPage2(),
-                                    ),
-                                  );
-                                }
-                                if (index == 3) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Dashboard(),
-                                    ),
-                                  );
-                                }
-                              },
-
-                              //text logic end
-                            ),
-                          ],
+                              );
+                            },
+                          ),
                         ),
-                      ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
                       ],
                     ),
                   ),
                 ),
-                const Positioned(
+                Positioned(
                     bottom: 20,
                     left: 20,
                     right: 20,
                     child: Row(
-                      children: [
+                      children: const [
                         ResponsiveButton(
                           isResponsive: true,
                         )

@@ -155,7 +155,8 @@ class _DetailPageState2 extends State<DetailPage2>
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               AppText(
-                                text: "Renewing the Touch of Business.\n\nA comprehensive training program designed \nto help individuals and organizations improve \ntheir overall management skills and enhance \ntheir business performance.",
+                                text:
+                                    "Renewing the Touch of Business.\n\nA comprehensive training program designed \nto help individuals and organizations improve \ntheir overall management skills and enhance \ntheir business performance.",
                                 color: AppColors.mainTextColor,
                               ),
                               const SizedBox(
@@ -163,8 +164,8 @@ class _DetailPageState2 extends State<DetailPage2>
                               ),
                             ]),
 
-                        const Row(
-                          children: [],
+                        Row(
+                          children: const [],
                         ),
                         const SizedBox(
                           height: 30,
@@ -195,7 +196,7 @@ class _DetailPageState2 extends State<DetailPage2>
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    for (int index = 0; index <4; index++)
+                                    for (int index = 0; index < 4; index++)
                                       Container(
                                         margin: EdgeInsets.only(right: spacing),
                                         child: Column(
@@ -342,12 +343,12 @@ class _DetailPageState2 extends State<DetailPage2>
                     ),
                   ),
                 ),
-                const Positioned(
+                Positioned(
                     bottom: 20,
                     left: 20,
                     right: 20,
                     child: Row(
-                      children: [
+                      children: const [
                         ResponsiveButton(
                           isResponsive: true,
                         )

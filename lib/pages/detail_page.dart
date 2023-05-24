@@ -163,8 +163,8 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                                 ),
                               ]),
 
-                          const Row(
-                            children: [],
+                          Row(
+                            children: const [],
                           ),
                           const SizedBox(
                             height: 30,
@@ -344,12 +344,12 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                         ],
                       ),
                     )),
-                const Positioned(
+                Positioned(
                     bottom: 20,
                     left: 20,
                     right: 20,
                     child: Row(
-                      children: [
+                      children: const [
                         ResponsiveButton(
                           isResponsive: true,
                         )

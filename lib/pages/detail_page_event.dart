@@ -193,8 +193,8 @@ class _DetailPageEventState extends State<DetailPageEvent>
                                 ),
                               ]),
 
-                          const Row(
-                            children: [],
+                          Row(
+                            children: const [],
                           ),
                           const SizedBox(
                             height: 30,
@@ -235,8 +235,8 @@ class _DetailPageEventState extends State<DetailPageEvent>
                                                   BorderRadius.circular(20),
                                               color: Colors.white,
                                               image: DecorationImage(
-                                                image: AssetImage("img/${images.keys.elementAt(
-                                                            index)}" //methana uda index eken ganne
+                                                image: AssetImage(
+                                                    "img/${images.keys.elementAt(index)}" //methana uda index eken ganne
                                                     ),
                                                 fit: BoxFit.scaleDown,
                                               )),
@@ -259,12 +259,12 @@ class _DetailPageEventState extends State<DetailPageEvent>
                         ],
                       ),
                     )),
-                const Positioned(
+                Positioned(
                   bottom: 20,
                   left: 20,
                   right: 20,
                   child: Row(
-                    children: [
+                    children: const [
                       ResponsiveButton(
                         isResponsive: true,
                       )

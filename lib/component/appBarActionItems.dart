@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class AppBarActionItems extends StatelessWidget {
   const AppBarActionItems({
-    Key ?key,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         // IconButton(
@@ -16,12 +16,12 @@ class AppBarActionItems extends StatelessWidget {
         //       width: 20,
         //     ),
         //     onPressed: () {}),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         // IconButton(
         //     icon: SvgPicture.asset('assets/ring.svg', width: 20.0),
         //     onPressed: () {}),
-        SizedBox(width: 15),
-        Row(children: [
+        const SizedBox(width: 15),
+        Row(children: const [
           CircleAvatar(
             radius: 17,
             backgroundImage: NetworkImage(

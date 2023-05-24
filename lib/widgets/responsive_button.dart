@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
-
 class ResponsiveButton extends StatelessWidget {
   final bool? isResponsive;
   final double? width;
@@ -30,9 +28,9 @@ class ResponsiveButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             color: const Color.fromRGBO(73, 141, 56, 1),
           ),
-          child: const Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: const [
               Text(
                 "Inquire",
                 style: TextStyle(

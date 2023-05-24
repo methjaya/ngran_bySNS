@@ -55,8 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     DropdownMenuItem(
                       value: 'logout',
                       child: Container(
-                        child: const Row(
-                          children: <Widget>[
+                        child: Row(
+                          children: const <Widget>[
                             Icon(Icons.exit_to_app),
                             SizedBox(
                               width: 8,

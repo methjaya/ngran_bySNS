@@ -55,7 +55,8 @@ class Dashboard extends StatelessWidget {
                 flex: 10,
                 child: SafeArea(
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 30, horizontal: 30),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -212,12 +213,13 @@ class Dashboard extends StatelessWidget {
                   child: Container(
                     width: double.infinity,
                     height: SizeConfig.screenHeight,
-                    decoration: const BoxDecoration(color: AppColors.secondaryBg),
-                    child: const SingleChildScrollView(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                    decoration:
+                        const BoxDecoration(color: AppColors.secondaryBg),
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 30, horizontal: 30),
                       child: Column(
-                        children: [
+                        children: const [
                           AppBarActionItems(),
                           // PaymentDetailList(),
                         ],
