@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class UpdateNotice extends StatefulWidget {
   const UpdateNotice({super.key});
@@ -48,7 +46,7 @@ class _UpdateNoticeState extends State<UpdateNotice> {
               ),
         content: Text(
           txt,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
           TextButton(
@@ -246,7 +244,7 @@ class _UpdateNoticeState extends State<UpdateNotice> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Container(
@@ -341,7 +339,7 @@ class _UpdateNoticeState extends State<UpdateNotice> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 TextFormField(
@@ -418,7 +416,7 @@ class _UpdateNoticeState extends State<UpdateNotice> {
                   height: 12,
                 ),
                 Container(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),
                     borderRadius: const BorderRadius.all(

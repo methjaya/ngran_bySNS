@@ -1,8 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_firebase_test/misc/colors.dart';
 import 'package:flutter_firebase_test/widgets/app_large_text.dart';
 import 'package:flutter_firebase_test/widgets/app_text.dart';
@@ -69,12 +66,12 @@ class _DetailPageEventState extends State<DetailPageEvent>
 
   @override
   Widget build(BuildContext context) {
-    TabController _tabController = TabController(length: 3, vsync: this);
+    TabController tabController = TabController(length: 3, vsync: this);
     return FutureBuilder(
       future: userName(),
       builder: (conetxt, snapshot) {
         return Scaffold(
-          body: Container(
+          body: SizedBox(
             width: double.maxFinite,
             height: double.maxFinite,
             child: Stack(
@@ -101,8 +98,8 @@ class _DetailPageEventState extends State<DetailPageEvent>
                       children: [
                         IconButton(
                           onPressed: () {},
-                          icon: Icon(Icons.arrow_back_ios_new),
-                          color: Color.fromRGBO(73, 141, 56, 1),
+                          icon: const Icon(Icons.arrow_back_ios_new),
+                          color: const Color.fromRGBO(73, 141, 56, 1),
                         )
                       ],
                     )),
@@ -116,7 +113,7 @@ class _DetailPageEventState extends State<DetailPageEvent>
                       ),
                       width: MediaQuery.of(context).size.width,
                       height: 500,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(20),
@@ -139,36 +136,36 @@ class _DetailPageEventState extends State<DetailPageEvent>
                               )
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.location_on,
                                 color: Color.fromRGBO(73, 141, 56, 1),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 15,
                               ),
                               AppText(
                                 text: widget.eventLocation,
-                                color: Color.fromRGBO(73, 141, 56, 0.8),
+                                color: const Color.fromRGBO(73, 141, 56, 0.8),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               //AppLargeText(text: "Description",color:Colors.black.withOpacity(0.8),size:20,),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 8,
                             ),
 
@@ -177,12 +174,12 @@ class _DetailPageEventState extends State<DetailPageEvent>
                               color: Colors.black.withOpacity(0.8),
                               size: 20,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             //AppText(text: "SNS Cyber Hackthon is one of the best Hackathons organized in Sri Lanka. This Hackathon was named after the 3 great Computer Geniuses Sahansa, Nethun & Sujeewa (SNS).",color: AppColors.mainTextColor,),
                           ]),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           Row(
@@ -191,19 +188,19 @@ class _DetailPageEventState extends State<DetailPageEvent>
                                 Flexible(
                                   child: Text(widget.eventDescription),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                               ]),
 
-                          Row(
+                          const Row(
                             children: [],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
                           //2
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           AppLargeText(
@@ -211,7 +208,7 @@ class _DetailPageEventState extends State<DetailPageEvent>
                             color: Colors.black.withOpacity(0.5),
                             size: 16,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           //categories icons
@@ -238,14 +235,13 @@ class _DetailPageEventState extends State<DetailPageEvent>
                                                   BorderRadius.circular(20),
                                               color: Colors.white,
                                               image: DecorationImage(
-                                                image: AssetImage("img/" +
-                                                        images.keys.elementAt(
-                                                            index) //methana uda index eken ganne
+                                                image: AssetImage("img/${images.keys.elementAt(
+                                                            index)}" //methana uda index eken ganne
                                                     ),
                                                 fit: BoxFit.scaleDown,
                                               )),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 5,
                                         ),
                                         Container(
@@ -263,7 +259,7 @@ class _DetailPageEventState extends State<DetailPageEvent>
                         ],
                       ),
                     )),
-                Positioned(
+                const Positioned(
                   bottom: 20,
                   left: 20,
                   right: 20,

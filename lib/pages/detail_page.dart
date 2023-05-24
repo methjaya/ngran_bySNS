@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_firebase_test/misc/colors.dart';
 import 'package:flutter_firebase_test/pages/home_page.dart';
 import 'package:flutter_firebase_test/widgets/app_large_text.dart';
@@ -34,9 +32,9 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
   };
   @override
   Widget build(BuildContext context) {
-    TabController _tabController = TabController(length: 3, vsync: this);
+    TabController tabController = TabController(length: 3, vsync: this);
     return Scaffold(
-        body: Container(
+        body: SizedBox(
             width: double.maxFinite,
             height: double.maxFinite,
             child: Stack(
@@ -48,7 +46,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                   child: Container(
                     width: double.maxFinite,
                     height: 350,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         image: DecorationImage(
                       image: AssetImage("img/cover1.png"),
                       fit: BoxFit.cover,
@@ -66,12 +64,12 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => HomePage(),
+                                builder: (context) => const HomePage(),
                               ),
                             );
                           },
-                          icon: Icon(Icons.arrow_back_ios_new),
-                          color: Color.fromRGBO(73, 141, 56, 1),
+                          icon: const Icon(Icons.arrow_back_ios_new),
+                          color: const Color.fromRGBO(73, 141, 56, 1),
                         )
                       ],
                     )),
@@ -85,7 +83,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                       ),
                       width: MediaQuery.of(context).size.width,
                       height: 500,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(20),
@@ -100,42 +98,42 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                                   text: "SNS Hackathon",
                                   color: Colors.black.withOpacity(0.8)),
                               AppLargeText(
-                                text: "\01st June",
+                                text: "01st June",
                                 color: AppColors.starColor,
                                 size: 20,
                               )
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.location_on,
                                 color: Color.fromRGBO(73, 141, 56, 1),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 15,
                               ),
                               AppText(
                                 text: "C2004,Faculty of Computing",
-                                color: Color.fromRGBO(73, 141, 56, 0.8),
+                                color: const Color.fromRGBO(73, 141, 56, 0.8),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               //AppLargeText(text: "Description",color:Colors.black.withOpacity(0.8),size:20,),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 8,
                             ),
 
@@ -144,12 +142,12 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                               color: Colors.black.withOpacity(0.8),
                               size: 20,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             //AppText(text: "SNS Cyber Hackthon is one of the best Hackathons organized in Sri Lanka. This Hackathon was named after the 3 great Computer Geniuses Sahansa, Nethun & Sujeewa (SNS).",color: AppColors.mainTextColor,),
                           ]),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           Row(
@@ -160,19 +158,19 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                                       "This Hackathon was named after the 3 Great \nComputer Geniuses Sahansa, Nethun & \nSujeewa (SNS).\n\nThis will gives you the opprtunity to compete \nagainst your peers by putting your coding skills \nto test.",
                                   color: AppColors.mainTextColor,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                               ]),
 
-                          Row(
+                          const Row(
                             children: [],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
                           //2
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           AppLargeText(
@@ -180,7 +178,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                             color: Colors.black.withOpacity(0.5),
                             size: 16,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           //categories icons
@@ -346,7 +344,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                         ],
                       ),
                     )),
-                Positioned(
+                const Positioned(
                     bottom: 20,
                     left: 20,
                     right: 20,

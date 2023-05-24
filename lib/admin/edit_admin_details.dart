@@ -1,11 +1,7 @@
-import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:http/http.dart' as http;
 
 class EditAdminDetails extends StatefulWidget {
   const EditAdminDetails({super.key});
@@ -25,9 +21,9 @@ class _EditAdminDetailsState extends State<EditAdminDetails> {
   Map<String, dynamic> _userData = {};
   TextEditingController _txtControllerFName = TextEditingController(text: "");
   TextEditingController _txtControllerLName = TextEditingController(text: "");
-  TextEditingController _txtControllerUname = TextEditingController(text: "");
+  final TextEditingController _txtControllerUname = TextEditingController(text: "");
   TextEditingController _txtControllerNIC = TextEditingController(text: "");
-  TextEditingController _txtControllerSID = TextEditingController(text: "");
+  final TextEditingController _txtControllerSID = TextEditingController(text: "");
   TextEditingController _txtControllerPHNo = TextEditingController(text: "");
 
   void _showdialog(String txt, BuildContext context, bool type) {

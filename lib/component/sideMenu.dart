@@ -15,7 +15,7 @@ class SideMenu extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: SizeConfig.screenHeight,
-        decoration: BoxDecoration(color: AppColors.secondaryBg),
+        decoration: const BoxDecoration(color: AppColors.secondaryBg),
         child: SingleChildScrollView(
                   child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -24,7 +24,7 @@ class SideMenu extends StatelessWidget {
                height: 100,
                alignment: Alignment.topCenter,
                width: double.infinity,
-               padding: EdgeInsets.only(top: 20),
+               padding: const EdgeInsets.only(top: 20),
                child: SizedBox(
                     width: 35,
                     height: 20,
@@ -34,7 +34,7 @@ class SideMenu extends StatelessWidget {
             
               IconButton(
                   iconSize: 20,
-                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
                   icon: SvgPicture.asset(
                     'assets/home.svg',
                     color: AppColors.iconGray,
@@ -42,7 +42,7 @@ class SideMenu extends StatelessWidget {
                   onPressed: () {}),
               IconButton(
                   iconSize: 20,
-                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
                   icon: SvgPicture.asset(
                     'assets/pie-chart.svg',
                     color: AppColors.iconGray,
@@ -50,7 +50,7 @@ class SideMenu extends StatelessWidget {
                   onPressed: () {}),
               IconButton(
                   iconSize: 20,
-                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
                   icon: SvgPicture.asset(
                     'assets/clipboard.svg',
                     color: AppColors.iconGray,
@@ -58,7 +58,7 @@ class SideMenu extends StatelessWidget {
                   onPressed: () {}),
               IconButton(
                   iconSize: 20,
-                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
                   icon: SvgPicture.asset(
                     'assets/credit-card.svg',
                     color: AppColors.iconGray,
@@ -66,7 +66,7 @@ class SideMenu extends StatelessWidget {
                   onPressed: () {}),
               IconButton(
                   iconSize: 20,
-                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
                   icon: SvgPicture.asset(
                     'assets/trophy.svg',
                     color: AppColors.iconGray,
@@ -74,7 +74,7 @@ class SideMenu extends StatelessWidget {
                   onPressed: () {}),
               IconButton(
                   iconSize: 20,
-                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
                   icon: SvgPicture.asset(
                     'assets/invoice.svg',
                     color: AppColors.iconGray,

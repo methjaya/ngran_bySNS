@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -56,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     DropdownMenuItem(
                       value: 'logout',
                       child: Container(
-                        child: Row(
+                        child: const Row(
                           children: <Widget>[
                             Icon(Icons.exit_to_app),
                             SizedBox(

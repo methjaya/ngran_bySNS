@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_firebase_test/misc/colors.dart';
 import 'package:flutter_firebase_test/pages/fac.dart';
-import 'package:flutter_firebase_test/pages/home_page.dart';
 import 'package:flutter_firebase_test/widgets/app_large_text.dart';
 import 'package:flutter_firebase_test/widgets/app_text.dart';
-import 'package:flutter_firebase_test/widgets/responsive_button.dart';
 
 class HallL302_A extends StatefulWidget {
   const HallL302_A({Key? key}) : super(key: key);
@@ -26,9 +22,9 @@ class _HallL302_A extends State<HallL302_A> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    TabController _tabController = TabController(length: 3, vsync: this);
+    TabController tabController = TabController(length: 3, vsync: this);
     return Scaffold(
-        body: Container(
+        body: SizedBox(
             width: double.maxFinite,
             height: double.maxFinite,
             child: Stack(
@@ -40,7 +36,7 @@ class _HallL302_A extends State<HallL302_A> with TickerProviderStateMixin {
                   child: Container(
                     width: double.maxFinite,
                     height: 570,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         image: DecorationImage(
                       image: AssetImage("img/MapL302-A.png"),
                       fit: BoxFit.cover,
@@ -58,12 +54,12 @@ class _HallL302_A extends State<HallL302_A> with TickerProviderStateMixin {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Fac(),
+                                builder: (context) => const Fac(),
                               ),
                             );
                           },
-                          icon: Icon(Icons.arrow_back_ios_new),
-                          color: Color.fromRGBO(255, 255, 255, 1),
+                          icon: const Icon(Icons.arrow_back_ios_new),
+                          color: const Color.fromRGBO(255, 255, 255, 1),
                         )
                       ],
                     )),
@@ -77,7 +73,7 @@ class _HallL302_A extends State<HallL302_A> with TickerProviderStateMixin {
                     ),
                     width: MediaQuery.of(context).size.width,
                     height: 500,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(30),
@@ -92,13 +88,13 @@ class _HallL302_A extends State<HallL302_A> with TickerProviderStateMixin {
                               size: 25,
                               color: Colors.black.withOpacity(0.8)),
                           AppLargeText(
-                            text: "\B3 Floor",
+                            text: "B3 Floor",
                             color: AppColors.starColor,
                             size: 20,
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
                       Row(

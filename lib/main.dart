@@ -1,17 +1,9 @@
-import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_firebase_test/admin/push_notification.dart';
 import 'package:flutter_firebase_test/admin/verify_email.dart';
-import 'package:flutter_firebase_test/pages/detail_page_event.dart';
-import 'package:flutter_firebase_test/pages/home_page.dart';
-import 'package:flutter_firebase_test/pages/notice_page.dart';
-import 'package:flutter_firebase_test/admin/user_data.dart';
 
 import 'package:flutter_firebase_test/screens/authscreen.dart';
-import 'package:flutter_firebase_test/screens/home.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +13,8 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   var isVerified;
+
+  MyApp({super.key});
 
   Future<void> checkUserVerification(String uid) async {
     try {
@@ -94,7 +88,7 @@ class MyApp extends StatelessWidget {
             //   return AuthScreen();
             // }
           } else {
-            return AuthScreen();
+            return const AuthScreen();
           }
         },
       ),
