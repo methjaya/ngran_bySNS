@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
 import "package:http/http.dart" as http;
 import 'package:path/path.dart' as path;
 
@@ -61,7 +63,7 @@ class _UpdateEventState extends State<UpdateEvent> {
               ),
         content: Text(
           txt,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
           TextButton(
@@ -550,7 +552,7 @@ class _UpdateEventState extends State<UpdateEvent> {
                         },
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 10,
                     ),
                     // const SizedBox(height: 15),
@@ -577,10 +579,10 @@ class _UpdateEventState extends State<UpdateEvent> {
                                     isReady = true;
                                   }
                                 },
+                                child: const Text("Update Record"),
                                 style: ElevatedButton.styleFrom(
                                     elevation: 5,
                                     minimumSize: const Size(40, 40)),
-                                child: const Text("Update Record"),
                               ),
                             ),
                             const SizedBox(width: 30),
@@ -631,7 +633,8 @@ class _UpdateEventState extends State<UpdateEvent> {
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
-                                    elevation: 5, backgroundColor: Colors.red,
+                                    elevation: 5,
+                                    primary: Colors.red,
                                     minimumSize: const Size(75, 40)),
                                 child: const Text("Delete Notice"),
                               ),
@@ -640,7 +643,7 @@ class _UpdateEventState extends State<UpdateEvent> {
                         ),
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 30,
                     )
                   ],

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_test/config/responsive.dart';
+import 'package:flutter_firebase_test/pages/home_page.dart';
+import 'package:flutter_firebase_test/style/colors.dart';
 import 'package:flutter_firebase_test/style/style.dart';
 
 class Header extends StatelessWidget {
@@ -18,14 +21,14 @@ class Header extends StatelessWidget {
                 // Navigate to the intended page
                 Navigator.of(context).pop();
               },
-              icon: const Icon(Icons.arrow_back),
+              icon: Icon(Icons.arrow_back),
               color: const Color.fromRGBO(76, 175, 80, 1),
             ),
           ),
-          const SizedBox(
+          SizedBox(
             width: 10,
           ),
-          const SizedBox(
+          SizedBox(
             //width: 20,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -39,10 +42,10 @@ class Header extends StatelessWidget {
                 ]),
           ),
 
-          const Spacer(
+          Spacer(
             flex: 500,
           ),
-          const SizedBox(width: 15),
+          SizedBox(width: 15),
           // Expanded(
           //   flex: Responsive.isDesktop(context) ? 1 : 3,
           //   child: TextField(

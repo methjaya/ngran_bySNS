@@ -3,6 +3,9 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import "package:http/http.dart" as http;
 import 'package:path/path.dart' as path;
@@ -45,7 +48,7 @@ class _AddEventState extends State<AddEvent> {
               ),
         content: Text(
           txt,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
           TextButton(
@@ -417,12 +420,12 @@ class _AddEventState extends State<AddEvent> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
+                      child: const Text("Select Image"),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue[800]),
                       onPressed: () async {
                         fileSelecter();
                       },
-                      child: const Text("Select Image"),
                     ),
                     const SizedBox(width: 25),
                     ElevatedButton(

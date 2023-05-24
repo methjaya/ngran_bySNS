@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_firebase_test/misc/colors.dart';
 import 'package:flutter_firebase_test/pages/nav_pages/search_page.dart';
 import 'package:flutter_firebase_test/pages/home_page.dart';
 //import 'package:ngram/pages/nav_pages/my_page.dart';
 
+import 'package:/flutter_firebase_test/app_large_text.dart';
+import 'package:flutter_firebase_test/widgets/app_text.dart';
+import 'package:flutter_firebase_test/widgets/responsive_button.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -13,9 +20,9 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   List pages= [
-    const HomePage(),
+    HomePage(),
     
-    const SearchPage(),
+    SearchPage(),
 
   ];
   int currentIndex=0;
@@ -47,7 +54,7 @@ class _MainPageState extends State<MainPage> {
         showSelectedLabels: false,
         elevation: 0,
 
-        items: const [
+        items: [
       
           BottomNavigationBarItem(label:"Home",icon: Icon(Icons.apps)),
           //BottomNavigationBarItem(label:"Bar",icon: Icon(Icons.bar_chart)),

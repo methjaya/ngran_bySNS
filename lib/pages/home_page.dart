@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_test/admin/edit_user_details.dart';
+import 'package:flutter_firebase_test/dashboard.dart';
 import 'package:flutter_firebase_test/misc/colors.dart';
 import 'package:flutter_firebase_test/pages/fac.dart';
 import 'package:flutter_firebase_test/pages/nav_pages/time_table_view.dart';
@@ -26,8 +27,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  // Declare the TabController as a member variable
-  late TabController _tabController;
   var uname = "user";
   var userID;
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -35,16 +34,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    // Create the TabController with length 3 in the initState method
-    _tabController = TabController(length: 3, vsync: this);
     userName(); // Call the method to fetch the user name on initialization
-  }
-
-  @override
-  void dispose() {
-    // Dispose of the TabController in the dispose method
-    _tabController.dispose();
-    super.dispose();
   }
 
   Future<String> userName() async {
@@ -103,12 +93,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   };
   @override
   Widget build(BuildContext context) {
+    //the reason for putting TabControler is without it the tabs won't work unless an error will show
+    TabController _tabController = TabController(length: 3, vsync: this);
     return FutureBuilder(
         future: userName(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Scaffold(
-              body: SizedBox(
+              body: Container(
                 width: double.maxFinite,
                 height: double.maxFinite,
                 child: Column(
@@ -130,7 +122,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         // Icon(Icons.account_circle_rounded,size:40,color:Color.fromRGBO(76, 175, 80, 1).withOpacity(0.7)),
                         DropdownButton(
                           underline: const SizedBox(),
-                          items: const [
+                          items: [
                             // DropdownMenuItem(
                             //     value: 'logout', child: Text("Logout")),
                             // DropdownMenuItem(
@@ -140,7 +132,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             DropdownMenuItem(
                               value: 'logout',
                               child: Row(
-                                children: <Widget>[
+                                children: const <Widget>[
                                   Icon(Icons.exit_to_app),
                                   SizedBox(
                                     width: 8,
@@ -153,7 +145,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             DropdownMenuItem(
                               value: 'editDetails',
                               child: Row(
-                                children: <Widget>[
+                                children: const <Widget>[
                                   Icon(Icons.edit_document),
                                   SizedBox(
                                     width: 8,
@@ -279,7 +271,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
-                                                        const NoticesListWidget(),
+                                                        NoticesListWidget(),
                                                   ),
                                                 );
                                               }
@@ -297,7 +289,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
-                                                        const EventBrowser(),
+                                                        EventBrowser(),
                                                   ),
                                                 );
                                               }
@@ -622,14 +614,14 @@ class _CirclePainter extends BoxPainter {
 
   @override
   void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
-    Paint paint = Paint();
-    paint.color = color;
-    paint.isAntiAlias = true;
+    Paint _paint = Paint();
+    _paint.color = color;
+    _paint.isAntiAlias = true;
     final Offset circleOffset = Offset(
         configuration.size!.width / 4 - radius / 2,
         configuration.size!.height - radius);
 
-    canvas.drawCircle(offset + circleOffset, radius, paint);
+    canvas.drawCircle(offset + circleOffset, radius, _paint);
   }
 
   //TODO: implement createBoxPainter
@@ -722,46 +714,14 @@ class _QRViewExampleState extends State<QRViewExample> {
     );
   }
 
-  bool dataSent = false; // Flag to track if data has been sent
-
   void _onQRViewCreated(QRViewController controller) {
     setState(() {
       this.controller = controller;
     });
-    controller.scannedDataStream.listen((scanData) async {
+    controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
       });
-      
-      if (!dataSent) { // Check if data has already been sent
-      String? qrContent = scanData.code;
-      List<String> qrValues = qrContent!.split('\n');
-
-      String lecture = qrValues[0].split(' : ')[1];
-      String lecturer = qrValues[1].split(' : ')[1];
-      String location = qrValues[2].split(' : ')[1];
-      String startTime = qrValues[3].split(' : ')[1];
-      String endTime = qrValues[4].split(' : ')[1];
-
-      // Create a map of the data to be sent to Firestore
-      Map<String, dynamic> data = {
-        'lecture': lecture,
-        'lecturer': lecturer,
-        'location': location,
-        'startTime': startTime,
-        'endTime': endTime,
-      };
-
-      try {
-        dataSent = true; // Set the flag to true once data is sent
-        
-        // Send the data to Firestore
-        await FirebaseFirestore.instance.collection('qr_data').add(data);
-      } catch (error) {
-        print('Error sending data to Firestore: $error');
-      }
-    }
-
     });
   }
 
