@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_firebase_test/widgets/authform.dart';
 
 class AuthScreen extends StatefulWidget {
+  const AuthScreen({super.key});
+
   @override
   State<AuthScreen> createState() => _AuthScreenState();
 }
@@ -33,24 +32,24 @@ class _AuthScreenState extends State<AuthScreen> {
     String dropDownValD,
     String dropDownValB,
   ) async {
-    UserCredential _userCredential;
+    UserCredential userCredential;
     try {
       setState(() {
         _isLoading = true;
       });
       if (isLogin) {
-        _userCredential = await _auth.signInWithEmailAndPassword(
+        userCredential = await _auth.signInWithEmailAndPassword(
           email: email,
           password: password,
         );
       } else {
-        _userCredential = await _auth.createUserWithEmailAndPassword(
+        userCredential = await _auth.createUserWithEmailAndPassword(
           email: email,
           password: password,
         );
         await FirebaseFirestore.instance
             .collection('users')
-            .doc(_userCredential.user!.uid)
+            .doc(userCredential.user!.uid)
             .set({
           'username': username,
           'email': email,

@@ -5,21 +5,18 @@ import 'package:flutter_firebase_test/admin/add_notice.dart';
 import 'package:flutter_firebase_test/admin/updateEvent.dart';
 import 'package:flutter_firebase_test/admin/update_notice.dart';
 import 'package:flutter_firebase_test/component/appBarActionItems.dart';
-import 'package:flutter_firebase_test/component/barChart.dart';
 import 'package:flutter_firebase_test/component/header.dart';
 
 import 'package:flutter_firebase_test/component/infoCard.dart';
-import 'package:flutter_firebase_test/component/paymentDetailList.dart';
 import 'package:flutter_firebase_test/component/sideMenu.dart';
 import 'package:flutter_firebase_test/config/responsive.dart';
 import 'package:flutter_firebase_test/config/size_config.dart';
-import 'package:flutter_firebase_test/pages/detail_page.dart';
-import 'package:flutter_firebase_test/pages/detail_page2.dart';
 import 'package:flutter_firebase_test/style/colors.dart';
-import 'package:flutter_firebase_test/style/style.dart';
 
 class Dashboard extends StatelessWidget {
-  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+  final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+
+  Dashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +47,7 @@ class Dashboard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (Responsive.isDesktop(context))
-              Expanded(
+              const Expanded(
                 flex: 1,
                 child: SideMenu(),
               ),
@@ -58,11 +55,11 @@ class Dashboard extends StatelessWidget {
                 flex: 10,
                 child: SafeArea(
                   child: SingleChildScrollView(
-                    padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                    padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Header(),
+                        const Header(),
                         SizedBox(
                           height: SizeConfig.blockSizeVertical! * 4,
                         ),
@@ -82,10 +79,10 @@ class Dashboard extends StatelessWidget {
                                     ),
                                   );
                                 },
-                                child: InfoCard(
+                                child: const InfoCard(
                                     icon: 'assets/add.svg',
                                     label: 'Add an \nEvent',
-                                    amount: '\Add'),
+                                    amount: 'Add'),
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -96,10 +93,10 @@ class Dashboard extends StatelessWidget {
                                     ),
                                   );
                                 },
-                                child: InfoCard(
+                                child: const InfoCard(
                                     icon: 'assets/edit.svg',
                                     label: 'Edit/Remove \nanEvent',
-                                    amount: '\Edit'),
+                                    amount: 'Edit'),
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -110,10 +107,10 @@ class Dashboard extends StatelessWidget {
                                     ),
                                   );
                                 },
-                                child: InfoCard(
+                                child: const InfoCard(
                                     icon: 'assets/add2.svg',
                                     label: 'Add Special \nNotices',
-                                    amount: '\Add'),
+                                    amount: 'Add'),
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -125,10 +122,10 @@ class Dashboard extends StatelessWidget {
                                     ),
                                   );
                                 },
-                                child: InfoCard(
+                                child: const InfoCard(
                                     icon: 'assets/edit2.svg',
                                     label: 'Edit/Remove \nSpecial Notices',
-                                    amount: '\Edit'),
+                                    amount: 'Edit'),
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -140,10 +137,10 @@ class Dashboard extends StatelessWidget {
                                     ),
                                   );
                                 },
-                                child: InfoCard(
+                                child: const InfoCard(
                                     icon: 'assets/timetable2.svg',
                                     label: 'Timetable \nUpdation',
-                                    amount: '\Update'),
+                                    amount: 'Update'),
                               ),
                             ],
                           ),
@@ -215,8 +212,8 @@ class Dashboard extends StatelessWidget {
                   child: Container(
                     width: double.infinity,
                     height: SizeConfig.screenHeight,
-                    decoration: BoxDecoration(color: AppColors.secondaryBg),
-                    child: SingleChildScrollView(
+                    decoration: const BoxDecoration(color: AppColors.secondaryBg),
+                    child: const SingleChildScrollView(
                       padding:
                           EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                       child: Column(

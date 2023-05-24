@@ -7,7 +7,7 @@ class OptionSelectionWidget extends StatefulWidget {
   final String fieldName;
   final Function(String) onSelectOption;
 
-  OptionSelectionWidget({
+  const OptionSelectionWidget({super.key, 
     required this.collectionPath,
     required this.fieldName,
     required this.onSelectOption,
@@ -61,7 +61,7 @@ class _OptionSelectionWidgetState extends State<OptionSelectionWidget> {
           ),
           Text(
             _selectedOption,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
           Container(

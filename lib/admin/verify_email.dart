@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_firebase_test/admin/addEvent.dart';
 import 'package:flutter_firebase_test/admin/admin_home_page.dart';
 import 'package:flutter_firebase_test/admin/user_data.dart';
@@ -118,8 +116,8 @@ class _VerifyUserEmailState extends State<VerifyUserEmail> {
                 ),
               );
             } else {
-              print("fac :" + UserData.userFaculty);
-              print("userole ; " + UserData.userRole);
+              print("fac :${UserData.userFaculty}");
+              print("userole ; ${UserData.userRole}");
               return isVerified
                   ? (UserData.userRole == "student"
                       ? const HomePage()

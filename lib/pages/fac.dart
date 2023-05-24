@@ -43,13 +43,10 @@ import 'package:flutter_firebase_test/pages/hallL302_B.dart';
 import 'package:flutter_firebase_test/pages/hallL302_C.dart';
 import 'package:flutter_firebase_test/pages/hallL302_D.dart';
 import 'package:flutter_firebase_test/pages/hallL303.dart';
-import 'package:flutter_firebase_test/pages/home_page.dart';
 import 'package:flutter_firebase_test/widgets/app_large_text.dart';
 import 'package:flutter_firebase_test/widgets/app_text.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-import 'detail_page.dart';
-import 'detail_page2.dart';
 //lib
 
 class Fac extends StatefulWidget {
@@ -141,7 +138,7 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     //the reason for putting TabControler is without it the tabs won't work unless an error will show
-    TabController _tabController = TabController(length: 3, vsync: this);
+    TabController tabController = TabController(length: 3, vsync: this);
     return Scaffold(
         body: SingleChildScrollView(
       scrollDirection: Axis.vertical,
@@ -190,11 +187,11 @@ class _FacState extends State<Fac> with TickerProviderStateMixin {
               // Icon(Icons.account_circle_rounded,size:40,color:Color.fromRGBO(76, 175, 80, 1).withOpacity(0.7)),
               DropdownButton(
                 underline: const SizedBox(),
-                items: [
+                items: const [
                   DropdownMenuItem(
                     value: 'logout',
                     child: Row(
-                      children: const <Widget>[
+                      children: <Widget>[
                         Icon(Icons.exit_to_app),
                         SizedBox(
                           width: 8,
@@ -1340,14 +1337,14 @@ class _CirclePainter extends BoxPainter {
 
   @override
   void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
-    Paint _paint = Paint();
-    _paint.color = color;
-    _paint.isAntiAlias = true;
+    Paint paint = Paint();
+    paint.color = color;
+    paint.isAntiAlias = true;
     final Offset circleOffset = Offset(
         configuration.size!.width / 4 - radius / 2,
         configuration.size!.height - radius);
 
-    canvas.drawCircle(offset + circleOffset, radius, _paint);
+    canvas.drawCircle(offset + circleOffset, radius, paint);
   }
 
   //TODO: implement createBoxPainter

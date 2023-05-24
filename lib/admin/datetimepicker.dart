@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter/gestures.dart';
 
 class DateTimePicker extends StatefulWidget {
   const DateTimePicker({super.key});
@@ -20,7 +17,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
 
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.all(14),
+        padding: const EdgeInsets.all(14),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

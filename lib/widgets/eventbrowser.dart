@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase_test/pages/detail_page_event.dart';
 
 class EventBrowser extends StatefulWidget {
+  const EventBrowser({super.key});
+
   @override
   _EventBrowserState createState() => _EventBrowserState();
 }
@@ -78,7 +80,7 @@ class _EventBrowserState extends State<EventBrowser> {
                         );
                       },
                       child: Container(
-                        margin: EdgeInsets.symmetric(vertical: 10),
+                        margin: const EdgeInsets.symmetric(vertical: 10),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: Image.network(
