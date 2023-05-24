@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_test/admin/user_data.dart';
+import 'package:flutter_firebase_test/widgets/notice.dart';
 
 class NoticesListWidget extends StatefulWidget {
-  const NoticesListWidget({super.key});
-
   @override
   State<NoticesListWidget> createState() => _NoticesListWidgetState();
 }

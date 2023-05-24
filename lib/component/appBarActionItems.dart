@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:flutter_firebase_test/style/colors.dart';
 
 class AppBarActionItems extends StatelessWidget {
   const AppBarActionItems({
@@ -7,7 +9,7 @@ class AppBarActionItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         // IconButton(
