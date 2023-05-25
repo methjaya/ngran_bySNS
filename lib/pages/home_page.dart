@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   var userID;
   List<Map<String, dynamic>> events = [];
   int eventSize = 0;
+  bool eventsLoaded = false;
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
@@ -51,7 +52,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         // Use setState to update the value of uname
         uname = uname1['firstName'].toString();
       });
-      getEvents();
+      if (eventsLoaded == false) {
+        getEvents();
+      }
       return "null";
     } catch (e) {
       return "null";
@@ -59,6 +62,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   Future<void> getEvents() async {
+    eventsLoaded = true;
     try {
       var eventData = await FirebaseFirestore.instance
           .collection("events")

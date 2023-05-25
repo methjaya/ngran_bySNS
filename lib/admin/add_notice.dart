@@ -21,7 +21,7 @@ class _AddNoticeState extends State<AddNotice> {
   var noticeSummary;
   var noticeDescription;
 
-  void _showdialog(String txt, BuildContext context, bool type) {
+  void _showdialog(String txt, bool type) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -38,7 +38,7 @@ class _AddNoticeState extends State<AddNotice> {
               ),
         content: Text(
           txt,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
           TextButton(
@@ -77,10 +77,37 @@ class _AddNoticeState extends State<AddNotice> {
             "noticeExpire": Timestamp.fromDate(dateTime),
             "groups": _selectedOptions
           })
-          .onError((e, _) => _showdialog(
-              "Something Went Wrong With Adding The Noitce", context, false))
-          .then((value) =>
-              _showdialog("Notice Added Succussfully", context, true));
+          .onError((e, _) =>
+              _showdialog("Something Went Wrong With Adding The Noitce", false))
+          .then((value) => showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  icon: const Icon(
+                    size: 80,
+                    Icons.check_circle_outline_rounded,
+                    color: Colors.green,
+                  ),
+                  content: const Text(
+                    "Notice Added Successfully",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        textAlign: TextAlign.center,
+                        "Close",
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ));
     }
     if (dateTime.day == DateTime.now().day) {
       print('Please Select An Valid Expire Date For The Notice.');

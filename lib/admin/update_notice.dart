@@ -48,7 +48,8 @@ class _UpdateNoticeState extends State<UpdateNotice> {
               ),
         content: Text(
           txt,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          textAlign: TextAlign.center,
         ),
         actions: [
           TextButton(
@@ -145,7 +146,7 @@ class _UpdateNoticeState extends State<UpdateNotice> {
           "Something Went Wrong With Deleting The Noitce", context, false);
     }).then((value) {
       print("record deleted");
-      _showdialog("Noitce Deleted!", context, false);
+      _showdialog("Notice Deleted!", context, false);
     });
   }
 
