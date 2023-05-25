@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     userName(); // Call the method to fetch the user name on initialization
   }
 
-  Future<String> userName() async {
+  Future<void> userName() async {
     try {
       final userID = auth.currentUser!.uid;
       var uname1 = await FirebaseFirestore.instance
@@ -48,9 +48,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         // Use setState to update the value of uname
         uname = uname1['firstName'].toString();
       });
-      return uname1['firstName'].toString();
     } catch (e) {
-      return "error";
+      print(e);
     }
   }
 
