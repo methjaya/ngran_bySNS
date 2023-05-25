@@ -4,19 +4,15 @@ import 'package:flutter_firebase_test/admin/add_admin.dart';
 import 'package:flutter_firebase_test/admin/add_notice.dart';
 import 'package:flutter_firebase_test/admin/updateEvent.dart';
 import 'package:flutter_firebase_test/admin/update_notice.dart';
+import 'package:flutter_firebase_test/admin/user_data.dart';
 import 'package:flutter_firebase_test/component/appBarActionItems.dart';
-import 'package:flutter_firebase_test/component/barChart.dart';
 import 'package:flutter_firebase_test/component/header.dart';
 
 import 'package:flutter_firebase_test/component/infoCard.dart';
-import 'package:flutter_firebase_test/component/paymentDetailList.dart';
 import 'package:flutter_firebase_test/component/sideMenu.dart';
 import 'package:flutter_firebase_test/config/responsive.dart';
 import 'package:flutter_firebase_test/config/size_config.dart';
-import 'package:flutter_firebase_test/pages/detail_page.dart';
-import 'package:flutter_firebase_test/pages/detail_page2.dart';
 import 'package:flutter_firebase_test/style/colors.dart';
-import 'package:flutter_firebase_test/style/style.dart';
 
 class Dashboard extends StatelessWidget {
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
@@ -130,21 +126,22 @@ class Dashboard extends StatelessWidget {
                                     label: 'Edit/Remove \nSpecial Notices',
                                     amount: '\Edit'),
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const RegisterAdmin(),
-                                    ),
-                                  );
-                                },
-                                child: InfoCard(
-                                    icon: 'assets/timetable2.svg',
-                                    label: 'Add \nAdmin',
-                                    amount: '\Add'),
-                              ),
+                              if (UserData.userRole == "superadmin")
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const RegisterAdmin(),
+                                      ),
+                                    );
+                                  },
+                                  child: InfoCard(
+                                      icon: 'assets/timetable2.svg',
+                                      label: 'Add \nAdmin',
+                                      amount: '\Add'),
+                                ),
                             ],
                           ),
                         ),

@@ -7,8 +7,8 @@ import 'package:flutter_firebase_test/admin/edit_admin_details.dart';
 import 'package:flutter_firebase_test/admin/edit_user_details.dart';
 import 'package:flutter_firebase_test/dashboard.dart';
 import 'package:flutter_firebase_test/misc/colors.dart';
-import 'package:flutter_firebase_test/pages/detail_page.dart';
-import 'package:flutter_firebase_test/pages/detail_page3.dart';
+import 'package:flutter_firebase_test/pages/detail_page_event.dart';
+
 import 'package:flutter_firebase_test/pages/fac.dart';
 import 'package:flutter_firebase_test/pages/nav_pages/time_table_view.dart';
 import 'package:flutter_firebase_test/pages/notice_page.dart';
@@ -32,14 +32,17 @@ class _HomePageAdminState extends State<HomePageAdmin>
     with TickerProviderStateMixin {
   var uname = "user";
   var userID;
+  int eventSize = 0;
+
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   void initState() {
     super.initState();
-    userName(); // Call the method to fetch the user name on initialization
+    // userName(); // Call the method to fetch the user name on initialization
   }
 
+  List<Map<String, dynamic>> events = [];
   Future<String> userName() async {
     try {
       final userID = auth.currentUser!.uid;
@@ -51,9 +54,43 @@ class _HomePageAdminState extends State<HomePageAdmin>
         // Use setState to update the value of uname
         uname = uname1['firstName'].toString();
       });
+      getEvents();
       return "null";
     } catch (e) {
       return "null";
+    }
+  }
+
+  Future<void> getEvents() async {
+    try {
+      var eventData = await FirebaseFirestore.instance
+          .collection("events")
+          .where("eventExpire", isGreaterThanOrEqualTo: Timestamp.now())
+          .get();
+      events.clear();
+
+      for (int x = 0; x < eventData.docs.length; x++) {
+        if (eventData.docs.length >= 3) {
+          eventSize = 3;
+        } else {
+          eventSize = eventData.docs.length;
+        }
+
+        events.add({
+          "image": eventData.docs[x]['img'].toString(),
+          "eName": eventData.docs[x]['name'].toString(),
+          "eDate": eventData.docs[x]['date'].toString(),
+          "eDesc": eventData.docs[x]['description'].toString(),
+          "eLocation": eventData.docs[x]['location'].toString(),
+        });
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('An Error Occurred When Getting Event Data'),
+          duration: Duration(seconds: 4),
+        ),
+      );
     }
   }
 
@@ -320,7 +357,7 @@ class _HomePageAdminState extends State<HomePageAdmin>
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const DetailPage(),
+                                                      const DetailPage2(),
                                                 ),
                                               );
                                             }
@@ -329,7 +366,7 @@ class _HomePageAdminState extends State<HomePageAdmin>
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const DetailPage(),
+                                                      const DetailPage2(),
                                                 ),
                                               );
                                             }
@@ -423,13 +460,23 @@ class _HomePageAdminState extends State<HomePageAdmin>
                         controller: _tabController,
                         children: [
                           ListView.builder(
-                            itemCount: imagesAndTexts.length,
+                            itemCount: eventSize,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (BuildContext context, int index) {
                               return InkWell(
                                 onTap: () {
-                                  navigateToPage(context, index);
+                                  // navigateToPage(context, index);
                                   // navigate to the desired page here using Navigator.push or other methods
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DetailPageEvent(
+                                            events[index]["eName"],
+                                            events[index]["eDate"],
+                                            events[index]["eLocation"],
+                                            events[index]["eDesc"],
+                                            events[index]["image"])),
+                                  );
                                 },
                                 child: Container(
                                   margin:
@@ -440,9 +487,8 @@ class _HomePageAdminState extends State<HomePageAdmin>
                                     borderRadius: BorderRadius.circular(20),
                                     color: Colors.white,
                                     image: DecorationImage(
-                                      image: AssetImage(
-                                        imagesAndTexts[index]["imagePath"] ??
-                                            "",
+                                      image: NetworkImage(
+                                        events[index]["image"] ?? "",
                                       ),
                                       fit: BoxFit.cover,
                                     ),
@@ -477,13 +523,12 @@ class _HomePageAdminState extends State<HomePageAdmin>
                                                     BorderRadius.circular(10),
                                               ),
                                               child: Text(
-                                                imagesAndTexts[index]
-                                                        ["upperText"] ??
+                                                events[index]["eLocation"] ??
                                                     "",
                                                 style: TextStyle(
                                                   color: Color.fromARGB(
                                                       255, 155, 155, 155),
-                                                  fontSize: 15,
+                                                  fontSize: 10,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -506,13 +551,11 @@ class _HomePageAdminState extends State<HomePageAdmin>
                                                 BorderRadius.circular(10),
                                           ),
                                           child: Text(
-                                            imagesAndTexts[index]
-                                                    ["lowerText"] ??
-                                                "",
+                                            events[index]["eName"] ?? "",
                                             style: TextStyle(
                                               color:
                                                   Color.fromARGB(255, 0, 0, 0),
-                                              fontSize: 20,
+                                              fontSize: 12,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -598,7 +641,7 @@ void navigateToPage(BuildContext context, int index) {
     case 0:
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => DetailPage()),
+        MaterialPageRoute(builder: (context) => EventBrowser()),
       );
       break;
     case 1:
@@ -610,7 +653,7 @@ void navigateToPage(BuildContext context, int index) {
     case 2:
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => DetailPage3()),
+        MaterialPageRoute(builder: (context) => EventBrowser()),
       );
       break;
     default:

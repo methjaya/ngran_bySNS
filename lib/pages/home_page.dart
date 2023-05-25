@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase_test/admin/edit_user_details.dart';
 import 'package:flutter_firebase_test/dashboard.dart';
 import 'package:flutter_firebase_test/misc/colors.dart';
+import 'package:flutter_firebase_test/pages/detail_page_event.dart';
 import 'package:flutter_firebase_test/pages/fac.dart';
 import 'package:flutter_firebase_test/pages/nav_pages/time_table_view.dart';
 import 'package:flutter_firebase_test/pages/notice_page.dart';
@@ -29,6 +30,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   var uname = "user";
   var userID;
+  List<Map<String, dynamic>> events = [];
+  int eventSize = 0;
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
@@ -37,7 +40,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     userName(); // Call the method to fetch the user name on initialization
   }
 
-  Future<void> userName() async {
+  Future<String> userName() async {
     try {
       final userID = auth.currentUser!.uid;
       var uname1 = await FirebaseFirestore.instance
@@ -48,33 +51,68 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         // Use setState to update the value of uname
         uname = uname1['firstName'].toString();
       });
+      getEvents();
+      return "null";
     } catch (e) {
-      print(e);
+      return "null";
     }
   }
 
-  List<Map<String, dynamic>> imagesAndTexts = [
-    {
-      "imagePath": "img/1_1.png",
-      "lowerText": "SNS \nHackathon",
-      "upperText": "FOC",
-      "dotColor": Colors.green,
-    },
-    {
-      "imagePath": "img/2_1.png",
-      "lowerText": "Green Buz \n'23'",
-      "upperText": "FOB",
-      "dotColor": Colors.blue,
-      // "loweText": "Green Buz \n'23",
-      // "upperText": "FOB",
-    },
-    {
-      "imagePath": "img/1_1.png",
-      "lowerText": "Dart \nWorkshop",
-      "upperText": "FOC",
-      "dotColor": Colors.green,
-    },
-  ];
+  Future<void> getEvents() async {
+    try {
+      var eventData = await FirebaseFirestore.instance
+          .collection("events")
+          .where("eventExpire", isGreaterThanOrEqualTo: Timestamp.now())
+          .get();
+      events.clear();
+
+      for (int x = 0; x < eventData.docs.length; x++) {
+        if (eventData.docs.length >= 3) {
+          eventSize = 3;
+        } else {
+          eventSize = eventData.docs.length;
+        }
+
+        events.add({
+          "image": eventData.docs[x]['img'].toString(),
+          "eName": eventData.docs[x]['name'].toString(),
+          "eDate": eventData.docs[x]['date'].toString(),
+          "eDesc": eventData.docs[x]['description'].toString(),
+          "eLocation": eventData.docs[x]['location'].toString(),
+        });
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('An Error Occurred When Getting Event Data'),
+          duration: Duration(seconds: 4),
+        ),
+      );
+    }
+  }
+
+  // List<Map<String, dynamic>> imagesAndTexts = [
+  //   {
+  //     "imagePath": "img/1_1.png",
+  //     "lowerText": "SNS \nHackathon",
+  //     "upperText": "FOC",
+  //     "dotColor": Colors.green,
+  //   },
+  //   {
+  //     "imagePath": "img/2_1.png",
+  //     "lowerText": "Green Buz \n'23'",
+  //     "upperText": "FOB",
+  //     "dotColor": Colors.blue,
+  //     // "loweText": "Green Buz \n'23",
+  //     // "upperText": "FOB",
+  //   },
+  //   {
+  //     "imagePath": "img/1_1.png",
+  //     "lowerText": "Dart \nWorkshop",
+  //     "upperText": "FOC",
+  //     "dotColor": Colors.green,
+  //   },
+  // ];
 
   //map ekak use krnw: to get different images
   var images = {
@@ -397,12 +435,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         controller: _tabController,
                         children: [
                           ListView.builder(
-                            itemCount: imagesAndTexts.length,
+                            itemCount: events.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (BuildContext context, int index) {
                               return InkWell(
                                 onTap: () {
-                                  navigateToPage(context, index);
+                                  DetailPageEvent(
+                                      events[index]["eName"],
+                                      events[index]["eDate"],
+                                      events[index]["eLocation"],
+                                      events[index]["eDesc"],
+                                      events[index]["image"]);
                                   // navigate to the desired page here using Navigator.push or other methods
                                 },
                                 child: Container(
@@ -414,9 +457,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     borderRadius: BorderRadius.circular(20),
                                     color: Colors.white,
                                     image: DecorationImage(
-                                      image: AssetImage(
-                                        imagesAndTexts[index]["imagePath"] ??
-                                            "",
+                                      image: NetworkImage(
+                                        events[index]["image"] ?? "",
                                       ),
                                       fit: BoxFit.cover,
                                     ),
@@ -431,10 +473,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                             Container(
                                               width: 10,
                                               height: 10,
-                                              decoration: BoxDecoration(
-                                                color: imagesAndTexts[index]
-                                                        ["dotColor"] ??
-                                                    Colors.green,
+                                              decoration: const BoxDecoration(
+                                                color: Colors.green,
                                                 shape: BoxShape.circle,
                                               ),
                                             ),
@@ -452,8 +492,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                                     BorderRadius.circular(10),
                                               ),
                                               child: Text(
-                                                imagesAndTexts[index]
-                                                        ["upperText"] ??
+                                                events[index]["eLocation"] ??
                                                     "",
                                                 style: const TextStyle(
                                                   color: Color.fromARGB(
@@ -481,9 +520,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                                 BorderRadius.circular(10),
                                           ),
                                           child: Text(
-                                            imagesAndTexts[index]
-                                                    ["lowerText"] ??
-                                                "",
+                                            events[index]["eName"] ?? "",
                                             style: const TextStyle(
                                               color:
                                                   Color.fromARGB(255, 0, 0, 0),
