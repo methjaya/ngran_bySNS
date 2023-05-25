@@ -142,8 +142,8 @@ class Dashboard extends StatelessWidget {
                                 },
                                 child: InfoCard(
                                     icon: 'assets/timetable2.svg',
-                                    label: 'Timetable \nUpdation',
-                                    amount: '\Update'),
+                                    label: 'Add \nAdmin',
+                                    amount: '\Add'),
                               ),
                             ],
                           ),
