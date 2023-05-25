@@ -579,10 +579,10 @@ class _UpdateEventState extends State<UpdateEvent> {
                                     isReady = true;
                                   }
                                 },
-                                child: const Text("Update Record"),
                                 style: ElevatedButton.styleFrom(
                                     elevation: 5,
                                     minimumSize: const Size(40, 40)),
+                                child: const Text("Update Event"),
                               ),
                             ),
                             const SizedBox(width: 30),
@@ -636,7 +636,7 @@ class _UpdateEventState extends State<UpdateEvent> {
                                     elevation: 5,
                                     primary: Colors.red,
                                     minimumSize: const Size(75, 40)),
-                                child: const Text("Delete Notice"),
+                                child: const Text("Delete Event"),
                               ),
                             ),
                           ],

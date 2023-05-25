@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       value: 'logout',
                       child: Container(
                         child: Row(
-                          children: <Widget>[
+                          children: const <Widget>[
                             Icon(Icons.exit_to_app),
                             SizedBox(
                               width: 8,

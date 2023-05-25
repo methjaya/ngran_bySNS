@@ -3,12 +3,10 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter_firebase_test/admin/addEvent.dart';
 import 'package:flutter_firebase_test/admin/admin_home_page.dart';
 import 'package:flutter_firebase_test/admin/user_data.dart';
 import 'package:flutter_firebase_test/pages/home_page.dart';
+import 'package:flutter_firebase_test/screens/authscreen.dart';
 
 class VerifyUserEmail extends StatefulWidget {
   const VerifyUserEmail({super.key});
@@ -81,6 +79,7 @@ class _VerifyUserEmailState extends State<VerifyUserEmail> {
         UserData.userDegree = user['degree'];
         UserData.userBatch = user['batch'];
         UserData.userRole = user['role'];
+        UserData.studentId = user['studentID'];
       } else {
         UserData.userRole = user['role'];
       }
@@ -127,7 +126,7 @@ class _VerifyUserEmailState extends State<VerifyUserEmail> {
                           ? const HomePageAdmin()
                           : (UserData.userRole == "superadmin")
                               ? const HomePageAdmin()
-                              : const AddEvent()))
+                              : AuthScreen()))
                   : Scaffold(
                       appBar: AppBar(
                         title: const Text("Verify Email"),

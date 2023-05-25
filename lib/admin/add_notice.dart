@@ -118,7 +118,7 @@ class _AddNoticeState extends State<AddNotice> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 const Center(
-                  child: Text("--Add Noticess--",
+                  child: Text("--Add Notices--",
                       style:
                           TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
                 ),
