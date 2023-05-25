@@ -750,14 +750,46 @@ class _QRViewExampleState extends State<QRViewExample> {
     );
   }
 
+  bool dataSent = false; // Flag to track if data has been sent
+
   void _onQRViewCreated(QRViewController controller) {
     setState(() {
       this.controller = controller;
     });
-    controller.scannedDataStream.listen((scanData) {
+    controller.scannedDataStream.listen((scanData) async {
       setState(() {
         result = scanData;
       });
+
+      if (!dataSent) {
+        // Check if data has already been sent
+        String? qrContent = scanData.code;
+        List<String> qrValues = qrContent!.split('\n');
+
+        String lecture = qrValues[0].split(' : ')[1];
+        String lecturer = qrValues[1].split(' : ')[1];
+        String location = qrValues[2].split(' : ')[1];
+        String startTime = qrValues[3].split(' : ')[1];
+        String endTime = qrValues[4].split(' : ')[1];
+
+        // Create a map of the data to be sent to Firestore
+        Map<String, dynamic> data = {
+          'lecture': lecture,
+          'lecturer': lecturer,
+          'location': location,
+          'startTime': startTime,
+          'endTime': endTime,
+        };
+
+        try {
+          dataSent = true; // Set the flag to true once data is sent
+
+          // Send the data to Firestore
+          await FirebaseFirestore.instance.collection('qr_data').add(data);
+        } catch (error) {
+          print('Error sending data to Firestore: $error');
+        }
+      }
     });
   }
 

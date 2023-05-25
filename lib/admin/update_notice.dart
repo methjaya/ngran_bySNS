@@ -163,7 +163,7 @@ class _UpdateNoticeState extends State<UpdateNotice> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 const Center(
-                  child: Text("--Update Events--",
+                  child: Text("--Update Notices--",
                       style:
                           TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
                 ),
