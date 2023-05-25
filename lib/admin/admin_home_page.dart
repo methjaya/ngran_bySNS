@@ -33,6 +33,7 @@ class _HomePageAdminState extends State<HomePageAdmin>
   var uname = "user";
   var userID;
   int eventSize = 0;
+  bool eventsLoaded = false;
 
   final FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -54,7 +55,9 @@ class _HomePageAdminState extends State<HomePageAdmin>
         // Use setState to update the value of uname
         uname = uname1['firstName'].toString();
       });
-      getEvents();
+      if (eventsLoaded == false) {
+        getEvents();
+      }
       return "null";
     } catch (e) {
       return "null";
@@ -62,6 +65,7 @@ class _HomePageAdminState extends State<HomePageAdmin>
   }
 
   Future<void> getEvents() async {
+    eventsLoaded = true;
     try {
       var eventData = await FirebaseFirestore.instance
           .collection("events")
