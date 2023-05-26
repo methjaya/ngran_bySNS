@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_test/admin/edit_user_details.dart';
+import 'package:flutter_firebase_test/admin/user_data.dart';
 import 'package:flutter_firebase_test/dashboard.dart';
 import 'package:flutter_firebase_test/misc/colors.dart';
 import 'package:flutter_firebase_test/pages/detail_page_event.dart';
@@ -783,13 +784,17 @@ class _QRViewExampleState extends State<QRViewExample> {
           'location': location,
           'startTime': startTime,
           'endTime': endTime,
+          'attendees': [UserData.studentId]
         };
 
         try {
           dataSent = true; // Set the flag to true once data is sent
 
           // Send the data to Firestore
-          await FirebaseFirestore.instance.collection('qr_data').add(data);
+          await FirebaseFirestore.instance
+              .collection('qr_data')
+              .doc()
+              .update(data);
         } catch (error) {
           print('Error sending data to Firestore: $error');
         }
