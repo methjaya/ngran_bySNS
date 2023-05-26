@@ -29,6 +29,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  // Declare the TabController as a member variable
+  late TabController _tabController;
   var uname = "user";
   var userID;
   List<Map<String, dynamic>> events = [];
@@ -39,7 +41,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    // Create the TabController with length 3 in the initState method
+    _tabController = TabController(length: 3, vsync: this);
     userName(); // Call the method to fetch the user name on initialization
+  }
+
+  @override
+  void dispose() {
+    // Dispose of the TabController in the dispose method
+    _tabController.dispose();
+    super.dispose();
   }
 
   Future<String> userName() async {
@@ -135,8 +146,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   };
   @override
   Widget build(BuildContext context) {
-    //the reason for putting TabControler is without it the tabs won't work unless an error will show
-    TabController _tabController = TabController(length: 3, vsync: this);
     return FutureBuilder(
         future: userName(),
         builder: (context, snapshot) {
