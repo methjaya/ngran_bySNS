@@ -800,10 +800,7 @@ class _QRViewExampleState extends State<QRViewExample> {
           dataSent = true; // Set the flag to true once data is sent
 
           // Send the data to Firestore
-          await FirebaseFirestore.instance
-              .collection('qr_data')
-              .doc()
-              .update(data);
+          await FirebaseFirestore.instance.collection('qr_data').add(data);
         } catch (error) {
           print('Error sending data to Firestore: $error');
         }
